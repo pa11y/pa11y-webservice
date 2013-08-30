@@ -1,0 +1,18 @@
+{
+	"name": "pa11y-ws",
+	"version": "0.0.0",
+	"private": true,
+
+	"engines": {
+		"node": ">=0.10"
+	},
+	"dependencies": {
+		"hapi": "~1.9"
+	},
+	"devDependencies": {
+		"supervisor": "~0.5"
+	},
+	"scripts": {
+		"start": "node ."
+	}
+}
