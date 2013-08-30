@@ -1,3 +1,4 @@
+'use strict';
 
 var Hapi = require('hapi');
 var config = require('./config/' + (process.env.NODE_ENV || 'development') + '.json');

@@ -10,6 +10,7 @@
 		"hapi": "~1.9"
 	},
 	"devDependencies": {
+		"jshint": "~2.1",
 		"supervisor": "~0.5"
 	},
 	"scripts": {

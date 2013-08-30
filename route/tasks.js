@@ -33,7 +33,9 @@ module.exports = [
                 query: {},
                 payload: {
                     url: Hapi.types.String().required(),
-                    standard: Hapi.types.String().required().valid(['Section508', 'WCAG2A', 'WCAG2AA', 'WCAG2AAA']),
+                    standard: Hapi.types.String().required().valid([
+                        'Section508', 'WCAG2A', 'WCAG2AA', 'WCAG2AAA'
+                    ]),
                     ignore: Hapi.types.Array()
                 }
             }
