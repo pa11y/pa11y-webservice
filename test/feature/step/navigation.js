@@ -17,7 +17,7 @@ module.exports = function () {
 
 	this.When(/^I (GET|POST|PUT|DELETE) the "([^"]*)" endpoint with JSON:$/i, function (method, endpoint, json, callback) {
 		method = method.toUpperCase();
-		this.navigate(endpoint, {method: method, body: JSON.stringify(JSON.parse(json))}, function (err) {
+		this.navigate(endpoint, {method: method, body: JSON.parse(json)}, function (err) {
 			if (err) {
 				return callback.fail(new Error('Could not ' + method + ' the "' + endpoint + '" endpoint'));
 			}
