@@ -7,6 +7,7 @@
 		"node": ">=0.10"
 	},
 	"dependencies": {
+		"chalk": "~0.2",
 		"hapi": "~1.9"
 	},
 	"devDependencies": {
