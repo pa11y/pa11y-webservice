@@ -10,7 +10,9 @@
 		"hapi": "~1.9"
 	},
 	"devDependencies": {
+		"cucumber": "~0.3",
 		"jshint": "~2.1",
+		"request": "~2.27",
 		"supervisor": "~0.5"
 	},
 	"scripts": {

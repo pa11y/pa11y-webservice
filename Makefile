@@ -1,6 +1,6 @@
 
 # Group targets
-all: deps lint start
+all: deps lint test start
 
 # Install dependencies
 deps:
@@ -14,6 +14,15 @@ lint:
 		--config ./test/config/jshint.json \
 		index.js route/* test/*
 
+# Run all tests
+test: test-feature
+
+# Run feature tests
+test-feature:
+	@echo "Running feature tests..."
+	@./node_modules/.bin/cucumber-js \
+		./test/feature
+
 # Start the application
 start:
 	@echo "Starting application..."
@@ -23,3 +32,8 @@ start:
 start-dev:
 	@echo "Starting application (development mode)..."
 	@NODE_ENV=development ./node_modules/.bin/supervisor -q .
+
+# Start the application in test mode
+start-test:
+	@echo "Starting application (test mode)..."
+	@NODE_ENV=test ./node_modules/.bin/supervisor -q .
