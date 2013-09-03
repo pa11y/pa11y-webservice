@@ -47,6 +47,16 @@ module.exports = function (db, callback) {
 				});
 			},
 
+			// Delete a task by ID
+			deleteById: function (id, callback) {
+				try {
+					id = new ObjectID(id);
+				} catch (err) {
+					return callback(null);
+				}
+				collection.remove({_id: id}, callback);
+			},
+
 			// Prepare a task for output
 			prepareForOutput: function (task) {
 				return {

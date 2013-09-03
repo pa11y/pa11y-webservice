@@ -45,7 +45,20 @@ module.exports = function (model) {
 		{
 			method: 'DELETE',
 			path: '/tasks/{id}',
-			handler: notImplemented,
+			handler: function (req) {
+				model.task.deleteById(req.params.id, function (err, task) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!task) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					req.reply().code(204);
+				});
+			},
 			config: {
 				validate: {
 					query: {},

@@ -36,22 +36,34 @@ module.exports = function () {
 		});
 	});
 
-	this.Then(/^I should see a JSON representation of the new task$/i, function (callback) {
-		try {
-			assert.isDefined(this.body.id);
-			assert.strictEqual(this.request.body.url, this.body.url);
-			assert.strictEqual(this.request.body.standard, this.body.standard);
-			assert.deepEqual(this.request.body.ignore || [], this.body.ignore);
-		} catch (err) {
-			return callback.fail(err);
-		}
-		callback();
+	this.Then(/^task "([^"]*)" should not be in the database$/i, function (id, callback) {
+		this.app.model.task.collection.findOne({_id: new ObjectID(id)}, function (err, task) {
+			if (err) {
+				return callback.fail(err);
+			}
+			if (task) {
+				return callback.fail(new Error('Task with ID "' + id + '" was found'));
+			}
+			callback();
+		});
 	});
 
 	this.Then(/^I should see a Location header pointing to the new task$/i, function (callback) {
 		try {
 			assert.isDefined(this.response.headers.location);
 			assert.strictEqual(this.response.headers.location, 'http://' + this.response.request.uri.host + '/tasks/' + this.body.id);
+		} catch (err) {
+			return callback.fail(err);
+		}
+		callback();
+	});
+
+	this.Then(/^I should see a JSON representation of the new task$/i, function (callback) {
+		try {
+			assert.isDefined(this.body.id);
+			assert.strictEqual(this.request.body.url, this.body.url);
+			assert.strictEqual(this.request.body.standard, this.body.standard);
+			assert.deepEqual(this.request.body.ignore || [], this.body.ignore);
 		} catch (err) {
 			return callback.fail(err);
 		}
