@@ -13,7 +13,9 @@ module.exports = function () {
 		var that = this;
 		async.parallel(tasks.hashes().map(function (task) {
 			return function (next) {
-				task._id = new ObjectID(task._id);
+				if (task._id) {
+					task._id = new ObjectID(task._id);
+				}
 				that.app.model.task.create(task, next);
 			};
 		}), function (err) {

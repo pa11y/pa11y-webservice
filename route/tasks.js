@@ -63,7 +63,14 @@ module.exports = function (model) {
 		{
 			method: 'GET',
 			path: '/tasks/results',
-			handler: notImplemented,
+			handler: function (req) {
+				model.result.getAll(req.query, function (err, results) {
+					if (err || !results) {
+						return req.reply().code(500);
+					}
+					req.reply(results).code(200);
+				});
+			},
 			config: {
 				validate: {
 					query: {
