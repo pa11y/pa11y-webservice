@@ -32,20 +32,25 @@ module.exports = function (db, callback) {
 				return {
 					from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
 					to: (new Date(opts.to || now)).getTime(),
-					full: !!opts.full
+					full: !!opts.full,
+					task: opts.task
 				};
 			},
 
 			// Get results
 			_getFiltered: function (opts, callback) {
 				opts = model._defaultFilterOpts(opts);
+				var filter = {
+					date: {
+						$lt: opts.to,
+						$gt: opts.from
+					}
+				};
+				if (opts.task) {
+					filter.task = new ObjectID(opts.task);
+				}
 				collection
-					.find({
-						date: {
-							$lt: opts.to,
-							$gt: opts.from
-						}
-					})
+					.find(filter)
 					.sort({date: -1})
 					.toArray(function (err, results) {
 						if (err) {
@@ -58,6 +63,12 @@ module.exports = function (db, callback) {
 			// Get results for all tasks
 			getAll: function (opts, callback) {
 				delete opts.task;
+				model._getFiltered(opts, callback);
+			},
+
+			// Get results for a single task
+			getByTaskId: function (id, opts, callback) {
+				opts.task = id;
 				model._getFiltered(opts, callback);
 			},
 

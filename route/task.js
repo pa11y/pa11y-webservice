@@ -72,7 +72,25 @@ module.exports = function (model) {
 		{
 			method: 'GET',
 			path: '/tasks/{id}/results',
-			handler: notImplemented,
+			handler: function (req) {
+				model.task.getById(req.params.id, function (err, task) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!task) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					model.result.getByTaskId(req.params.id, req.query, function (err, results) {
+						if (err || !results) {
+							return req.reply().code(500);
+						}
+						req.reply(results).code(200);
+					});
+				});
+			},
 			config: {
 				validate: {
 					query: {

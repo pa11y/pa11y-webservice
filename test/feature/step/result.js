@@ -59,20 +59,36 @@ module.exports = function () {
 	});
 
 	this.Then(/^I should see a JSON representation of result "([^"]*)"$/i, function (id, callback) {
-		var hasResultWithId = !!this.body.filter(function (result) {
+		var filteredResults = this.body.filter(function (result) {
 			return result.id === id;
-		}).length;
-		if (!hasResultWithId) {
+		});
+		if (filteredResults.length === 0) {
 			return callback.fail(new Error('Result with ID "' + id + '" not found'));
+		}
+		if (filteredResults[0].results) {
+			return callback.fail(new Error('Full details visible for result with ID "' + id + '"'));
+		}
+		callback();
+	});
+
+	this.Then(/^I should see a JSON representation of result "([^"]*)" with full details$/i, function (id, callback) {
+		var filteredResults = this.body.filter(function (result) {
+			return result.id === id;
+		});
+		if (filteredResults.length === 0) {
+			return callback.fail(new Error('Result with ID "' + id + '" not found'));
+		}
+		if (!filteredResults[0].results) {
+			return callback.fail(new Error('No full details visible for result with ID "' + id + '"'));
 		}
 		callback();
 	});
 
 	this.Then(/^I should not see a JSON representation of result "([^"]*)"$/i, function (id, callback) {
-		var hasResultWithId = !!this.body.filter(function (result) {
+		var filteredResults = this.body.filter(function (result) {
 			return result.id === id;
-		}).length;
-		if (hasResultWithId) {
+		});
+		if (filteredResults.length > 0) {
 			return callback.fail(new Error('Result with ID "' + id + '" was found'));
 		}
 		callback();
