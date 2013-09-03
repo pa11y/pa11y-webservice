@@ -1,5 +1,7 @@
 'use strict';
 
+var ObjectID = require('mongodb').ObjectID;
+
 // Task model
 module.exports = function (db, callback) {
 	db.collection('tasks', function (err, collection) {
@@ -24,6 +26,24 @@ module.exports = function (db, callback) {
 						return callback(err);
 					}
 					callback(null, tasks.map(model.prepareForOutput));
+				});
+			},
+
+			// Get a task by ID
+			getById: function (id, callback) {
+				try {
+					id = new ObjectID(id);
+				} catch (err) {
+					return callback(null, null);
+				}
+				collection.findOne({_id: id}, function (err, task) {
+					if (err) {
+						return callback(err);
+					}
+					if (task) {
+						task = model.prepareForOutput(task);
+					}
+					callback(null, task);
 				});
 			},
 

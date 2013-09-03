@@ -11,14 +11,27 @@ function notImplemented (req) {
 }
 
 // Routes relating to individual tasks
-module.exports = function () {
+module.exports = function (model) {
 	return [
 
 		// Get a task
 		{
 			method: 'GET',
 			path: '/tasks/{id}',
-			handler: notImplemented,
+			handler: function (req) {
+				model.task.getById(req.params.id, function (err, task) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!task) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					req.reply(task).code(200);
+				});
+			},
 			config: {
 				validate: {
 					query: {},

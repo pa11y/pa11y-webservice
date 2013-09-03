@@ -3,6 +3,7 @@
 
 var assert = require('proclaim');
 var async = require('async');
+var ObjectID = require('mongodb').ObjectID;
 
 // Step definitions
 module.exports = function () {
@@ -12,6 +13,7 @@ module.exports = function () {
 		var that = this;
 		async.parallel(tasks.hashes().map(function (task) {
 			return function (next) {
+				task._id = new ObjectID(task._id);
 				that.app.model.task.create(task, next);
 			};
 		}), function (err) {
@@ -64,7 +66,26 @@ module.exports = function () {
 			}
 			tasks = tasks.map(that.app.model.task.prepareForOutput);
 			try {
-				assert.deepEqual(JSON.stringify(that.body), JSON.stringify(tasks));
+				assert.strictEqual(JSON.stringify(that.body), JSON.stringify(tasks));
+			} catch (err) {
+				return callback.fail(err);
+			}
+			callback();
+		});
+	});
+
+	this.Then(/^I should see a JSON representation of task "([^"]*)"$/i, function (id, callback) {
+		var that = this;
+		this.app.model.task.collection.findOne({_id: new ObjectID(id)}, function (err, task) {
+			if (err) {
+				return callback.fail(err);
+			}
+			if (!task) {
+				return callback.fail(new Error('Task with ID "' + id + '" not found'));
+			}
+			task = that.app.model.task.prepareForOutput(task);
+			try {
+				assert.strictEqual(JSON.stringify(that.body), JSON.stringify(task));
 			} catch (err) {
 				return callback.fail(err);
 			}
