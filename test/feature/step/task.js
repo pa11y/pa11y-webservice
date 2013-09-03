@@ -22,37 +22,13 @@ module.exports = function () {
 		});
 	});
 
-	this.Then(/^a task with a URL of "([^"]*)" should be present$/i, function (url, callback) {
-		this.app.model.task.collection.findOne({url: url}, function (err, task) {
+	this.Then(/^the new task should be added to the database$/i, function (callback) {
+		this.app.model.task.collection.findOne(this.request.body, function (err, task) {
 			if (err) {
 				return callback.fail(err);
 			}
 			if (!task) {
-				return callback.fail(new Error('Task with URL "' + url + '" not found'));
-			}
-			callback();
-		});
-	});
-
-	this.Then(/^a task with a standard of "([^"]*)" should be present$/i, function (standard, callback) {
-		this.app.model.task.collection.findOne({standard: standard}, function (err, task) {
-			if (err) {
-				return callback.fail(err);
-			}
-			if (!task) {
-				return callback.fail(new Error('Task with standard "' + standard + '" not found'));
-			}
-			callback();
-		});
-	});
-
-	this.Then(/^a task which ignores the "([^"]*)" rule should be present$/i, function(rule, callback) {
-		this.app.model.task.collection.findOne({ignore: rule}, function (err, task) {
-			if (err) {
-				return callback.fail(err);
-			}
-			if (!task) {
-				return callback.fail(new Error('Task with ignored rule "' + rule + '" not found'));
+				return callback.fail(new Error('Task not found'));
 			}
 			callback();
 		});
