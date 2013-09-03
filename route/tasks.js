@@ -14,7 +14,14 @@ module.exports = function (model) {
 		{
 			method: 'GET',
 			path: '/tasks',
-			handler: notImplemented,
+			handler: function (req) {
+				model.task.getAll(function (err, tasks) {
+					if (err || !tasks) {
+						return req.reply().code(500);
+					}
+					req.reply(tasks).code(200);
+				});
+			},
 			config: {
 				validate: {
 					query: {},

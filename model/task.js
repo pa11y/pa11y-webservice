@@ -17,6 +17,16 @@ module.exports = function (db, callback) {
 				});
 			},
 
+			// Get all tasks
+			getAll: function (callback) {
+				collection.find().sort({url: 1, standard: 1}).toArray(function (err, tasks) {
+					if (err) {
+						return callback(err);
+					}
+					callback(null, tasks.map(model.prepareForOutput));
+				});
+			},
+
 			// Prepare a task for output
 			prepareForOutput: function (task) {
 				return {
