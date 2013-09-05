@@ -15,13 +15,16 @@ lint:
 		index.js route/* test/*
 
 # Run all tests
-test: test-feature
+test: test-integration
 
-# Run feature tests
-test-feature:
-	@echo "Running feature tests..."
-	@./node_modules/.bin/cucumber-js \
-		./test/feature
+# Run integration tests
+test-integration:
+	@echo "Running integration tests..."
+	@./node_modules/.bin/mocha \
+		--reporter spec \
+		--colors \
+		--recursive \
+		./test/integration
 
 # Start the application
 start:

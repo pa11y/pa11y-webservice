@@ -2,10 +2,6 @@
 
 var Hapi = require('hapi');
 
-var pathValidator = {
-	id: Hapi.types.String().alphanum()
-};
-
 function notImplemented (req) {
 	req.reply().code(501);
 }
@@ -35,8 +31,7 @@ module.exports = function (model) {
 			config: {
 				validate: {
 					query: {},
-					payload: false,
-					path: pathValidator
+					payload: false
 				}
 			}
 		},
@@ -62,8 +57,7 @@ module.exports = function (model) {
 			config: {
 				validate: {
 					query: {},
-					payload: false,
-					path: pathValidator
+					payload: false
 				}
 			}
 		},
@@ -98,8 +92,7 @@ module.exports = function (model) {
 						to: Hapi.types.String().date(),
 						full: Hapi.types.Boolean()
 					},
-					payload: false,
-					path: pathValidator
+					payload: false
 				}
 			}
 		},
@@ -113,8 +106,7 @@ module.exports = function (model) {
 			config: {
 				validate: {
 					query: {},
-					payload: false,
-					path: pathValidator
+					payload: false
 				}
 			}
 		}

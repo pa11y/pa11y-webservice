@@ -60,7 +60,7 @@ module.exports = function (db, callback) {
 			// Prepare a task for output
 			prepareForOutput: function (task) {
 				return {
-					id: task._id,
+					id: task._id.toString(),
 					url: task.url,
 					standard: task.standard,
 					ignore: task.ignore || []

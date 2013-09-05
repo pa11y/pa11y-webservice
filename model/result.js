@@ -14,7 +14,7 @@ module.exports = function (db, callback) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
-				if (newResult.task) {
+				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
 				collection.insert(newResult, function (err, result) {
@@ -80,8 +80,8 @@ module.exports = function (db, callback) {
 			},
 			prepareForFullOutput: function (result) {
 				return {
-					id: result._id,
-					task: result.task,
+					id: result._id.toString(),
+					task: result.task.toString(),
 					date: result.date,
 					count: result.count,
 					results: result.results || []
