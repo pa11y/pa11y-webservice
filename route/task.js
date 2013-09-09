@@ -2,10 +2,6 @@
 
 var Hapi = require('hapi');
 
-function notImplemented (req) {
-	req.reply().code(501);
-}
-
 // Routes relating to individual tasks
 module.exports = function (model) {
 	return [
@@ -92,20 +88,6 @@ module.exports = function (model) {
 						to: Hapi.types.String().date(),
 						full: Hapi.types.Boolean()
 					},
-					payload: false
-				}
-			}
-		},
-
-		// Generate results for a task
-		// TODO: use 202 status
-		{
-			method: 'GET',
-			path: '/tasks/{id}/run',
-			handler: notImplemented,
-			config: {
-				validate: {
-					query: {},
 					payload: false
 				}
 			}
