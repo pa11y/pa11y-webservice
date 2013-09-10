@@ -40,6 +40,13 @@ function initApp (config, callback) {
 
 		function (next) {
 			if (!config.dbOnly) {
+				require('./task/pa11y')(config, app);
+			}
+			next();
+		},
+
+		function (next) {
+			if (!config.dbOnly) {
 				app.server.addRoutes(require('./route/tasks')(app.model));
 				app.server.addRoutes(require('./route/task')(app.model));
 				app.server.start(next);
