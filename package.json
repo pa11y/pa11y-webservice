@@ -3,9 +3,19 @@
 	"version": "0.0.0",
 	"private": true,
 
-	"engines": {
-		"node": ">=0.10"
+	"description": "pa11y-ws provides scheduled accessibility reports for multiple URLs",
+	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
+	"contributors": [
+		"Rowan Manning (http://rowanmanning.com/)"
+	],
+
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nature/pa11y-ws.git"
 	},
+	"homepage": "https://github.com/nature/pa11y-ws",
+	"bugs": "https://github.com/nature/pa11y-ws/issues",
+
 	"dependencies": {
 		"async": "~0.2",
 		"chalk": "~0.2",
@@ -21,7 +31,9 @@
 		"request": "~2.27",
 		"supervisor": "~0.5"
 	},
+
 	"scripts": {
-		"start": "node ."
+		"start": "node .",
+		"test": "make lint test"
 	}
 }
