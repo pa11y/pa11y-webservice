@@ -34,6 +34,15 @@ $ make start-test  # start in test mode
 Both development and test modes run the application with [Supervisor][supervisor], so you won't need to restart it if you change any JavaScript files.
 
 
+Documentation
+-------------
+
+The web-service which pa11y-ws exposes is documented in the wiki:
+
+- [Web-Service endpoints][wiki-web-service]
+- [Resource types][wiki-resources]
+
+
 Configurations
 --------------
 
@@ -90,5 +99,6 @@ pa11y-ws is licensed under the [GNU General Public License 3.0][gpl].
 [pa11y]: https://github.com/nature/pa11y
 [pa11y-docs]: https://github.com/nature/pa11y#installing
 [phantom]: http://phantomjs.org/
-[rules]: https://github.com/nature/pa11y/wiki/HTML-CodeSniffer-Rules
 [supervisor]: https://github.com/isaacs/node-supervisor
+[wiki-web-service]: https://github.com/rowanmanning/pa11y-ws/wiki/Web-Service-Endpoints
+[wiki-resources]: https://github.com/rowanmanning/pa11y-ws/wiki/Resource-Types
