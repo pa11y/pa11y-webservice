@@ -39,7 +39,7 @@ function initApp (config, callback) {
 		},
 
 		function (next) {
-			if (!config.dbOnly) {
+			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
 				require('./task/pa11y')(config, app);
 			}
 			next();
