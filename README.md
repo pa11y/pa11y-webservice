@@ -1,8 +1,8 @@
 
-pa11y-ws
-========
+pa11y-webservice
+================
 
-pa11y-ws provides scheduled accessibility reports for multiple URLs. It runs [pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
+pa11y-webservice provides scheduled accessibility reports for multiple URLs. It runs [pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
 
 **Current Version:** *0.0.0*  
 **Node Version Support:** *0.10*
@@ -11,7 +11,7 @@ pa11y-ws provides scheduled accessibility reports for multiple URLs. It runs [pa
 Setup
 -----
 
-pa11y-ws requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-ws also requires [MongoDB][mongo] to be installed and running.
+pa11y-webservice requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-webservice also requires [MongoDB][mongo] to be installed and running.
 
 You'll then need to clone this repo locally and install dependencies with `npm install`. Once you have a local clone, you'll need to copy some sample configuration files in order to run the application. From within the repo, run the following commands:
 
@@ -37,7 +37,7 @@ Both development and test modes run the application with [Supervisor][supervisor
 Documentation
 -------------
 
-The web-service which pa11y-ws exposes is documented in the wiki:
+The web-service which pa11y-webservice exposes is documented in the wiki:
 
 - [Web-Service endpoints][wiki-web-service]
 - [Resource types][wiki-resources]
@@ -46,7 +46,7 @@ The web-service which pa11y-ws exposes is documented in the wiki:
 Configurations
 --------------
 
-The boot configurations for pa11y-ws are as follows. Look at the sample JSON files in the repo for example usage.
+The boot configurations for pa11y-webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
 ### database
 *(string)* The mongodb [connection string][mongo-connection-string] for your database.
@@ -64,7 +64,7 @@ The boot configurations for pa11y-ws are as follows. Look at the sample JSON fil
 Development
 -----------
 
-To develop pa11y-ws, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). Once you've done this, you'll need to start the application in test mode with:
+To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). Once you've done this, you'll need to start the application in test mode with:
 
 ```sh
 $ make start-test
@@ -86,7 +86,7 @@ License
 -------
 
 [Copyright 2013 Nature Publishing Group](LICENSE.txt).  
-pa11y-ws is licensed under the [GNU General Public License 3.0][gpl].
+pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 
 
 
@@ -100,5 +100,5 @@ pa11y-ws is licensed under the [GNU General Public License 3.0][gpl].
 [pa11y-docs]: https://github.com/nature/pa11y#installing
 [phantom]: http://phantomjs.org/
 [supervisor]: https://github.com/isaacs/node-supervisor
-[wiki-web-service]: https://github.com/rowanmanning/pa11y-ws/wiki/Web-Service-Endpoints
-[wiki-resources]: https://github.com/rowanmanning/pa11y-ws/wiki/Resource-Types
+[wiki-web-service]: https://github.com/nature/pa11y-webservice/wiki/Web-Service-Endpoints
+[wiki-resources]: https://github.com/nature/pa11y-webservice/wiki/Resource-Types

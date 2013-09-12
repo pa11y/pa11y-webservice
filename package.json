@@ -1,9 +1,9 @@
 {
-	"name": "pa11y-ws",
+	"name": "pa11y-webservice",
 	"version": "0.0.0",
 	"private": true,
 
-	"description": "pa11y-ws provides scheduled accessibility reports for multiple URLs",
+	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",
 	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
 	"contributors": [
 		"Rowan Manning (http://rowanmanning.com/)"
@@ -11,10 +11,10 @@
 
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/nature/pa11y-ws.git"
+		"url": "https://github.com/nature/pa11y-webservice.git"
 	},
-	"homepage": "https://github.com/nature/pa11y-ws",
-	"bugs": "https://github.com/nature/pa11y-ws/issues",
+	"homepage": "https://github.com/nature/pa11y-webservice",
+	"bugs": "https://github.com/nature/pa11y-webservice/issues",
 
 	"dependencies": {
 		"async": "~0.2",
