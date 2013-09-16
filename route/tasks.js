@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var Hapi = require('hapi');
 
 // Routes relating to all tasks
@@ -15,12 +16,29 @@ module.exports = function (model) {
 					if (err || !tasks) {
 						return req.reply().code(500);
 					}
-					req.reply(tasks).code(200);
+					if (req.query.lastres) {
+						model.result.getAll({}, function (err, results) {
+							var resultsByTask = _.groupBy(results, 'task');
+							tasks = tasks.map(function (task) {
+								if (resultsByTask[task.id] && resultsByTask[task.id].length) {
+									task.last_result = resultsByTask[task.id][0];
+								} else {
+									task.last_result = null;
+								}
+								return task;
+							});
+							req.reply(tasks).code(200);
+						});
+					} else {
+						req.reply(tasks).code(200);
+					}
 				});
 			},
 			config: {
 				validate: {
-					query: {},
+					query: {
+						lastres: Hapi.types.Boolean()
+					},
 					payload: false
 				}
 			}

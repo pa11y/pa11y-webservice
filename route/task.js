@@ -21,12 +21,24 @@ module.exports = function (model) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					req.reply(task).code(200);
+					if (req.query.lastres) {
+						model.result.getByTaskId(task.id, {limit: 1}, function (err, results) {
+							task.last_result = null;
+							if (results && results.length) {
+								task.last_result = results[0];
+							}
+							req.reply(task).code(200);
+						});
+					} else {
+						req.reply(task).code(200);
+					}
 				});
 			},
 			config: {
 				validate: {
-					query: {},
+					query: {
+						lastres: Hapi.types.Boolean()
+					},
 					payload: false
 				}
 			}

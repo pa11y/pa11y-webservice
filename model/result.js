@@ -52,6 +52,7 @@ module.exports = function (db, callback) {
 				collection
 					.find(filter)
 					.sort({date: -1})
+					.limit(opts.limit || 0)
 					.toArray(function (err, results) {
 						if (err) {
 							return callback(err);
