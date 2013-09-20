@@ -33,7 +33,7 @@ module.exports = [
 	{
 		_id: new ObjectID('def000000000000000000003'),
 		task: new ObjectID('abc000000000000000000001'),
-		date: Date.now() - (1000 * 60 * 60 * 24 * 4), // 7 days ago
+		date: Date.now() - (1000 * 60 * 60 * 24 * 7), // 7 days ago
 		count: {
 			error: 1,
 			warning: 2,
