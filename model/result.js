@@ -67,10 +67,49 @@ module.exports = function (db, callback) {
 				model._getFiltered(opts, callback);
 			},
 
+			// Get a result by ID
+			getById: function (id, full, callback) {
+				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
+				try {
+					id = new ObjectID(id);
+				} catch (err) {
+					return callback(null, null);
+				}
+				collection.findOne({_id: id}, function (err, result) {
+					if (err) {
+						return callback(err);
+					}
+					if (result) {
+						result = prepare(result);
+					}
+					callback(null, result);
+				});
+			},
+
 			// Get results for a single task
 			getByTaskId: function (id, opts, callback) {
 				opts.task = id;
 				model._getFiltered(opts, callback);
+			},
+
+			// Get a result by ID and task ID
+			getByIdAndTaskId: function (id, task, opts, callback) {
+				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+				try {
+					id = new ObjectID(id);
+					task = new ObjectID(task);
+				} catch (err) {
+					return callback(null, null);
+				}
+				collection.findOne({_id: id, task: task}, function (err, result) {
+					if (err) {
+						return callback(err);
+					}
+					if (result) {
+						result = prepare(result);
+					}
+					callback(null, result);
+				});
 			},
 
 			// Prepare a result for output

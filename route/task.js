@@ -103,6 +103,36 @@ module.exports = function (model) {
 					payload: false
 				}
 			}
+		},
+
+		// Get a result for a task
+		{
+			method: 'GET',
+			path: '/tasks/{tid}/results/{rid}',
+			handler: function (req) {
+				var rid = req.params.rid;
+				var tid = req.params.tid;
+				model.result.getByIdAndTaskId(rid, tid, req.query, function (err, result) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!result) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					req.reply(result).code(200);
+				});
+			},
+			config: {
+				validate: {
+					query: {
+						full: Hapi.types.Boolean()
+					},
+					payload: false
+				}
+			}
 		}
 
 	];
