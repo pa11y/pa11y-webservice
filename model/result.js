@@ -122,7 +122,7 @@ module.exports = function (db, callback) {
 				return {
 					id: result._id.toString(),
 					task: result.task.toString(),
-					date: result.date,
+					date: new Date(result.date).toISOString(),
 					count: result.count,
 					results: result.results || []
 				};
