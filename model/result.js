@@ -92,6 +92,16 @@ module.exports = function (db, callback) {
 				model._getFiltered(opts, callback);
 			},
 
+			// Delete results for a single task
+			deleteByTaskId: function (id, callback) {
+				try {
+					id = new ObjectID(id);
+				} catch (err) {
+					return callback(null);
+				}
+				collection.remove({task: id}, callback);
+			},
+
 			// Get a result by ID and task ID
 			getByIdAndTaskId: function (id, task, opts, callback) {
 				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);

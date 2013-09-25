@@ -59,7 +59,12 @@ module.exports = function (model) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					req.reply().code(204);
+					model.result.deleteByTaskId(req.params.id, function (err) {
+						if (err) {
+							return req.reply().code(500);
+						}
+						req.reply().code(204);
+					});
 				});
 			},
 			config: {

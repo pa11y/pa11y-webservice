@@ -23,6 +23,13 @@ describe('DELETE /tasks/{id}', function () {
 			});
 		});
 
+		it('should remove all of the task\'s results from the database', function (done) {
+			this.app.model.result.getByTaskId('abc000000000000000000001', {}, function (err, results) {
+				assert.strictEqual(results.length, 0);
+				done();
+			});
+		});
+
 		it('should send a 204 status', function () {
 			assert.strictEqual(this.last.status, 204);
 		});
