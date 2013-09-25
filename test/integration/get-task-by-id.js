@@ -51,13 +51,14 @@ describe('GET /tasks/{id}', function () {
 				assert.strictEqual(this.last.status, 200);
 			});
 
-			it('should output a JSON representation of the requested task including the last result', function (done) {
+			it('should output a JSON representation of the requested task including the last result (with full details)', function (done) {
 				var body = this.last.body;
 				this.app.model.task.getById('abc000000000000000000001', function () {
 					assert.isObject(body);
 					assert.strictEqual(body.id, 'abc000000000000000000001');
 					assert.isObject(body.last_result);
 					assert.strictEqual(body.last_result.id, 'def000000000000000000001');
+					assert.isArray(body.last_result.results);
 					done();
 				});
 			});

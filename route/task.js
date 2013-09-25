@@ -22,7 +22,10 @@ module.exports = function (model) {
 						}).code(404);
 					}
 					if (req.query.lastres) {
-						model.result.getByTaskId(task.id, {limit: 1}, function (err, results) {
+						model.result.getByTaskId(task.id, {
+							limit: 1,
+							full: true
+						}, function (err, results) {
 							task.last_result = null;
 							if (results && results.length) {
 								task.last_result = results[0];
