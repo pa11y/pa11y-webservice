@@ -7,12 +7,17 @@ deps:
 	@echo "Installing dependencies..."
 	@npm install
 
+# Add fixture data to the development database
+fixtures-dev:
+	@echo "Adding fixtures to the development database..."
+	@NODE_ENV=development node ./data/fixture/cli.js
+
 # Lint JavaScript
 lint:
 	@echo "Linting JavaScript..."
 	@./node_modules/.bin/jshint \
 		--config ./test/config/jshint.json \
-		index.js route/* test/*
+		index.js route/* test/* data/*
 
 # Run all tests
 test: test-integration

@@ -3,9 +3,9 @@
 'use strict';
 
 var app = require('../../app');
-var loadFixtures = require('./helper/load-fixtures');
 var config = require('../../config/test.json');
 var createNavigator = require('./helper/navigate');
+var loadFixtures = require('../../data/fixture/load');
 var request = require('request');
 
 // Run before all tests
@@ -21,7 +21,7 @@ before(function (done) {
 		config.dbOnly = true;
 		app(config, function (err, app) {
 			self.app = app;
-			loadFixtures(app, done);
+			loadFixtures('test', done);
 		});
 	});
 
@@ -29,7 +29,7 @@ before(function (done) {
 
 // Run after each test
 afterEach(function (done) {
-	loadFixtures(this.app, done);
+	loadFixtures('test', done);
 });
 
 // Check that the test application is running, and exit if not

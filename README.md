@@ -34,6 +34,16 @@ $ make start-test  # start in test mode
 Both development and test modes run the application with [Supervisor][supervisor], so you won't need to restart it if you change any JavaScript files.
 
 
+Fixtures
+--------
+
+For demoing pa11y-webservice, you can insert some example tasks and results by running the following command:
+
+```sh
+$ make fixtures-dev
+```
+
+
 Documentation
 -------------
 
