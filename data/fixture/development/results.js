@@ -29692,5 +29692,843 @@ module.exports = [
 				type: 'warning'
 			}
 		]
+	},
+	{
+		id: new ObjectID('52457f470dcedad0b6000006'),
+		task: new ObjectID('52457e2b135a4b51b4000001'),
+		date: Date.now(),
+		count: {
+			total: 165,
+			error: 82,
+			warning: 35,
+			notice: 48
+		},
+		results: [
+			{
+				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
+				message: 'Check that the title element describes the document.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.2',
+				message: 'Form control does not have an explicit label or title attribute, identifying the purpose of the control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.Placeholder',
+				message: 'Anchor element found with link content, but no href, ID or name attribute has been supplied.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.H67.2',
+				message: 'Img element is marked so that it is ignored by Assistive Technology.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.G73,G74',
+				message: 'If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.S',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.Small',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_2.3_2_2.H32.2',
+				message: 'Form does not contain a submit button (input type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE], input type=[ESCAPEDQUOTE]image[ESCAPEDQUOTE], or button type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE]).',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.Small',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.Small',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Fieldset.Name',
+				message: 'This fieldset element does not have a name available to an accessibility API. Valid names are: legend element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H71.NoLegend',
+				message: 'Fieldset does not contain a legend element. All fieldsets should contain a legend element that describes a description of the field group.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoForAttr',
+				message: 'Label found without a [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute, and therefore not explicitly associated with a form control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoForAttr',
+				message: 'Label found without a [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute, and therefore not explicitly associated with a form control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputPassword.Name',
+				message: 'This password input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Fieldset.Name',
+				message: 'This fieldset element does not have a name available to an accessibility API. Valid names are: legend element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H71.NoLegend',
+				message: 'Fieldset does not contain a legend element. All fieldsets should contain a legend element that describes a description of the field group.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoForAttr',
+				message: 'Label found without a [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute, and therefore not explicitly associated with a form control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputCheckbox.Name',
+				message: 'This checkbox input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent',
+				message: 'Anchor element found with a valid href attribute, but no link content has been supplied.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.I',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail',
+				message: 'This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.42:1. Recommendation: change background to #fffdfd.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1_A.G141',
+				message: 'The heading structure is not logically nested. This h3 element appears to be the primary document heading, so should be an h1 element.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.H37',
+				message: 'Img element missing an alt attribute. Use the alt attribute to specify a short text alternative.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.G73,G74',
+				message: 'If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.Before',
+				message: 'The label element for this control should be placed before this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.LayoutTable',
+				message: 'This table appears to be a layout table. If it is meant to instead be a data table, ensure header cells are identified using th elements.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.Before',
+				message: 'The label element for this control should be placed before this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoForAttr',
+				message: 'Label found without a [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute, and therefore not explicitly associated with a form control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputCheckbox.Name',
+				message: 'This checkbox input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.Before',
+				message: 'The label element for this control should be placed before this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.Before',
+				message: 'The label element for this control should be placed before this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.Before',
+				message: 'The label element for this control should be placed before this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.H37',
+				message: 'Img element missing an alt attribute. Use the alt attribute to specify a short text alternative.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.G73,G74',
+				message: 'If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2',
+				message: 'Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2',
+				message: 'Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.I',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent',
+				message: 'Anchor element found with a valid href attribute, but no link content has been supplied.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2',
+				message: 'Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_2.3_2_2.H32.2',
+				message: 'Form does not contain a submit button (input type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE], input type=[ESCAPEDQUOTE]image[ESCAPEDQUOTE], or button type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE]).',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.Placeholder',
+				message: 'Anchor element found with link content, but no href, ID or name attribute has been supplied.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.H67.2',
+				message: 'Img element is marked so that it is ignored by Assistive Technology.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_1.1_1_1.G73,G74',
+				message: 'If this image cannot be fully described in a short text alternative, ensure a long text alternative is also available, such as in the body text or through a link.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.S',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId',
+				message: 'Anchor element found with no link content and no name and/or ID attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.LayoutTable',
+				message: 'This table appears to be a layout table. If it is meant to instead be a data table, ensure header cells are identified using th elements.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.I',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.I',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NonExistentFragment',
+				message: 'This label\'s [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute contains an ID that does not exist in the document fragment.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NonExistentFragment',
+				message: 'This label\'s [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute contains an ID that does not exist in the document fragment.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NonExistentFragment',
+				message: 'This label\'s [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute contains an ID that does not exist in the document fragment.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Textarea.Name',
+				message: 'This textarea element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NonExistentFragment',
+				message: 'This label\'s [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute contains an ID that does not exist in the document fragment.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.After',
+				message: 'The label element for this control should be placed after this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.After',
+				message: 'The label element for this control should be placed after this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.B',
+				message: 'Semantic markup should be used to mark emphasised or special text so that it can be programmatically determined.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2',
+				message: 'Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2',
+				message: 'Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Button.Name',
+				message: 'This button element does not have a name available to an accessibility API. Valid names are: title attribute, element content.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Button.Name',
+				message: 'This button element does not have a name available to an accessibility API. Valid names are: title attribute, element content.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_2.3_2_2.H32.2',
+				message: 'Form does not contain a submit button (input type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE], input type=[ESCAPEDQUOTE]image[ESCAPEDQUOTE], or button type=[ESCAPEDQUOTE]submit[ESCAPEDQUOTE]).',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Textarea.Name',
+				message: 'This textarea element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.After',
+				message: 'The label element for this control should be placed after this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.1.After',
+				message: 'The label element for this control should be placed after this element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputPassword.Name',
+				message: 'This password input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Fieldset.Name',
+				message: 'This fieldset element does not have a name available to an accessibility API. Valid names are: legend element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H71.NoLegend',
+				message: 'Fieldset does not contain a legend element. All fieldsets should contain a legend element that describes a description of the field group.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputText.Name',
+				message: 'This text input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputPassword.Name',
+				message: 'This password input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Fieldset.Name',
+				message: 'This fieldset element does not have a name available to an accessibility API. Valid names are: legend element.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H71.NoLegend',
+				message: 'Fieldset does not contain a legend element. All fieldsets should contain a legend element that describes a description of the field group.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoForAttr',
+				message: 'Label found without a [ESCAPEDQUOTE]for[ESCAPEDQUOTE] attribute, and therefore not explicitly associated with a form control.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputCheckbox.Name',
+				message: 'This checkbox input element does not have a name available to an accessibility API. Valid names are: label element, title attribute.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H44.NoId',
+				message: 'Form control does not have an ID, therefore it cannot have an explicit label.',
+				type: 'error'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H48',
+				message: 'If this element contains a navigation section, it is recommended that it be marked up as a list.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_1.G83,G84,G85',
+				message: 'If an input error is automatically detected in this form, check that the item(s) in error are identified and the error(s) are described to the user in text.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_2.G131,G89,G184,H90',
+				message: 'Check that descriptive labels or instructions (including for required fields) are provided for user input in this form.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_3.G177',
+				message: 'Check that this form provides suggested corrections to errors in user input, unless it would jeopardize the security or purpose of the content.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle3.Guideline3_3.3_3_4.G98,G99,G155,G164,G168.LegalForms',
+				message: 'If this form would bind a user to a financial or legal commitment, modify/delete user-controllable data, or submit test responses, ensure that submissions are either reversible, checked for input errors, and/or confirmed by the user.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.DataTable',
+				message: 'This table appears to be a data table. If it is meant to instead be a layout table, ensure there are no th elements, and no summary or caption.',
+				type: 'notice'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H73.3.NoSummary',
+				message: 'If this table is a data table, consider using the summary attribute of the table element to give an overview of this table.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle1.Guideline1_3.1_3_1.H39.3.NoCaption',
+				message: 'If this table is a data table, consider using a caption element to the table element to identify this table.',
+				type: 'warning'
+			},
+			{
+				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
+				message: 'Iframe element requires a non-empty title attribute that identifies the frame.',
+				type: 'error'
+			}
+		]
 	}
 ];

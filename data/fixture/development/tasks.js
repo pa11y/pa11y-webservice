@@ -39,5 +39,22 @@ module.exports = [
 		ignore: [],
 		standard: 'WCAG2AA',
 		url: 'https://www.gov.uk/'
+	},
+	{
+		_id: new ObjectID('52457e2b135a4b51b4000001'),
+		ignore: [
+			'WCAG2AA.Principle3.Guideline3_2.3_2_1.G107',
+			'WCAG2AA.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81',
+			'WCAG2AA.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33',
+			'WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage'
+		],
+		standard: 'WCAG2AA',
+		url: 'https://twitter.com/'
+	},
+	{
+		_id: new ObjectID('52458167acc00c15b8000001'),
+		ignore: [],
+		standard: 'WCAG2A',
+		url: 'https://twitter.com/devtoilet'
 	}
 ];
