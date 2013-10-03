@@ -95,21 +95,26 @@ module.exports = function (app) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					console.log('');
-					console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
-					console.log('Starting task %s', task.id);
-					model.task.runById(req.params.id, function (err) {
-						if (err) {
+					if (process.env.NODE_ENV !== 'test') {
+						console.log('');
+						console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
+						console.log('Starting task %s', task.id);
+						model.task.runById(req.params.id, function (err) {
+							if (err) {
+								console.log(
+									chalk.red('Failed to finish task %s: %s'),
+									task.id,
+									err.message
+								);
+							} else {
+								console.log(chalk.green('Finished task %s'), task.id);
+							}
 							console.log(
-								chalk.red('Failed to finish task %s: %s'),
-								task.id,
-								err.message
+								chalk.grey('Finished running one-off task @ %s'),
+								new Date()
 							);
-						} else {
-							console.log(chalk.green('Finished task %s'), task.id);
-						}
-						console.log(chalk.grey('Finished running one-off task @ %s'), new Date());
-					});
+						});
+					}
 					req.reply().code(202);
 				});
 			},
