@@ -25,14 +25,14 @@ function initApp (config, callback) {
 		},
 
 		function (next) {
-			require('./model/result')(app.db, function (err, model) {
+			require('./model/result')(app, function (err, model) {
 				app.model.result = model;
 				next(err);
 			});
 		},
 
 		function (next) {
-			require('./model/task')(app.db, function (err, model) {
+			require('./model/task')(app, function (err, model) {
 				app.model.task = model;
 				next(err);
 			});
@@ -47,8 +47,8 @@ function initApp (config, callback) {
 
 		function (next) {
 			if (!config.dbOnly) {
-				app.server.addRoutes(require('./route/tasks')(app.model));
-				app.server.addRoutes(require('./route/task')(app.model));
+				app.server.addRoutes(require('./route/tasks')(app));
+				app.server.addRoutes(require('./route/task')(app));
 				app.server.start(next);
 			} else {
 				next();

@@ -3,9 +3,9 @@
 var async = require('async');
 var chalk = require('chalk');
 var CronJob = require('cron').CronJob;
-var pa11y = require('pa11y');
 
 module.exports = initTask;
+exports.runPa11yOnTasks = runPa11yOnTasks;
 
 // Initialise the task
 function initTask (config, app) {
@@ -42,40 +42,16 @@ function run (app) {
 // Run pa11y on an array of tasks
 function runPa11yOnTasks (tasks, app, done) {
 
-	var ports = [12400, 12401, 12402, 12403, 12404, 12405, 12406, 12407, 12408, 12409];
-
 	var queue = async.queue(function (task, nextInQueue) {
-		var port = ports.shift();
-		console.log('Starting task %s (port %d)', task.id, port);
-
-		async.waterfall([
-
-			function (next) {
-				pa11y.sniff({
-					url: task.url,
-					standard: task.standard,
-					config: {
-						ignore: task.ignore
-					},
-					port: port
-				}, next);
-			},
-
-			function (results, next) {
-				results.task = task.id;
-				app.model.result.create(results, next);
-			}
-
-		], function (err) {
+		console.log('Starting task %s', task.id);
+		app.model.task.runById(task.id, function (err) {
 			if (err) {
 				console.log(chalk.red('Failed to finish task %s: %s'), task.id, err.message);
 			} else {
 				console.log(chalk.green('Finished task %s'), task.id);
 			}
-			ports.push(port);
 			nextInQueue();
 		});
-
 	}, 2);
 
 	queue.drain = function() {

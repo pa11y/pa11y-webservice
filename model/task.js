@@ -1,10 +1,13 @@
 'use strict';
 
+var async = require('async');
+var availablePorts = [12400, 12401, 12402, 12403, 12404, 12405, 12406, 12407, 12408, 12409];
 var ObjectID = require('mongodb').ObjectID;
+var pa11y = require('pa11y');
 
 // Task model
-module.exports = function (db, callback) {
-	db.collection('tasks', function (err, collection) {
+module.exports = function (app, callback) {
+	app.db.collection('tasks', function (err, collection) {
 		var model = {
 
 			collection: collection,
@@ -55,6 +58,38 @@ module.exports = function (db, callback) {
 					return callback(null);
 				}
 				collection.remove({_id: id}, callback);
+			},
+
+			// Run a task by ID
+			runById: function (id, callback) {
+				model.getById(id, function (err, task) {
+					if (err) {
+						return callback(err);
+					}
+					var port = availablePorts.shift();
+					async.waterfall([
+
+						function (next) {
+							pa11y.sniff({
+								url: task.url,
+								standard: task.standard,
+								config: {
+									ignore: task.ignore
+								},
+								port: port
+							}, next);
+						},
+
+						function (results, next) {
+							results.task = new ObjectID(task.id);
+							app.model.result.create(results, next);
+						}
+
+					], function (err, result) {
+						availablePorts.push(port);
+						callback(err, result);
+					});
+				});
 			},
 
 			// Prepare a task for output

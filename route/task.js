@@ -1,9 +1,11 @@
 'use strict';
 
+var chalk = require('chalk');
 var Hapi = require('hapi');
 
 // Routes relating to individual tasks
-module.exports = function (model) {
+module.exports = function (app) {
+	var model = app.model;
 	return [
 
 		// Get a task
@@ -74,6 +76,47 @@ module.exports = function (model) {
 				validate: {
 					query: {},
 					payload: false
+				}
+			}
+		},
+
+		// Run a task
+		{
+			method: 'POST',
+			path: '/tasks/{id}/run',
+			handler: function (req) {
+				model.task.getById(req.params.id, function (err, task) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!task) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					console.log('');
+					console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
+					console.log('Starting task %s', task.id);
+					model.task.runById(req.params.id, function (err) {
+						if (err) {
+							console.log(
+								chalk.red('Failed to finish task %s: %s'),
+								task.id,
+								err.message
+							);
+						} else {
+							console.log(chalk.green('Finished task %s'), task.id);
+						}
+						console.log(chalk.grey('Finished running one-off task @ %s'), new Date());
+					});
+					req.reply().code(202);
+				});
+			},
+			config: {
+				validate: {
+					query: {},
+					payload: {}
 				}
 			}
 		},

@@ -3,8 +3,8 @@
 var ObjectID = require('mongodb').ObjectID;
 
 // Result model
-module.exports = function (db, callback) {
-	db.collection('results', function (err, collection) {
+module.exports = function (app, callback) {
+	app.db.collection('results', function (err, collection) {
 		var model = {
 
 			collection: collection,

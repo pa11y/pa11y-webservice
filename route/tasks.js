@@ -4,7 +4,8 @@ var _ = require('underscore');
 var Hapi = require('hapi');
 
 // Routes relating to all tasks
-module.exports = function (model) {
+module.exports = function (app) {
+	var model = app.model;
 	return [
 
 		// Get all tasks
