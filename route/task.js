@@ -28,6 +28,9 @@ module.exports = function (app) {
 							limit: 1,
 							full: true
 						}, function (err, results) {
+							if (err || !results) {
+								return req.reply().code(500);
+							}
 							task.last_result = null;
 							if (results && results.length) {
 								task.last_result = results[0];

@@ -5,6 +5,7 @@ var ObjectID = require('mongodb').ObjectID;
 // Result model
 module.exports = function (app, callback) {
 	app.db.collection('results', function (err, collection) {
+		collection.ensureIndex({date: 1}, {w: -1});
 		var model = {
 
 			collection: collection,

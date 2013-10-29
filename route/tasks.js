@@ -19,6 +19,9 @@ module.exports = function (app) {
 					}
 					if (req.query.lastres) {
 						model.result.getAll({}, function (err, results) {
+							if (err || !results) {
+								return req.reply().code(500);
+							}
 							var resultsByTask = _.groupBy(results, 'task');
 							tasks = tasks.map(function (task) {
 								if (resultsByTask[task.id] && resultsByTask[task.id].length) {
