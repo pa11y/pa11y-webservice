@@ -5,6 +5,8 @@
 
 	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",
 	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
+
+	"author": "Nature Publishing Group",
 	"contributors": [
 		"Rowan Manning (http://rowanmanning.com/)"
 	],
