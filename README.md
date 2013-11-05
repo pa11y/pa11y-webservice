@@ -26,9 +26,9 @@ Each of these files defines configurations for a different environment. If you'r
 Now that you've got your application configured, you can run in each mode with the following commands:
 
 ```sh
-$ make start       # start in production mode
-$ make start-dev   # start in development mode
-$ make start-test  # start in test mode
+$ NODE_ENV=production node .
+$ NODE_ENV=development ./node_modules/.bin/supervisor -q .
+$ NODE_ENV=test ./node_modules/.bin/supervisor -q .
 ```
 
 Both development and test modes run the application with [Supervisor][supervisor], so you won't need to restart it if you change any JavaScript files.
@@ -40,7 +40,7 @@ Fixtures
 For demoing pa11y-webservice, you can insert some example tasks and results by running the following command:
 
 ```sh
-$ make fixtures-dev
+$ grunt fixture:dev
 ```
 
 
@@ -74,17 +74,20 @@ The boot configurations for pa11y-webservice are as follows. Look at the sample 
 Development
 -----------
 
-To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). Once you've done this, you'll need to start the application in test mode with:
+To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). You'll also need [Grunt][grunt] to be installed globally in order to run tests, you can do this with `npm install -g grunt-cli`.
+
+Once you've done this, you'll need to start the application in test mode with:
 
 ```sh
-$ make start-test
+$ NODE_ENV=test ./node_modules/.bin/supervisor -q .
 ```
 
 Now you'll be able to run the following commands:
 
 ```sh
-$ make lint  # Run JSHint with the correct config
-$ make test  # Run tests
+$ grunt       # Run the lint and test tasks together
+$ grunt lint  # Run JSHint with the correct config
+$ grunt test  # Run functional tests
 ```
 
 Code with lint errors or failing tests will not be accepted, please use the build tools outlined above.
@@ -101,8 +104,8 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 
 
 [brew]: http://mxcl.github.com/homebrew/
-[make]: http://gnuwin32.sourceforge.net/packages/make.htm
 [gpl]: http://www.gnu.org/licenses/gpl-3.0.html
+[grunt]: http://gruntjs.com/
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
