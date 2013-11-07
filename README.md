@@ -26,22 +26,12 @@ Each of these files defines configurations for a different environment. If you'r
 Now that you've got your application configured, you can run in each mode with the following commands:
 
 ```sh
-$ NODE_ENV=production node .
-$ NODE_ENV=development ./node_modules/.bin/supervisor -q .
-$ NODE_ENV=test ./node_modules/.bin/supervisor -q .
+$ NODE_ENV=production node .   # Run in production
+$ NODE_ENV=development node .  # Run in development
+$ NODE_ENV=test node .         # Run in test
 ```
 
-Both development and test modes run the application with [Supervisor][supervisor], so you won't need to restart it if you change any JavaScript files.
-
-
-Fixtures
---------
-
-For demoing pa11y-webservice, you can insert some example tasks and results by running the following command:
-
-```sh
-$ grunt fixture:dev
-```
+See [development instructions](#development) for more information about running locally (and restarting automatically when files change).
 
 
 Documentation
@@ -79,20 +69,32 @@ To develop pa11y-webservice, you'll need to clone the repo and get set up as out
 Once you've done this, you'll need to start the application in test mode with:
 
 ```sh
-$ NODE_ENV=test ./node_modules/.bin/supervisor -q .
+$ grunt start-test
 ```
 
 Now you'll be able to run the following commands:
 
 ```sh
-$ grunt       # Run the lint and test tasks together
-$ grunt lint  # Run JSHint with the correct config
-$ grunt test  # Run functional tests
+$ grunt             # Run the lint and test tasks together
+$ grunt lint        # Run JSHint with the correct config
+$ grunt start       # Run app in development mode, restarting if files change
+$ grunt start-test  # Run app in test mode, restarting if files change
+$ grunt test   # Run functional tests
 ```
 
 Code with lint errors or failing tests will not be accepted, please use the build tools outlined above.
 
 For users with push-access, don't commit to the master branch. Code should be in `develop` until it's ready to be released.
+
+
+Fixtures
+--------
+
+For demoing pa11y-webservice, you can insert some example tasks and results by running the following command:
+
+```sh
+$ grunt fixture:dev
+```
 
 
 License
