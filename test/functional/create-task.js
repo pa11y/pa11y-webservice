@@ -11,6 +11,7 @@ describe('POST /tasks', function () {
 
 		beforeEach(function (done) {
 			newTask = {
+				name: 'NPG Home',
 				url: 'nature.com',
 				standard: 'WCAG2AA',
 				ignore: ['foo', 'bar']
@@ -41,6 +42,7 @@ describe('POST /tasks', function () {
 
 		it('should output a JSON representation of the new task', function () {
 			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
 			assert.strictEqual(this.last.body.url, newTask.url);
 			assert.strictEqual(this.last.body.standard, newTask.standard);
 			assert.deepEqual(this.last.body.ignore, newTask.ignore || []);
@@ -53,6 +55,7 @@ describe('POST /tasks', function () {
 
 		beforeEach(function (done) {
 			newTask = {
+				name: 'NPG Home',
 				url: 'nature.com',
 				standard: 'WCAG2AA'
 			};
@@ -82,9 +85,31 @@ describe('POST /tasks', function () {
 
 		it('should output a JSON representation of the new task', function () {
 			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
 			assert.strictEqual(this.last.body.url, newTask.url);
 			assert.strictEqual(this.last.body.standard, newTask.standard);
 			assert.deepEqual(this.last.body.ignore, []);
+		});
+
+	});
+
+	describe('with invalid name', function () {
+
+		beforeEach(function (done) {
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: {
+					name: null,
+					url: 'nature.com',
+					standard: 'WCAG2AA'
+				}
+			};
+			this.navigate(req, done);
+		});
+
+		it('should send a 400 status', function () {
+			assert.strictEqual(this.last.status, 400);
 		});
 
 	});

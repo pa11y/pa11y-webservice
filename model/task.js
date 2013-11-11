@@ -97,6 +97,7 @@ module.exports = function (app, callback) {
 			prepareForOutput: function (task) {
 				return {
 					id: task._id.toString(),
+					name: task.name,
 					url: task.url,
 					standard: task.standard,
 					ignore: task.ignore || []
