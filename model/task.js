@@ -25,12 +25,15 @@ module.exports = function (app, callback) {
 
 			// Get all tasks
 			getAll: function (callback) {
-				collection.find().sort({url: 1, standard: 1}).toArray(function (err, tasks) {
-					if (err) {
-						return callback(err);
-					}
-					callback(null, tasks.map(model.prepareForOutput));
-				});
+				collection
+					.find()
+					.sort({name: 1, standard: 1, url: 1})
+					.toArray(function (err, tasks) {
+						if (err) {
+							return callback(err);
+						}
+						callback(null, tasks.map(model.prepareForOutput));
+					});
 			},
 
 			// Get a task by ID
