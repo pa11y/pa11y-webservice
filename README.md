@@ -43,6 +43,12 @@ The web-service which pa11y-webservice exposes is documented in the wiki:
 - [Resource types][wiki-resources]
 
 
+Client Libraries
+----------------
+
+- Node.js client library: [pa11y-webservice-client-node][pa11y-webservice-client-node]
+
+
 Configurations
 --------------
 
@@ -113,6 +119,7 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 [node]: http://nodejs.org/
 [pa11y]: https://github.com/nature/pa11y
 [pa11y-docs]: https://github.com/nature/pa11y#installing
+[pa11y-webservice-client-node]: https://github.com/nature/pa11y-webservice-client-node
 [phantom]: http://phantomjs.org/
 [supervisor]: https://github.com/isaacs/node-supervisor
 [wiki-web-service]: https://github.com/nature/pa11y-webservice/wiki/Web-Service-Endpoints
