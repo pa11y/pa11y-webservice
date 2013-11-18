@@ -61,8 +61,8 @@ module.exports = [
 	{
 		_id: new ObjectID('52458167acc00c15b8000001'),
 		ignore: [],
-		name: 'Devtoilet On Twitter',
-		standard: 'WCAG2A',
-		url: 'https://twitter.com/devtoilet'
+		name: 'pa11y',
+		standard: 'WCAG2AA',
+		url: 'http://pa11y.org'
 	}
 ];
