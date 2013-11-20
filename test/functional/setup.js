@@ -36,7 +36,7 @@ afterEach(function (done) {
 function assertTestAppIsRunning (baseUrl, done) {
 	request(baseUrl, function (err) {
 		if (err) {
-			console.error('Error: Test app not started; run with `make start-test`');
+			console.error('Error: Test app not started; run with `grunt start-test`');
 			process.exit();
 		}
 		done();
