@@ -19,4 +19,5 @@ script: 'grunt ci'
 # Notifications
 notifications:
  email:
+   - j.robinson@nature.com
    - rowan.manning@nature.com
