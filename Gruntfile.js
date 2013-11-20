@@ -1,3 +1,4 @@
+/* jshint maxstatements: false */
 module.exports = function (grunt) {
 
 	grunt.initConfig({
@@ -80,5 +81,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('start', ['nodemon:development']);
 	grunt.registerTask('start-test', ['nodemon:test']);
 	grunt.registerTask('default', ['lint', 'test']);
+	grunt.registerTask('ci', ['lint', 'test']);
 
 };
