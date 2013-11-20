@@ -33,8 +33,7 @@
 		"grunt-mocha-test": "~0.7",
 		"grunt-nodemon": "~0.1",
 		"proclaim": "~2.0",
-		"request": "~2.27",
-		"supervisor": "~0.5"
+		"request": "~2.27"
 	},
 
 	"scripts": {

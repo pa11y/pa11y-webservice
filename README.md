@@ -122,7 +122,6 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 [pa11y-docs]: https://github.com/nature/pa11y#installing
 [pa11y-webservice-client-node]: https://github.com/nature/pa11y-webservice-client-node
 [phantom]: http://phantomjs.org/
-[supervisor]: https://github.com/isaacs/node-supervisor
 [travis]: https://travis-ci.org/nature/pa11y-webservice
 [travis-img]: https://travis-ci.org/nature/pa11y-webservice.png?branch=master
 [wiki-web-service]: https://github.com/nature/pa11y-webservice/wiki/Web-Service-Endpoints
