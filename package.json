@@ -36,6 +36,7 @@
 		"request": "~2.27"
 	},
 
+	"main": "./app.js",
 	"scripts": {
 		"start": "node .",
 		"test": "grunt"
