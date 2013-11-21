@@ -21,7 +21,7 @@ before(function (done) {
 		config.dbOnly = true;
 		app(config, function (err, app) {
 			self.app = app;
-			loadFixtures('test', done);
+			loadFixtures('test', config, done);
 		});
 	});
 
@@ -29,7 +29,7 @@ before(function (done) {
 
 // Run after each test
 afterEach(function (done) {
-	loadFixtures('test', done);
+	loadFixtures('test', config, done);
 });
 
 // Check that the test application is running, and exit if not

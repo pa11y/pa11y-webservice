@@ -5,9 +5,8 @@ var async = require('async');
 
 module.exports = loadFixtures;
 
-function loadFixtures (env, done) {
+function loadFixtures (env, config, done) {
     env = (env || 'development');
-    var config = require('../../config/' + env + '.json');
     var fixtures = {
         results: require('./' + env + '/results.js'),
         tasks: require('./' + env + '/tasks.js')

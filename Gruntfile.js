@@ -62,7 +62,8 @@ module.exports = function (grunt) {
 
 	grunt.registerMultiTask('fixture', 'Load fixtures into the database.', function () {
 		var done = this.async();
-		require('./data/fixture/load')(this.data, function (err) {
+		var loadFixtures = require('./data/fixture/load');
+		loadFixtures(this.data, require('./config/' + this.data + '.json'), function (err) {
 			if (err) {
 				grunt.log.error(err.message);
 				return done(false);
