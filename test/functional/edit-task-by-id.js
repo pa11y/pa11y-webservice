@@ -14,7 +14,8 @@ describe('PATCH /tasks/{id}', function () {
 			beforeEach(function (done) {
 				taskEdits = {
 					name: 'New Name',
-					ignore: ['bar', 'baz']
+					ignore: ['bar', 'baz'],
+					comment: 'Just changing some stuff, you know'
 				};
 				var req = {
 					method: 'PATCH',
@@ -34,6 +35,17 @@ describe('PATCH /tasks/{id}', function () {
 			it('should update the task\'s ignore rules in the database', function (done) {
 				this.app.model.task.getById('abc000000000000000000001', function (err, task) {
 					assert.deepEqual(task.ignore, taskEdits.ignore);
+					done();
+				});
+			});
+
+			it('should add an annotation for the edit to the task', function (done) {
+				this.app.model.task.getById('abc000000000000000000001', function (err, task) {
+					assert.isArray(task.annotations);
+					assert.isObject(task.annotations[0]);
+					assert.strictEqual(task.annotations[0].comment, taskEdits.comment);
+					assert.isNumber(task.annotations[0].date);
+					assert.strictEqual(task.annotations[0].type, 'edit');
 					done();
 				});
 			});

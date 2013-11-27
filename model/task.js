@@ -56,12 +56,47 @@ module.exports = function (app, callback) {
 
 			// Edit a task by ID
 			editById: function (id, edits, callback) {
+				var idString = id;
 				try {
 					id = new ObjectID(id);
 				} catch (err) {
-					return callback(null, null);
+					return callback(null, 0);
 				}
-				collection.update({_id: id}, {$set: edits}, callback);
+				var now = Date.now();
+				var taskEdits = {
+					name: edits.name
+				}
+				if (edits.ignore) {
+					taskEdits.ignore = edits.ignore;
+				}
+				collection.update({_id: id}, {$set: taskEdits}, function (err, updateCount) {
+					if (err || updateCount < 1) {
+						return callback(err, 0);
+					}
+					var annotation = {
+						type: 'edit',
+						date: now,
+						comment: edits.comment || 'Edited task'
+					};
+					model.addAnnotationById(idString, annotation, function (err) {
+						callback(err, updateCount);
+					});
+				});
+			},
+
+			// Add an annotation to a task
+			addAnnotationById: function (id, annotation, callback) {
+				model.getById(id, function (err, task) {
+					if (err || !task) {
+						return callback(err, 0);
+					}
+					id = new ObjectID(id);
+					if (!Array.isArray(task.annotations)) {
+						collection.update({_id: id}, {$set: {annotations: [annotation]}}, callback);
+					} else {
+						collection.update({_id: id}, {$push: {annotations: annotation}}, callback);
+					}
+				});
 			},
 
 			// Delete a task by ID
@@ -108,13 +143,17 @@ module.exports = function (app, callback) {
 
 			// Prepare a task for output
 			prepareForOutput: function (task) {
-				return {
+				var output =  {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,
 					standard: task.standard,
 					ignore: task.ignore || []
 				};
+				if (task.annotations) {
+					output.annotations = task.annotations;
+				}
+				return output;
 			}
 
 		};

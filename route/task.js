@@ -85,7 +85,8 @@ module.exports = function (app) {
 					query: {},
 					payload: {
 						name: Hapi.types.String().required(),
-						ignore: Hapi.types.Array()
+						ignore: Hapi.types.Array(),
+						comment: Hapi.types.String()
 					}
 				}
 			}
