@@ -52,6 +52,45 @@ module.exports = function (app) {
 			}
 		},
 
+		// Edit a task
+		{
+			method: 'PATCH',
+			path: '/tasks/{id}',
+			handler: function (req) {
+				model.task.getById(req.params.id, function (err, task) {
+					if (err) {
+						return req.reply().code(500);
+					}
+					if (!task) {
+						return req.reply({
+							code: 404,
+							error: 'Not Found'
+						}).code(404);
+					}
+					model.task.editById(task.id, req.payload, function (err, updateCount) {
+						if (err || updateCount < 1) {
+							return req.reply().code(500);
+						}
+						model.task.getById(task.id, function (err, task) {
+							if (err) {
+								return req.reply().code(500);
+							}
+							req.reply(task).code(200);
+						});
+					});
+				});
+			},
+			config: {
+				validate: {
+					query: {},
+					payload: {
+						name: Hapi.types.String().required(),
+						ignore: Hapi.types.Array()
+					}
+				}
+			}
+		},
+
 		// Delete a task
 		{
 			method: 'DELETE',

@@ -54,6 +54,16 @@ module.exports = function (app, callback) {
 				});
 			},
 
+			// Edit a task by ID
+			editById: function (id, edits, callback) {
+				try {
+					id = new ObjectID(id);
+				} catch (err) {
+					return callback(null, null);
+				}
+				collection.update({_id: id}, {$set: edits}, callback);
+			},
+
 			// Delete a task by ID
 			deleteById: function (id, callback) {
 				try {
