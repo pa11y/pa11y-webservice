@@ -8,7 +8,7 @@ var pa11y = require('pa11y');
 // Task model
 module.exports = function (app, callback) {
 	app.db.collection('tasks', function (err, collection) {
-		collection.ensureIndex({url: 1, standard: 1}, {w: -1});
+		collection.ensureIndex({name: 1, url: 1, standard: 1}, {w: -1});
 		var model = {
 
 			collection: collection,
