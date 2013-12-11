@@ -135,6 +135,7 @@ module.exports = function (app, callback) {
 					task: result.task.toString(),
 					date: new Date(result.date).toISOString(),
 					count: result.count,
+					ignore: result.ignore || [],
 					results: result.results || []
 				};
 			}

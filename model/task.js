@@ -131,6 +131,7 @@ module.exports = function (app, callback) {
 
 						function (results, next) {
 							results.task = new ObjectID(task.id);
+							results.ignore = task.ignore;
 							app.model.result.create(results, next);
 						}
 
