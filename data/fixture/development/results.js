@@ -15,6 +15,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -648,6 +649,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -1231,6 +1233,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -1649,6 +1652,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -3307,6 +3311,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -4925,6 +4930,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -4963,6 +4969,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -5546,6 +5553,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -6179,6 +6187,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -6597,6 +6606,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -8255,6 +8265,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -9873,6 +9884,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -9911,6 +9923,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -10494,6 +10507,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -11127,6 +11141,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -11545,6 +11560,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -13203,6 +13219,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -14821,6 +14838,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -14859,6 +14877,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -15442,6 +15461,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -16075,6 +16095,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -16493,6 +16514,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -18151,6 +18173,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -19769,6 +19792,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -19807,6 +19831,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -20440,6 +20465,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -21023,6 +21049,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -21441,6 +21468,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -23099,6 +23127,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -24717,6 +24746,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -24755,6 +24785,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -25338,6 +25369,7 @@ module.exports = [
 			warning: 3,
 			notice: 107
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -25971,6 +26003,7 @@ module.exports = [
 			warning: 141,
 			notice: 168
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AAA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -27629,6 +27662,7 @@ module.exports = [
 			warning: 7,
 			notice: 54
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -28047,6 +28081,7 @@ module.exports = [
 			warning: 0,
 			notice: 3
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'Section508.D.HeadingOrder',
@@ -28085,6 +28120,7 @@ module.exports = [
 			warning: 141,
 			notice: 166
 		},
+		ignore: [],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
@@ -29703,6 +29739,12 @@ module.exports = [
 			warning: 35,
 			notice: 48
 		},
+		ignore: [
+			'WCAG2AA.Principle3.Guideline3_2.3_2_1.G107',
+			'WCAG2AA.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81',
+			'WCAG2AA.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81,H33',
+			'WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage'
+		],
 		results: [
 			{
 				code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
