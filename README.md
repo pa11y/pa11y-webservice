@@ -27,9 +27,9 @@ Each of these files defines configurations for a different environment. If you'r
 Now that you've got your application configured, you can run in each mode with the following commands:
 
 ```sh
-$ NODE_ENV=production node .   # Run in production
-$ NODE_ENV=development node .  # Run in development
-$ NODE_ENV=test node .         # Run in test
+$ NODE_ENV=production node index.js   # Run in production
+$ NODE_ENV=development node index.js  # Run in development
+$ NODE_ENV=test node index.js         # Run in test
 ```
 
 See [development instructions](#development) for more information about running locally (and restarting automatically when files change).
