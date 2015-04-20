@@ -23,6 +23,7 @@ module.exports = [
 		_id: new ObjectID('abc000000000000000000001'),
 		name: 'NPG Home',
 		url: 'nature.com',
+		timeout: '30000',
 		standard: 'WCAG2AA',
 		ignore: ['foo', 'bar']
 	},
@@ -30,12 +31,14 @@ module.exports = [
 		_id: new ObjectID('abc000000000000000000002'),
 		name: 'NPG Home',
 		url: 'nature.com',
+		timeout: '30000',
 		standard: 'WCAG2AAA'
 	},
 	{
 		_id: new ObjectID('abc000000000000000000003'),
 		name: 'Nature News',
 		url: 'nature.com/news',
+		timeout: '30000',
 		standard: 'Section508'
 	}
 ];

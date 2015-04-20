@@ -29,6 +29,7 @@ describe('PATCH /tasks/{id}', function () {
 			beforeEach(function (done) {
 				taskEdits = {
 					name: 'New Name',
+					timeout: '30000',
 					ignore: ['bar', 'baz'],
 					comment: 'Just changing some stuff, you know'
 				};
@@ -131,7 +132,8 @@ describe('PATCH /tasks/{id}', function () {
 				method: 'PATCH',
 				endpoint: 'tasks/abc000000000000000000000',
 				body: {
-					name: 'foo'
+					name: 'foo',
+					timeout: '30000'
 				}
 			};
 			this.navigate(req, done);
@@ -150,7 +152,8 @@ describe('PATCH /tasks/{id}', function () {
 				method: 'PATCH',
 				endpoint: 'tasks/-abc-',
 				body: {
-					name: 'foo'
+					name: 'foo',
+					timeout: '30000'
 				}
 			};
 			this.navigate(req, done);

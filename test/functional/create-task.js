@@ -28,6 +28,7 @@ describe('POST /tasks', function () {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
+				timeout: '30000',
 				standard: 'WCAG2AA',
 				ignore: ['foo', 'bar']
 			};
@@ -72,6 +73,7 @@ describe('POST /tasks', function () {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
+				timeout: '30000',
 				standard: 'WCAG2AA'
 			};
 			var req = {

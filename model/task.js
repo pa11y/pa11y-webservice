@@ -23,7 +23,7 @@ var pa11y = require('pa11y');
 // Task model
 module.exports = function (app, callback) {
 	app.db.collection('tasks', function (err, collection) {
-		collection.ensureIndex({name: 1, url: 1, standard: 1}, {w: -1});
+		collection.ensureIndex({name: 1, url: 1, standard: 1, timeout: 1}, {w: -1});
 		var model = {
 
 			collection: collection,
@@ -79,7 +79,8 @@ module.exports = function (app, callback) {
 				}
 				var now = Date.now();
 				var taskEdits = {
-					name: edits.name
+					name: edits.name,
+					timeout: edits.timeout
 				}
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
@@ -137,6 +138,7 @@ module.exports = function (app, callback) {
 							pa11y.sniff({
 								url: task.url,
 								standard: task.standard,
+								timeout: task.timeout,
 								config: {
 									ignore: task.ignore
 								},
@@ -163,6 +165,7 @@ module.exports = function (app, callback) {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,
+					timeout: task.timeout,
 					standard: task.standard,
 					ignore: task.ignore || []
 				};
