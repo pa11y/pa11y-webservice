@@ -100,7 +100,7 @@ module.exports = function (app) {
 					query: {},
 					payload: {
 						name: Hapi.types.String().required(),
-						timeout: Hapi.types.Number().integer().required(),
+						timeout: Hapi.types.Number().integer(),
 						ignore: Hapi.types.Array(),
 						comment: Hapi.types.String()
 					}
