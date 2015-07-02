@@ -1,6 +1,6 @@
 {
 	"name": "pa11y-webservice",
-	"version": "1.4.0",
+	"version": "1.5.0",
 
 	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",
 	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
