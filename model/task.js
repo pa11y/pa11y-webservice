@@ -80,7 +80,7 @@ module.exports = function (app, callback) {
 				var now = Date.now();
 				var taskEdits = {
 					name: edits.name,
-					timeout: edits.timeout
+					timeout: parseInt(edits.timeout, 10)
 				}
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
@@ -138,7 +138,7 @@ module.exports = function (app, callback) {
 							pa11y.sniff({
 								url: task.url,
 								standard: task.standard,
-								timeout: task.timeout,
+								timeout: (task.timeout || 30000),
 								config: {
 									ignore: task.ignore
 								},
@@ -165,7 +165,7 @@ module.exports = function (app, callback) {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,
-					timeout: task.timeout,
+					timeout: (task.timeout ? parseInt(task.timeout, 10) : 30000),
 					standard: task.standard,
 					ignore: task.ignore || []
 				};
