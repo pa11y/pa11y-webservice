@@ -135,18 +135,20 @@ module.exports = function (app, callback) {
 					async.waterfall([
 
 						function (next) {
-							pa11y.sniff({
-								url: task.url,
+							pa11y({
 								standard: task.standard,
 								timeout: (task.timeout || 30000),
-								config: {
-									ignore: task.ignore
-								},
-								port: port
-							}, next);
+								ignore: task.ignore,
+								phantom: {
+									port: port
+								}
+							}, function (error, test, exit) {
+								test(task.url, next);
+							});
 						},
 
 						function (results, next) {
+							results = app.model.result.convertPa11y2Results(results);
 							results.task = new ObjectID(task.id);
 							results.ignore = task.ignore;
 							app.model.result.create(results, next);

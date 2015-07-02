@@ -153,6 +153,30 @@ module.exports = function (app, callback) {
 					ignore: result.ignore || [],
 					results: result.results || []
 				};
+			},
+			convertPa11y2Results: function (results) {
+				var resultObject = {
+					count: {
+						total: results.length,
+						error: results.filter(function (result) {
+							return (result.type === 'error');
+						}).length,
+						warning: results.filter(function (result) {
+							return (result.type === 'warning');
+						}).length,
+						notice: results.filter(function (result) {
+							return (result.type === 'notice');
+						}).length
+					},
+					results: results.map(function (result) {
+						return {
+							code: result.code,
+							type: result.type,
+							message: result.message
+						}
+					})
+				};
+				return resultObject;
 			}
 
 		};
