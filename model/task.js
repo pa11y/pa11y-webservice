@@ -134,17 +134,27 @@ module.exports = function (app, callback) {
 						return callback(err);
 					}
 					var port = availablePorts.shift();
+					var pa11yOptions = {
+						standard: task.standard,
+						timeout: (task.timeout || 30000),
+						ignore: task.ignore,
+						phantom: {
+							port: port
+						}
+					}
+					if (task.username != '') {
+						pa11yOptions.page = {
+							settings: {
+								userName: task.username,
+								password: task.password
+							}
+						}
+					}
+
 					async.waterfall([
 
 						function (next) {
-							pa11y({
-								standard: task.standard,
-								timeout: (task.timeout || 30000),
-								ignore: task.ignore,
-								phantom: {
-									port: port
-								}
-							}, function (error, test, exit) {
+							pa11y(pa11yOptions, function (error, test, exit) {
 								test(task.url, next);
 							});
 						},
