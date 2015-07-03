@@ -80,7 +80,9 @@ module.exports = function (app, callback) {
 				var now = Date.now();
 				var taskEdits = {
 					name: edits.name,
-					timeout: parseInt(edits.timeout, 10)
+					timeout: parseInt(edits.timeout, 10),
+					username: edits.username,
+					password: edits.password
 				}
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
@@ -173,6 +175,12 @@ module.exports = function (app, callback) {
 				};
 				if (task.annotations) {
 					output.annotations = task.annotations;
+				}
+				if (task.username) {
+					output.username = task.username;
+				}
+				if (task.password) {
+					output.password = task.password;
 				}
 				return output;
 			}
