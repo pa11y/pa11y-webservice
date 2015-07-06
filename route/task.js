@@ -102,7 +102,9 @@ module.exports = function (app) {
 						name: Hapi.types.String().required(),
 						timeout: Hapi.types.Number().integer(),
 						ignore: Hapi.types.Array(),
-						comment: Hapi.types.String()
+						comment: Hapi.types.String(),
+						username: Hapi.types.String().allow(''),
+						password: Hapi.types.String().allow('')
 					}
 				}
 			}

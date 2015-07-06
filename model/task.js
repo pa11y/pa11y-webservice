@@ -80,7 +80,9 @@ module.exports = function (app, callback) {
 				var now = Date.now();
 				var taskEdits = {
 					name: edits.name,
-					timeout: parseInt(edits.timeout, 10)
+					timeout: parseInt(edits.timeout, 10),
+					username: edits.username,
+					password: edits.password
 				}
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
@@ -132,17 +134,27 @@ module.exports = function (app, callback) {
 						return callback(err);
 					}
 					var port = availablePorts.shift();
+					var pa11yOptions = {
+						standard: task.standard,
+						timeout: (task.timeout || 30000),
+						ignore: task.ignore,
+						phantom: {
+							port: port
+						}
+					}
+					if (!task.username && !task.password) {
+						pa11yOptions.page = {
+							settings: {
+								userName: task.username,
+								password: task.password
+							}
+						}
+					}
+
 					async.waterfall([
 
 						function (next) {
-							pa11y({
-								standard: task.standard,
-								timeout: (task.timeout || 30000),
-								ignore: task.ignore,
-								phantom: {
-									port: port
-								}
-							}, function (error, test, exit) {
+							pa11y(pa11yOptions, function (error, test, exit) {
 								test(task.url, next);
 							});
 						},
@@ -173,6 +185,12 @@ module.exports = function (app, callback) {
 				};
 				if (task.annotations) {
 					output.annotations = task.annotations;
+				}
+				if (task.username) {
+					output.username = task.username;
+				}
+				if (task.password) {
+					output.password = task.password;
 				}
 				return output;
 			}

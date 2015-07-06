@@ -25,6 +25,8 @@ module.exports = [
 		url: 'nature.com',
 		timeout: 30000,
 		standard: 'WCAG2AA',
+		username: 'user',
+		password: 'access',
 		ignore: ['foo', 'bar']
 	},
 	{
