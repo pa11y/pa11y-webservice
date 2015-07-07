@@ -16,9 +16,14 @@
 'use strict';
 
 var async = require('async');
-var availablePorts = [12400, 12401, 12402, 12403, 12404, 12405, 12406, 12407, 12408, 12409];
+var chalk = require('chalk');
+var freeport = require('freeport');
 var ObjectID = require('mongodb').ObjectID;
 var pa11y = require('pa11y');
+
+function pa11yLog (message) {
+	console.log(chalk.grey('  > ' + message));
+}
 
 // Task model
 module.exports = function (app, callback) {
@@ -133,13 +138,15 @@ module.exports = function (app, callback) {
 					if (err) {
 						return callback(err);
 					}
-					var port = availablePorts.shift();
 					var pa11yOptions = {
 						standard: task.standard,
 						timeout: (task.timeout || 30000),
 						ignore: task.ignore,
-						phantom: {
-							port: port
+						phantom: {},
+						log: {
+							debug: pa11yLog,
+							error: pa11yLog,
+							log: pa11yLog
 						}
 					}
 					if (!task.username && !task.password) {
@@ -154,9 +161,29 @@ module.exports = function (app, callback) {
 					async.waterfall([
 
 						function (next) {
-							pa11y(pa11yOptions, function (error, test, exit) {
-								test(task.url, next);
+							freeport(function (error, port) {
+								if (error) {
+									return next(error);
+								}
+								pa11yOptions.phantom.port = port;
+								next();
 							});
+						},
+
+						function (next) {
+							try {
+								pa11y(pa11yOptions, function (error, test, exit) {
+									try {
+										test(task.url, next);
+									}
+									catch (error) {
+										next(error);
+									}
+								});
+							}
+							catch (error) {
+								next(error);
+							}
 						},
 
 						function (results, next) {
@@ -166,10 +193,7 @@ module.exports = function (app, callback) {
 							app.model.result.create(results, next);
 						}
 
-					], function (err, result) {
-						availablePorts.push(port);
-						callback(err, result);
-					});
+					], callback);
 				});
 			},
 
