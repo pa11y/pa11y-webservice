@@ -37,7 +37,7 @@ module.exports = function (app, callback) {
 					if (err) {
 						return callback(err);
 					}
-					callback(null, model.prepareForOutput(result[0]));
+					callback(null, model.prepareForOutput(result.ops[0]));
 				});
 			},
 
@@ -115,7 +115,7 @@ module.exports = function (app, callback) {
 				} catch (err) {
 					return callback(null);
 				}
-				collection.remove({task: id}, callback);
+				collection.deleteMany({task: id}, callback);
 			},
 
 			// Get a result by ID and task ID

@@ -35,11 +35,11 @@ module.exports = function (app, callback) {
 
 			// Create a task
 			create: function (newTask, callback) {
-				collection.insert(newTask, function (err, task) {
+				collection.insert(newTask, function (err, result) {
 					if (err) {
 						return callback(err);
 					}
-					callback(null, model.prepareForOutput(task[0]));
+					callback(null, model.prepareForOutput(result.ops[0]));
 				});
 			},
 
@@ -129,7 +129,9 @@ module.exports = function (app, callback) {
 				} catch (err) {
 					return callback(null);
 				}
-				collection.remove({_id: id}, callback);
+				collection.deleteOne({_id: id}, function (error, result) {
+					callback(error, result ? result.deletedCount : null);
+				});
 			},
 
 			// Run a task by ID
