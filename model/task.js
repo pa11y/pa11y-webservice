@@ -17,7 +17,6 @@
 
 var async = require('async');
 var chalk = require('chalk');
-var freeport = require('freeport');
 var ObjectID = require('mongodb').ObjectID;
 var pa11y = require('pa11y');
 
@@ -163,25 +162,9 @@ module.exports = function (app, callback) {
 					async.waterfall([
 
 						function (next) {
-							freeport(function (error, port) {
-								if (error) {
-									return next(error);
-								}
-								pa11yOptions.phantom.port = port;
-								next();
-							});
-						},
-
-						function (next) {
 							try {
-								pa11y(pa11yOptions, function (error, test, exit) {
-									try {
-										test(task.url, next);
-									}
-									catch (error) {
-										next(error);
-									}
-								});
+								var test = pa11y(pa11yOptions);
+								test.run(task.url, next);
 							}
 							catch (error) {
 								next(error);

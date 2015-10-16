@@ -24,7 +24,7 @@
 		"freeport": "~1.0",
 		"hapi": "~1.9",
 		"mongodb": "~2.0",
-		"pa11y": "~2.4",
+		"pa11y": "~3.0",
 		"underscore": "~1.8"
 	},
 	"devDependencies": {
