@@ -6,13 +6,13 @@ pa11y-webservice provides scheduled accessibility reports for multiple URLs. It 
 
 **Current Version:** *1.6.3*  
 **Build Status:** [![Build Status][travis-img]][travis]  
-**Node Version Support:** *0.10*
+**Node Version Support:** *0.12*
 
 
 Setup
 -----
 
-pa11y-webservice requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-webservice also requires [MongoDB][mongo] to be installed and running.
+pa11y-webservice requires [Node.js][node] 0.12+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-webservice also requires [MongoDB][mongo] to be installed and running.
 
 You'll then need to clone this repo locally and install dependencies with `npm install`. Once you have a local clone, you'll need to copy some sample configuration files in order to run the application. From within the repo, run the following commands:
 
