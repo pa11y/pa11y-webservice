@@ -107,7 +107,7 @@ $ grunt fixture:dev
 License
 -------
 
-[Copyright 2013 Nature Publishing Group](LICENSE.txt).  
+[Copyright 2013 Springer Nature](LICENSE.txt).  
 pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 
 
@@ -118,11 +118,11 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
-[pa11y]: https://github.com/nature/pa11y
-[pa11y-docs]: https://github.com/nature/pa11y#installing
-[pa11y-webservice-client-node]: https://github.com/nature/pa11y-webservice-client-node
+[pa11y]: https://github.com/springernature/pa11y
+[pa11y-docs]: https://github.com/springernature/pa11y#installing
+[pa11y-webservice-client-node]: https://github.com/springernature/pa11y-webservice-client-node
 [phantom]: http://phantomjs.org/
-[travis]: https://travis-ci.org/nature/pa11y-webservice
-[travis-img]: https://travis-ci.org/nature/pa11y-webservice.png?branch=master
-[wiki-web-service]: https://github.com/nature/pa11y-webservice/wiki/Web-Service-Endpoints
-[wiki-resources]: https://github.com/nature/pa11y-webservice/wiki/Resource-Types
+[travis]: https://travis-ci.org/springernature/pa11y-webservice
+[travis-img]: https://travis-ci.org/springernature/pa11y-webservice.png?branch=master
+[wiki-web-service]: https://github.com/springernature/pa11y-webservice/wiki/Web-Service-Endpoints
+[wiki-resources]: https://github.com/springernature/pa11y-webservice/wiki/Resource-Types
