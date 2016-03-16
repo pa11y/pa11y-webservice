@@ -42,7 +42,7 @@
 
 	"main": "./app.js",
 	"scripts": {
-		"start": "node .",
+		"start": "node index.js",
 		"test": "grunt"
 	}
 }
