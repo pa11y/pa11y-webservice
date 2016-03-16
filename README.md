@@ -4,7 +4,7 @@ pa11y-webservice
 
 pa11y-webservice provides scheduled accessibility reports for multiple URLs. It runs [pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
 
-**Current Version:** *1.6.4*  
+**Current Version:** *1.7.0*  
 **Build Status:** [![Build Status][travis-img]][travis]  
 **Node Version Support:** *0.12*
 
