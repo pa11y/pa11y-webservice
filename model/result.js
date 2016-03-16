@@ -168,13 +168,7 @@ module.exports = function (app, callback) {
 							return (result.type === 'notice');
 						}).length
 					},
-					results: results.map(function (result) {
-						return {
-							code: result.code,
-							type: result.type,
-							message: result.message
-						}
-					})
+					results: results
 				};
 				return resultObject;
 			}
