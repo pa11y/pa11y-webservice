@@ -29,6 +29,6 @@ services:
 # Build script
 before_script:
   - cp config/test.sample.json config/test.json
-  - grunt start-test &
+  - NODE_ENV=test node index.js &
   - sleep 5 # give server time to start
 script: 'make ci'
