@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -18,22 +18,26 @@
 var ObjectID = require('mongodb').ObjectID;
 
 // Result model
-module.exports = function (app, callback) {
-	app.db.collection('results', function (err, collection) {
-		collection.ensureIndex({date: 1}, {w: -1});
+module.exports = function(app, callback) {
+	app.db.collection('results', function(err, collection) {
+		collection.ensureIndex({
+			date: 1
+		}, {
+			w: -1
+		});
 		var model = {
 
 			collection: collection,
 
 			// Create a result
-			create: function (newResult, callback) {
+			create: function(newResult, callback) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				collection.insert(newResult, function (err, result) {
+				collection.insert(newResult, function(err, result) {
 					if (err) {
 						return callback(err);
 					}
@@ -42,7 +46,7 @@ module.exports = function (app, callback) {
 			},
 
 			// Default filter options
-			_defaultFilterOpts: function (opts) {
+			_defaultFilterOpts: function(opts) {
 				var now = Date.now();
 				var thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
 				return {
@@ -54,7 +58,7 @@ module.exports = function (app, callback) {
 			},
 
 			// Get results
-			_getFiltered: function (opts, callback) {
+			_getFiltered: function(opts, callback) {
 				opts = model._defaultFilterOpts(opts);
 				var filter = {
 					date: {
@@ -69,7 +73,7 @@ module.exports = function (app, callback) {
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
-					.toArray(function (err, results) {
+					.toArray(function(err, results) {
 						if (err) {
 							return callback(err);
 						}
@@ -78,20 +82,20 @@ module.exports = function (app, callback) {
 			},
 
 			// Get results for all tasks
-			getAll: function (opts, callback) {
+			getAll: function(opts, callback) {
 				delete opts.task;
 				model._getFiltered(opts, callback);
 			},
 
 			// Get a result by ID
-			getById: function (id, full, callback) {
+			getById: function(id, full, callback) {
 				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 				} catch (err) {
 					return callback(null, null);
 				}
-				collection.findOne({_id: id}, function (err, result) {
+				collection.findOne({_id: id}, function(err, result) {
 					if (err) {
 						return callback(err);
 					}
@@ -103,13 +107,13 @@ module.exports = function (app, callback) {
 			},
 
 			// Get results for a single task
-			getByTaskId: function (id, opts, callback) {
+			getByTaskId: function(id, opts, callback) {
 				opts.task = id;
 				model._getFiltered(opts, callback);
 			},
 
 			// Delete results for a single task
-			deleteByTaskId: function (id, callback) {
+			deleteByTaskId: function(id, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (err) {
@@ -119,7 +123,7 @@ module.exports = function (app, callback) {
 			},
 
 			// Get a result by ID and task ID
-			getByIdAndTaskId: function (id, task, opts, callback) {
+			getByIdAndTaskId: function(id, task, opts, callback) {
 				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
@@ -127,7 +131,10 @@ module.exports = function (app, callback) {
 				} catch (err) {
 					return callback(null, null);
 				}
-				collection.findOne({_id: id, task: task}, function (err, result) {
+				collection.findOne({
+					_id: id,
+					task: task
+				}, function(err, result) {
 					if (err) {
 						return callback(err);
 					}
@@ -139,12 +146,12 @@ module.exports = function (app, callback) {
 			},
 
 			// Prepare a result for output
-			prepareForOutput: function (result) {
+			prepareForOutput: function(result) {
 				result = model.prepareForFullOutput(result);
 				delete result.results;
 				return result;
 			},
-			prepareForFullOutput: function (result) {
+			prepareForFullOutput: function(result) {
 				return {
 					id: result._id.toString(),
 					task: result.task.toString(),
@@ -154,17 +161,17 @@ module.exports = function (app, callback) {
 					results: result.results || []
 				};
 			},
-			convertPa11y2Results: function (results) {
+			convertPa11y2Results: function(results) {
 				var resultObject = {
 					count: {
 						total: results.length,
-						error: results.filter(function (result) {
+						error: results.filter(function(result) {
 							return (result.type === 'error');
 						}).length,
-						warning: results.filter(function (result) {
+						warning: results.filter(function(result) {
 							return (result.type === 'warning');
 						}).length,
-						notice: results.filter(function (result) {
+						notice: results.filter(function(result) {
 							return (result.type === 'notice');
 						}).length
 					},

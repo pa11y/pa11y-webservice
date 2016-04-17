@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,7 +19,7 @@ var chalk = require('chalk');
 var Hapi = require('hapi');
 
 // Routes relating to individual tasks
-module.exports = function (app) {
+module.exports = function(app) {
 	var model = app.model;
 	return [
 
@@ -27,8 +27,8 @@ module.exports = function (app) {
 		{
 			method: 'GET',
 			path: '/tasks/{id}',
-			handler: function (req) {
-				model.task.getById(req.params.id, function (err, task) {
+			handler: function(req) {
+				model.task.getById(req.params.id, function(err, task) {
 					if (err) {
 						return req.reply().code(500);
 					}
@@ -42,7 +42,7 @@ module.exports = function (app) {
 						model.result.getByTaskId(task.id, {
 							limit: 1,
 							full: true
-						}, function (err, results) {
+						}, function(err, results) {
 							if (err || !results) {
 								return req.reply().code(500);
 							}
@@ -71,8 +71,8 @@ module.exports = function (app) {
 		{
 			method: 'PATCH',
 			path: '/tasks/{id}',
-			handler: function (req) {
-				model.task.getById(req.params.id, function (err, task) {
+			handler: function(req) {
+				model.task.getById(req.params.id, function(err, task) {
 					if (err) {
 						return req.reply().code(500);
 					}
@@ -82,11 +82,11 @@ module.exports = function (app) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					model.task.editById(task.id, req.payload, function (err, updateCount) {
+					model.task.editById(task.id, req.payload, function(err, updateCount) {
 						if (err || updateCount < 1) {
 							return req.reply().code(500);
 						}
-						model.task.getById(task.id, function (err, task) {
+						model.task.getById(task.id, function(err, task) {
 							if (err) {
 								return req.reply().code(500);
 							}
@@ -114,8 +114,8 @@ module.exports = function (app) {
 		{
 			method: 'DELETE',
 			path: '/tasks/{id}',
-			handler: function (req) {
-				model.task.deleteById(req.params.id, function (err, task) {
+			handler: function(req) {
+				model.task.deleteById(req.params.id, function(err, task) {
 					if (err) {
 						return req.reply().code(500);
 					}
@@ -125,7 +125,7 @@ module.exports = function (app) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					model.result.deleteByTaskId(req.params.id, function (err) {
+					model.result.deleteByTaskId(req.params.id, function(err) {
 						if (err) {
 							return req.reply().code(500);
 						}
@@ -145,8 +145,8 @@ module.exports = function (app) {
 		{
 			method: 'POST',
 			path: '/tasks/{id}/run',
-			handler: function (req) {
-				model.task.getById(req.params.id, function (err, task) {
+			handler: function(req) {
+				model.task.getById(req.params.id, function(err, task) {
 					if (err) {
 						return req.reply().code(500);
 					}
@@ -160,7 +160,7 @@ module.exports = function (app) {
 						console.log('');
 						console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
 						console.log('Starting task %s', task.id);
-						model.task.runById(req.params.id, function (err) {
+						model.task.runById(req.params.id, function(err) {
 							if (err) {
 								console.log(
 									chalk.red('Failed to finish task %s: %s'),
@@ -191,8 +191,8 @@ module.exports = function (app) {
 		{
 			method: 'GET',
 			path: '/tasks/{id}/results',
-			handler: function (req) {
-				model.task.getById(req.params.id, function (err, task) {
+			handler: function(req) {
+				model.task.getById(req.params.id, function(err, task) {
 					if (err) {
 						return req.reply().code(500);
 					}
@@ -202,7 +202,7 @@ module.exports = function (app) {
 							error: 'Not Found'
 						}).code(404);
 					}
-					model.result.getByTaskId(req.params.id, req.query, function (err, results) {
+					model.result.getByTaskId(req.params.id, req.query, function(err, results) {
 						if (err || !results) {
 							return req.reply().code(500);
 						}
@@ -226,10 +226,10 @@ module.exports = function (app) {
 		{
 			method: 'GET',
 			path: '/tasks/{tid}/results/{rid}',
-			handler: function (req) {
+			handler: function(req) {
 				var rid = req.params.rid;
 				var tid = req.params.tid;
-				model.result.getByIdAndTaskId(rid, tid, req.query, function (err, result) {
+				model.result.getByIdAndTaskId(rid, tid, req.query, function(err, result) {
 					if (err) {
 						return req.reply().code(500);
 					}

@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -20,21 +20,27 @@ var chalk = require('chalk');
 var ObjectID = require('mongodb').ObjectID;
 var pa11y = require('pa11y');
 
-function pa11yLog (message) {
+function pa11yLog(message) {
 	console.log(chalk.grey('  > ' + message));
 }
 
 // Task model
-module.exports = function (app, callback) {
-	app.db.collection('tasks', function (err, collection) {
-		collection.ensureIndex({name: 1, url: 1, standard: 1}, {w: -1});
+module.exports = function(app, callback) {
+	app.db.collection('tasks', function(err, collection) {
+		collection.ensureIndex({
+			name: 1,
+			url: 1,
+			standard: 1
+		}, {
+			w: -1
+		});
 		var model = {
 
 			collection: collection,
 
 			// Create a task
-			create: function (newTask, callback) {
-				collection.insert(newTask, function (err, result) {
+			create: function(newTask, callback) {
+				collection.insert(newTask, function(err, result) {
 					if (err) {
 						return callback(err);
 					}
@@ -43,11 +49,15 @@ module.exports = function (app, callback) {
 			},
 
 			// Get all tasks
-			getAll: function (callback) {
+			getAll: function(callback) {
 				collection
 					.find()
-					.sort({name: 1, standard: 1, url: 1})
-					.toArray(function (err, tasks) {
+					.sort({
+						name: 1,
+						standard: 1,
+						url: 1
+					})
+					.toArray(function(err, tasks) {
 						if (err) {
 							return callback(err);
 						}
@@ -56,13 +66,13 @@ module.exports = function (app, callback) {
 			},
 
 			// Get a task by ID
-			getById: function (id, callback) {
+			getById: function(id, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (err) {
 					return callback(null, null);
 				}
-				collection.findOne({_id: id}, function (err, task) {
+				collection.findOne({_id: id}, function(err, task) {
 					if (err) {
 						return callback(err);
 					}
@@ -74,7 +84,7 @@ module.exports = function (app, callback) {
 			},
 
 			// Edit a task by ID
-			editById: function (id, edits, callback) {
+			editById: function(id, edits, callback) {
 				var idString = id;
 				try {
 					id = new ObjectID(id);
@@ -87,11 +97,11 @@ module.exports = function (app, callback) {
 					timeout: parseInt(edits.timeout, 10),
 					username: edits.username,
 					password: edits.password
-				}
+				};
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
 				}
-				collection.update({_id: id}, {$set: taskEdits}, function (err, updateCount) {
+				collection.update({_id: id}, {$set: taskEdits}, function(err, updateCount) {
 					if (err || updateCount < 1) {
 						return callback(err, 0);
 					}
@@ -100,15 +110,15 @@ module.exports = function (app, callback) {
 						date: now,
 						comment: edits.comment || 'Edited task'
 					};
-					model.addAnnotationById(idString, annotation, function (err) {
+					model.addAnnotationById(idString, annotation, function(err) {
 						callback(err, updateCount);
 					});
 				});
 			},
 
 			// Add an annotation to a task
-			addAnnotationById: function (id, annotation, callback) {
-				model.getById(id, function (err, task) {
+			addAnnotationById: function(id, annotation, callback) {
+				model.getById(id, function(err, task) {
 					if (err || !task) {
 						return callback(err, 0);
 					}
@@ -122,20 +132,20 @@ module.exports = function (app, callback) {
 			},
 
 			// Delete a task by ID
-			deleteById: function (id, callback) {
+			deleteById: function(id, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (err) {
 					return callback(null);
 				}
-				collection.deleteOne({_id: id}, function (error, result) {
+				collection.deleteOne({_id: id}, function(error, result) {
 					callback(error, result ? result.deletedCount : null);
 				});
 			},
 
 			// Run a task by ID
-			runById: function (id, callback) {
-				model.getById(id, function (err, task) {
+			runById: function(id, callback) {
+				model.getById(id, function(err, task) {
 					if (err) {
 						return callback(err);
 					}
@@ -149,29 +159,28 @@ module.exports = function (app, callback) {
 							error: pa11yLog,
 							log: pa11yLog
 						}
-					}
+					};
 					if (!task.username && !task.password) {
 						pa11yOptions.page = {
 							settings: {
 								userName: task.username,
 								password: task.password
 							}
-						}
+						};
 					}
 
 					async.waterfall([
 
-						function (next) {
+						function(next) {
 							try {
 								var test = pa11y(pa11yOptions);
 								test.run(task.url, next);
-							}
-							catch (error) {
+							} catch (error) {
 								next(error);
 							}
 						},
 
-						function (results, next) {
+						function(results, next) {
 							results = app.model.result.convertPa11y2Results(results);
 							results.task = new ObjectID(task.id);
 							results.ignore = task.ignore;
@@ -183,8 +192,8 @@ module.exports = function (app, callback) {
 			},
 
 			// Prepare a task for output
-			prepareForOutput: function (task) {
-				var output =  {
+			prepareForOutput: function(task) {
+				var output = {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,

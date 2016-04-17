@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -23,7 +23,7 @@ module.exports = initTask;
 exports.runPa11yOnTasks = runPa11yOnTasks;
 
 // Initialise the task
-function initTask (config, app) {
+function initTask(config, app) {
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
@@ -32,20 +32,20 @@ function initTask (config, app) {
 }
 
 // Run the task
-function run (app) {
+function run(app) {
 	console.log('');
 	console.log(chalk.grey('Starting to run tasks @ %s'), new Date());
 	async.waterfall([
 
-		function (next) {
+		function(next) {
 			app.model.task.getAll(next);
 		},
 
-		function (tasks, next) {
+		function(tasks, next) {
 			runPa11yOnTasks(tasks, app, next);
 		}
 
-	], function (err) {
+	], function(err) {
 		if (err) {
 			console.error(chalk.red('Failed to run tasks: %s'), err.message);
 			console.log('');
@@ -55,11 +55,11 @@ function run (app) {
 }
 
 // Run pa11y on an array of tasks
-function runPa11yOnTasks (tasks, app, done) {
+function runPa11yOnTasks(tasks, app, done) {
 
-	var queue = async.queue(function (task, nextInQueue) {
+	var queue = async.queue(function(task, nextInQueue) {
 		console.log('Starting task %s', task.id);
-		app.model.task.runById(task.id, function (err) {
+		app.model.task.runById(task.id, function(err) {
 			if (err) {
 				console.log(chalk.red('Failed to finish task %s: %s'), task.id, err.message);
 			} else {

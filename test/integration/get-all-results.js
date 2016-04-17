@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,11 +19,11 @@
 
 var assert = require('proclaim');
 
-describe('GET /tasks/results', function () {
+describe('GET /tasks/results', function() {
 
-	describe('with no query', function () {
+	describe('with no query', function() {
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'GET',
 				endpoint: 'tasks/results'
@@ -31,13 +31,13 @@ describe('GET /tasks/results', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 200 status', function () {
+		it('should send a 200 status', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) sorted by date', function (done) {
+		it('should output a JSON representation of all results (in the last 30 days) sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll({}, function (err, results) {
+			this.app.model.result.getAll({}, function(err, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 4);
 				assert.strictEqual(body[0].id, 'def000000000000000000001');
@@ -55,10 +55,10 @@ describe('GET /tasks/results', function () {
 
 	});
 
-	describe('with date-range query', function () {
+	describe('with date-range query', function() {
 		var query;
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -71,13 +71,13 @@ describe('GET /tasks/results', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 200 status', function () {
+		it('should send a 200 status', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all expected results sorted by date', function (done) {
+		it('should output a JSON representation of all expected results sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll(query, function (err, results) {
+			this.app.model.result.getAll(query, function(err, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
 				assert.strictEqual(body[0].id, 'def000000000000000000007');
@@ -91,10 +91,10 @@ describe('GET /tasks/results', function () {
 
 	});
 
-	describe('with full details query', function () {
+	describe('with full details query', function() {
 		var query;
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -106,13 +106,13 @@ describe('GET /tasks/results', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 200 status', function () {
+		it('should send a 200 status', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', function (done) {
+		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll(query, function (err, results) {
+			this.app.model.result.getAll(query, function(err, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 4);
 				assert.strictEqual(body[0].id, 'def000000000000000000001');
@@ -130,9 +130,9 @@ describe('GET /tasks/results', function () {
 
 	});
 
-	describe('with invalid query', function () {
+	describe('with invalid query', function() {
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -143,7 +143,7 @@ describe('GET /tasks/results', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 400 status', function () {
+		it('should send a 400 status', function() {
 			assert.strictEqual(this.last.status, 400);
 		});
 

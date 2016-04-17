@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,12 +19,12 @@
 
 var assert = require('proclaim');
 
-describe('POST /tasks', function () {
+describe('POST /tasks', function() {
 
-	describe('with valid JSON', function () {
+	describe('with valid JSON', function() {
 		var newTask;
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -40,23 +40,23 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should add the new task to the database', function (done) {
-			this.app.model.task.collection.findOne(newTask, function (err, task) {
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
 				assert.isDefined(task);
 				done(err);
 			});
 		});
 
-		it('should send a 201 status', function () {
+		it('should send a 201 status', function() {
 			assert.strictEqual(this.last.status, 201);
 		});
 
-		it('should send a location header pointing to the new task', function () {
+		it('should send a location header pointing to the new task', function() {
 			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
-		it('should output a JSON representation of the new task', function () {
+		it('should output a JSON representation of the new task', function() {
 			assert.isDefined(this.last.body.id);
 			assert.strictEqual(this.last.body.name, newTask.name);
 			assert.strictEqual(this.last.body.url, newTask.url);
@@ -66,10 +66,10 @@ describe('POST /tasks', function () {
 
 	});
 
-	describe('with valid JSON and HTTP basic user authentication', function () {
+	describe('with valid JSON and HTTP basic user authentication', function() {
 		var newTask;
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -87,23 +87,23 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should add the new task to the database', function (done) {
-			this.app.model.task.collection.findOne(newTask, function (err, task) {
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
 				assert.isDefined(task);
 				done(err);
 			});
 		});
 
-		it('should send a 201 status', function () {
+		it('should send a 201 status', function() {
 			assert.strictEqual(this.last.status, 201);
 		});
 
-		it('should send a location header pointing to the new task', function () {
+		it('should send a location header pointing to the new task', function() {
 			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
-		it('should output a JSON representation of the new task', function () {
+		it('should output a JSON representation of the new task', function() {
 			assert.isDefined(this.last.body.id);
 			assert.strictEqual(this.last.body.name, newTask.name);
 			assert.strictEqual(this.last.body.url, newTask.url);
@@ -115,10 +115,10 @@ describe('POST /tasks', function () {
 
 	});
 
-	describe('with valid JSON and no ignore rules', function () {
+	describe('with valid JSON and no ignore rules', function() {
 		var newTask;
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -133,23 +133,23 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should add the new task to the database', function (done) {
-			this.app.model.task.collection.findOne(newTask, function (err, task) {
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
 				assert.isDefined(task);
 				done(err);
 			});
 		});
 
-		it('should send a 201 status', function () {
+		it('should send a 201 status', function() {
 			assert.strictEqual(this.last.status, 201);
 		});
 
-		it('should send a location header pointing to the new task', function () {
+		it('should send a location header pointing to the new task', function() {
 			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
-		it('should output a JSON representation of the new task', function () {
+		it('should output a JSON representation of the new task', function() {
 			assert.isDefined(this.last.body.id);
 			assert.strictEqual(this.last.body.name, newTask.name);
 			assert.strictEqual(this.last.body.url, newTask.url);
@@ -159,9 +159,9 @@ describe('POST /tasks', function () {
 
 	});
 
-	describe('with invalid name', function () {
+	describe('with invalid name', function() {
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -174,15 +174,15 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 400 status', function () {
+		it('should send a 400 status', function() {
 			assert.strictEqual(this.last.status, 400);
 		});
 
 	});
 
-	describe('with invalid URL', function () {
+	describe('with invalid URL', function() {
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -194,15 +194,15 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 400 status', function () {
+		it('should send a 400 status', function() {
 			assert.strictEqual(this.last.status, 400);
 		});
 
 	});
 
-	describe('with invalid standard', function () {
+	describe('with invalid standard', function() {
 
-		beforeEach(function (done) {
+		beforeEach(function(done) {
 			var req = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -214,7 +214,7 @@ describe('POST /tasks', function () {
 			this.navigate(req, done);
 		});
 
-		it('should send a 400 status', function () {
+		it('should send a 400 status', function() {
 			assert.strictEqual(this.last.status, 400);
 		});
 

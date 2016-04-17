@@ -1,15 +1,15 @@
 // This file is part of pa11y-webservice.
-// 
+//
 // pa11y-webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // pa11y-webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,7 +19,7 @@ var _ = require('underscore');
 var Hapi = require('hapi');
 
 // Routes relating to all tasks
-module.exports = function (app) {
+module.exports = function(app) {
 	var model = app.model;
 	return [
 
@@ -27,18 +27,18 @@ module.exports = function (app) {
 		{
 			method: 'GET',
 			path: '/tasks',
-			handler: function (req) {
-				model.task.getAll(function (err, tasks) {
+			handler: function(req) {
+				model.task.getAll(function(err, tasks) {
 					if (err || !tasks) {
 						return req.reply().code(500);
 					}
 					if (req.query.lastres) {
-						model.result.getAll({}, function (err, results) {
+						model.result.getAll({}, function(err, results) {
 							if (err || !results) {
 								return req.reply().code(500);
 							}
 							var resultsByTask = _.groupBy(results, 'task');
-							tasks = tasks.map(function (task) {
+							tasks = tasks.map(function(task) {
 								if (resultsByTask[task.id] && resultsByTask[task.id].length) {
 									task.last_result = resultsByTask[task.id][0];
 								} else {
@@ -67,8 +67,8 @@ module.exports = function (app) {
 		{
 			method: 'POST',
 			path: '/tasks',
-			handler: function (req) {
-				model.task.create(req.payload, function (err, task) {
+			handler: function(req) {
+				model.task.create(req.payload, function(err, task) {
 					if (err || !task) {
 						return req.reply().code(500);
 					}
@@ -88,7 +88,10 @@ module.exports = function (app) {
 						username: Hapi.types.String().allow(''),
 						password: Hapi.types.String().allow(''),
 						standard: Hapi.types.String().required().valid([
-							'Section508', 'WCAG2A', 'WCAG2AA', 'WCAG2AAA'
+							'Section508',
+							'WCAG2A',
+							'WCAG2AA',
+							'WCAG2AAA'
 						]),
 						ignore: Hapi.types.Array()
 					}
@@ -100,8 +103,8 @@ module.exports = function (app) {
 		{
 			method: 'GET',
 			path: '/tasks/results',
-			handler: function (req) {
-				model.result.getAll(req.query, function (err, results) {
+			handler: function(req) {
+				model.result.getAll(req.query, function(err, results) {
 					if (err || !results) {
 						return req.reply().code(500);
 					}
