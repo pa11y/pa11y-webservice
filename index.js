@@ -16,7 +16,8 @@
 'use strict';
 
 var chalk = require('chalk');
-var config = require('./config/' + (process.env.NODE_ENV || 'development') + '.json');
+var env = (process.env.NODE_ENV || 'development');
+var config = require('./config/' + env + '.json');
 
 process.on('SIGINT', function() {
 	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
@@ -26,7 +27,7 @@ process.on('SIGINT', function() {
 require('./app')(config, function(err, app) {
 	console.log('');
 	console.log(chalk.underline.cyan('pa11y-webservice started'));
-	console.log(chalk.grey('mode: %s'), process.env.NODE_ENV);
+	console.log(chalk.grey('mode: %s'), env);
 	console.log(chalk.grey('uri:  %s'), app.server.info.uri);
 
 	if (err) {
