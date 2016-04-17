@@ -32,17 +32,16 @@
 		"underscore": "~1.8"
 	},
 	"devDependencies": {
-		"grunt": "~0.4",
-		"grunt-contrib-jshint": "~0.7",
-		"grunt-mocha-test": "~0.7",
-		"grunt-nodemon": "~0.1",
-		"proclaim": "~3.3",
+		"jscs": "^2",
+		"jshint": "^2",
+		"mocha": "^2",
+		"proclaim": "^3",
 		"request": "~2.61"
 	},
 
 	"main": "./app.js",
 	"scripts": {
 		"start": "node index.js",
-		"test": "grunt"
+		"test": "make ci"
 	}
 }

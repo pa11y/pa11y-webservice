@@ -28,14 +28,7 @@ services:
 
 # Build script
 before_script:
-  - npm install -g grunt-cli
   - cp config/test.sample.json config/test.json
   - grunt start-test &
   - sleep 5 # give server time to start
-script: 'grunt ci'
-
-# Notifications
-notifications:
- email:
-   - j.robinson@nature.com
-   - rowan.manning@nature.com
+script: 'make ci'

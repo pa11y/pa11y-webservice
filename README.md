@@ -17,9 +17,9 @@ pa11y-webservice requires [Node.js][node] 0.12+ and [PhantomJS][phantom]. See th
 You'll then need to clone this repo locally and install dependencies with `npm install`. Once you have a local clone, you'll need to copy some sample configuration files in order to run the application. From within the repo, run the following commands:
 
 ```sh
-$ cp config/development.sample.json config/development.json
-$ cp config/production.sample.json config/production.json
-$ cp config/test.sample.json config/test.json
+cp config/development.sample.json config/development.json
+cp config/production.sample.json config/production.json
+cp config/test.sample.json config/test.json
 ```
 
 Each of these files defines configurations for a different environment. If you're just running the application locally, then you should be OK with just development and test configurations. The [available configurations are documented here](#configurations).
@@ -27,9 +27,9 @@ Each of these files defines configurations for a different environment. If you'r
 Now that you've got your application configured, you can run in each mode with the following commands:
 
 ```sh
-$ NODE_ENV=production node index.js   # Run in production
-$ NODE_ENV=development node index.js  # Run in development
-$ NODE_ENV=test node index.js         # Run in test
+NODE_ENV=production node index.js   # Run in production
+NODE_ENV=development node index.js  # Run in development
+NODE_ENV=test node index.js         # Run in test
 ```
 
 See [development instructions](#development) for more information about running locally (and restarting automatically when files change).
@@ -71,36 +71,33 @@ The boot configurations for pa11y-webservice are as follows. Look at the sample 
 Development
 -----------
 
-To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). You'll also need [Grunt][grunt] to be installed globally in order to run tests, you can do this with `npm install -g grunt-cli`.
+To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup).
 
-Once you've done this, you'll need to start the application in test mode with:
+You'll need to start the application in test mode with:
 
 ```sh
-$ grunt start-test
+NODE_ENV=test node index.js
 ```
 
 Now you'll be able to run the following commands:
 
 ```sh
-$ grunt             # Run the lint and test tasks together
-$ grunt lint        # Run JSHint with the correct config
-$ grunt start       # Run app in development mode, restarting if files change
-$ grunt start-test  # Run app in test mode, restarting if files change
-$ grunt test   # Run functional tests
+make       # Run the lint and test tasks together
+make lint  # Run linters with the correct config
+make test  # Run integration tests
 ```
 
 Code with lint errors or failing tests will not be accepted, please use the build tools outlined above.
-
-For users with push-access, don't commit to the master branch. Code should be in `develop` until it's ready to be released.
 
 
 Fixtures
 --------
 
-For demoing pa11y-webservice, you can insert some example tasks and results by running the following command:
+For demoing pa11y-webservice, you can insert some example tasks and results by running one of the following commands (depending on your environment):
 
 ```sh
-$ grunt fixture:dev
+NODE_ENV=development make fixtures
+NODE_ENV=test make fixtures
 ```
 
 
@@ -114,7 +111,6 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 
 [brew]: http://mxcl.github.com/homebrew/
 [gpl]: http://www.gnu.org/licenses/gpl-3.0.html
-[grunt]: http://gruntjs.com/
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
