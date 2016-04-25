@@ -51,7 +51,7 @@ afterEach(function(done) {
 function assertTestAppIsRunning(baseUrl, done) {
 	request(baseUrl, function(err) {
 		if (err) {
-			console.error('Error: Test app not started; run with `grunt start-test`');
+			console.error('Error: Test app not started; run with `NODE_ENV=test node index.js`');
 			process.exit();
 		}
 		done();
