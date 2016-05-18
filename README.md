@@ -14,7 +14,21 @@ Setup
 
 pa11y-webservice requires [Node.js][node] 0.12+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-webservice also requires [MongoDB][mongo] to be installed and running.
 
-You'll then need to clone this repo locally and install dependencies with `npm install`. Once you have a local clone, you'll need to copy some sample configuration files in order to run the application. From within the repo, run the following commands:
+You'll then need to clone this repo locally and install dependencies with `npm install`. Now we need to add some configuration before we can run the application. We can do this in two ways:
+
+### Option 1: Using Environment Variables
+
+Each configuration can be set with an environment variable rather than a config file. For example to run the application on port `8080` you can use the following:
+
+```sh
+PORT=8080 node index.js
+```
+
+The [available configurations are documented here](#configurations).
+
+### Option 2: Using Config Files
+
+You'll need to copy and modify different config files depending on your environment (set with `NODE_ENV`):
 
 ```sh
 cp config/development.sample.json config/development.json
@@ -24,12 +38,10 @@ cp config/test.sample.json config/test.json
 
 Each of these files defines configurations for a different environment. If you're just running the application locally, then you should be OK with just development and test configurations. The [available configurations are documented here](#configurations).
 
-Now that you've got your application configured, you can run in each mode with the following commands:
+Now that you've got your application configured, you can run in each mode by changing the `NODE_ENV` environment variable:
 
 ```sh
-NODE_ENV=production node index.js   # Run in production
-NODE_ENV=development node index.js  # Run in development
-NODE_ENV=test node index.js         # Run in test
+NODE_ENV=development node index.js
 ```
 
 See [development instructions](#development) for more information about running locally (and restarting automatically when files change).
@@ -56,16 +68,16 @@ Configurations
 The boot configurations for pa11y-webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
 ### database
-*(string)* The mongodb [connection string][mongo-connection-string] for your database.
+*(string)* The mongodb [connection string][mongo-connection-string] for your database. Set via a config file or the `DATABASE` environment variable.
 
 ### host
-*(string)* The host to run the application on. This is normally best left as `"0.0.0.0"` – which means the application will run on any incoming connections.
+*(string)* The host to run the application on. This is normally best left as `"0.0.0.0"` – which means the application will run on any incoming connections. Set via a config file or the `HOST` environment variable.
 
 ### port
-*(number)* The port to run the application on.
+*(number)* The port to run the application on. Set via a config file or the `PORT` environment variable.
 
 ### cron
-*(string)* A crontab which describes when to generate reports for each task in the application.
+*(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
 
 Development
