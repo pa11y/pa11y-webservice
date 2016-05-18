@@ -160,7 +160,7 @@ module.exports = function(app, callback) {
 							log: pa11yLog
 						}
 					};
-					if (!task.username && !task.password) {
+					if (task.username && task.password) {
 						pa11yOptions.page = {
 							settings: {
 								userName: task.username,
