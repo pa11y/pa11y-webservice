@@ -13,21 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
 
+'use strict';
+
 var fs = require('fs');
 var jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
 
 if (fs.existsSync(jsonPath)) {
-  module.exports = require(jsonPath);
+	module.exports = require(jsonPath);
 } else {
-  module.exports = {
-    database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
-    host: env('HOST', '0.0.0.0'),
-    port: Number(env('PORT', '3000')),
-    cron: env('CRON', false)
-  }
+	module.exports = {
+		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
+		host: env('HOST', '0.0.0.0'),
+		port: Number(env('PORT', '3000')),
+		cron: env('CRON', false)
+	};
 }
 
 function env(name, defaultValue) {
-  var value = process.env[name];
-  return typeof value == 'string' ? value : defaultValue;
+	var value = process.env[name];
+	return (typeof value === 'string' ? value : defaultValue);
 }
