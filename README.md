@@ -8,6 +8,8 @@ pa11y-webservice provides scheduled accessibility reports for multiple URLs. It 
 **Build Status:** [![Build Status][travis-img]][travis]  
 **Node Version Support:** *0.12*
 
+✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to pa11y-dashboard and pa11y-webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
+
 
 Setup
 -----
@@ -130,6 +132,7 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 [pa11y-docs]: https://github.com/springernature/pa11y#installing
 [pa11y-webservice-client-node]: https://github.com/springernature/pa11y-webservice-client-node
 [phantom]: http://phantomjs.org/
+[sidekick-proposal]: https://github.com/pa11y/sidekick/blob/master/PROPOSAL.md
 [travis]: https://travis-ci.org/springernature/pa11y-webservice
 [travis-img]: https://travis-ci.org/springernature/pa11y-webservice.png?branch=master
 [wiki-web-service]: https://github.com/springernature/pa11y-webservice/wiki/Web-Service-Endpoints
