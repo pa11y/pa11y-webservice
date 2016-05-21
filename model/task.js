@@ -12,6 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with pa11y-webservice.  If not, see <http://www.gnu.org/licenses/>.
+/*jshint maxcomplexity:7*/
 
 'use strict';
 
