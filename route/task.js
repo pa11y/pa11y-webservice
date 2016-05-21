@@ -101,6 +101,7 @@ module.exports = function(app) {
 					payload: {
 						name: Hapi.types.String().required(),
 						timeout: Hapi.types.Number().integer(),
+						wait: Hapi.types.Number().integer(),
 						ignore: Hapi.types.Array(),
 						comment: Hapi.types.String(),
 						username: Hapi.types.String().allow(''),

@@ -30,6 +30,7 @@ describe('PATCH /tasks/{id}', function() {
 				taskEdits = {
 					name: 'New Name',
 					timeout: '30000',
+					wait: 1000,
 					username: 'user',
 					password: 'access',
 					ignore: ['bar', 'baz'],
@@ -46,6 +47,13 @@ describe('PATCH /tasks/{id}', function() {
 			it('should update the task\'s name in the database', function(done) {
 				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
 					assert.strictEqual(task.name, taskEdits.name);
+					done();
+				});
+			});
+
+			it('should update the task\'s wait time in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.strictEqual(task.wait, taskEdits.wait);
 					done();
 				});
 			});

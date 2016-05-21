@@ -95,6 +95,7 @@ module.exports = function(app, callback) {
 				var taskEdits = {
 					name: edits.name,
 					timeout: parseInt(edits.timeout, 10),
+					wait: parseInt(edits.wait, 10),
 					username: edits.username,
 					password: edits.password
 				};
@@ -152,6 +153,7 @@ module.exports = function(app, callback) {
 					var pa11yOptions = {
 						standard: task.standard,
 						timeout: (task.timeout || 30000),
+						wait: (task.wait || 0),
 						ignore: task.ignore,
 						phantom: {},
 						log: {
@@ -198,6 +200,7 @@ module.exports = function(app, callback) {
 					name: task.name,
 					url: task.url,
 					timeout: (task.timeout ? parseInt(task.timeout, 10) : 30000),
+					wait: (task.wait ? parseInt(task.wait, 10) : 0),
 					standard: task.standard,
 					ignore: task.ignore || []
 				};
