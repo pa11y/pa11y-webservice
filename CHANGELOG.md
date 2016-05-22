@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 1.10.0 (2016-05-22)
+
+  * Add the ability to configure task wait times
+
 ## 1.9.0 (2016-05-18)
 
   * Allow configuration by environment variables
