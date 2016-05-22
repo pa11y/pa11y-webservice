@@ -4,9 +4,10 @@ pa11y-webservice
 
 pa11y-webservice provides scheduled accessibility reports for multiple URLs. It runs [pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
 
-**Current Version:** *1.9.0*  
-**Build Status:** [![Build Status][travis-img]][travis]  
-**Node Version Support:** *0.12*
+[![NPM version][shield-npm]][info-npm]
+[![Node.js version support][shield-node]][info-node]
+[![Build status][shield-build]][info-build]
+[![GPL-3.0 licensed][shield-license]][info-license]
 
 ---
 
@@ -122,8 +123,8 @@ NODE_ENV=test make fixtures
 License
 -------
 
-[Copyright 2013 Springer Nature](LICENSE.txt).  
-pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
+pa11y-webservice is licensed under the [GNU General Public License 3.0][info-license].  
+Copyright &copy; 2013–2016, Springer Nature
 
 
 
@@ -141,3 +142,12 @@ pa11y-webservice is licensed under the [GNU General Public License 3.0][gpl].
 [travis-img]: https://travis-ci.org/springernature/pa11y-webservice.png?branch=master
 [wiki-web-service]: https://github.com/springernature/pa11y-webservice/wiki/Web-Service-Endpoints
 [wiki-resources]: https://github.com/springernature/pa11y-webservice/wiki/Resource-Types
+
+[info-license]: LICENSE
+[info-node]: package.json
+[info-npm]: https://www.npmjs.com/package/pa11y
+[info-build]: https://travis-ci.org/springernature/pa11y-webservice
+[shield-license]: https://img.shields.io/badge/license-GPL%203.0-blue.svg
+[shield-node]: https://img.shields.io/badge/node.js%20support-0.12-brightgreen.svg
+[shield-npm]: https://img.shields.io/npm/v/pa11y-webservice.svg
+[shield-build]: https://img.shields.io/travis/springernature/pa11y-webservice/master.svg
