@@ -16,10 +16,10 @@
 
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/springernature/pa11y-webservice.git"
+		"url": "https://github.com/pa11y/pa11y-webservice.git"
 	},
-	"homepage": "https://github.com/springernature/pa11y-webservice",
-	"bugs": "https://github.com/springernature/pa11y-webservice/issues",
+	"homepage": "https://github.com/pa11y/pa11y-webservice",
+	"bugs": "https://github.com/pa11y/pa11y-webservice/issues",
 
 	"dependencies": {
 		"async": "~1.4",
