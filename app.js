@@ -25,10 +25,15 @@ module.exports = initApp;
 function initApp(config, callback) {
 
 	var app = module.exports = {
-		server: new Hapi.Server(config.host, config.port, {}),
+		server: new Hapi.Server(),
 		database: null,
 		model: {}
 	};
+
+	app.server.connection({
+		host: config.host,
+		port: config.port
+	});
 
 	async.series([
 
@@ -62,8 +67,8 @@ function initApp(config, callback) {
 
 		function(next) {
 			if (!config.dbOnly) {
-				app.server.addRoutes(require('./route/tasks')(app));
-				app.server.addRoutes(require('./route/task')(app));
+				require('./route/tasks')(app);
+				require('./route/task')(app);
 				app.server.start(next);
 			} else {
 				next();
