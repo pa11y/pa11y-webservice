@@ -3,7 +3,7 @@
 	"version": "1.10.0",
 
 	"engines": {
-		"node": ">=0.12"
+		"node": ">=0.10"
 	},
 
 	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",

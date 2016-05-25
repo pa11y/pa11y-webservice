@@ -9,10 +9,6 @@ matrix:
     - node_js: '5'
     - node_js: '6'
 
-  # Allow Node.js 0.10 to fail – it's unsupported
-  allow_failures:
-    - node_js: '0.10'
-
 # Build only master (and pull-requests)
 branches:
   only:
