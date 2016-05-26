@@ -3,7 +3,7 @@
 	"version": "1.10.0",
 
 	"engines": {
-		"node": ">=0.12"
+		"node": ">=0.10"
 	},
 
 	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",
@@ -22,13 +22,13 @@
 	"bugs": "https://github.com/pa11y/pa11y-webservice/issues",
 
 	"dependencies": {
-		"async": "~1.4",
+		"async": "~1.5",
 		"chalk": "~1.1",
-		"cron": "~1.0",
-		"freeport": "~1.0",
-		"hapi": "~1.9",
-		"mongodb": "~2.0",
-		"pa11y": "~3.6",
+		"cron": "~1.1",
+		"hapi": "~9.3",
+		"joi": "~6.10",
+		"mongodb": "~2.1",
+		"pa11y": "~3.7",
 		"underscore": "~1.8"
 	},
 	"devDependencies": {
@@ -36,7 +36,7 @@
 		"jshint": "^2",
 		"mocha": "^2",
 		"proclaim": "^3",
-		"request": "~2.61"
+		"request": "^2"
 	},
 
 	"main": "./app.js",

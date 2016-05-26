@@ -16,113 +16,111 @@
 'use strict';
 
 var _ = require('underscore');
-var Hapi = require('hapi');
+var Joi = require('joi');
 
 // Routes relating to all tasks
 module.exports = function(app) {
 	var model = app.model;
-	return [
+	var server = app.server;
 
-		// Get all tasks
-		{
-			method: 'GET',
-			path: '/tasks',
-			handler: function(req) {
-				model.task.getAll(function(err, tasks) {
-					if (err || !tasks) {
-						return req.reply().code(500);
-					}
-					if (req.query.lastres) {
-						model.result.getAll({}, function(err, results) {
-							if (err || !results) {
-								return req.reply().code(500);
+	// Get all tasks
+	server.route({
+		method: 'GET',
+		path: '/tasks',
+		handler: function(req, reply) {
+			model.task.getAll(function(err, tasks) {
+				if (err || !tasks) {
+					return reply().code(500);
+				}
+				if (req.query.lastres) {
+					model.result.getAll({}, function(err, results) {
+						if (err || !results) {
+							return reply().code(500);
+						}
+						var resultsByTask = _.groupBy(results, 'task');
+						tasks = tasks.map(function(task) {
+							if (resultsByTask[task.id] && resultsByTask[task.id].length) {
+								task.last_result = resultsByTask[task.id][0];
+							} else {
+								task.last_result = null;
 							}
-							var resultsByTask = _.groupBy(results, 'task');
-							tasks = tasks.map(function(task) {
-								if (resultsByTask[task.id] && resultsByTask[task.id].length) {
-									task.last_result = resultsByTask[task.id][0];
-								} else {
-									task.last_result = null;
-								}
-								return task;
-							});
-							req.reply(tasks).code(200);
+							return task;
 						});
-					} else {
-						req.reply(tasks).code(200);
-					}
-				});
-			},
-			config: {
-				validate: {
-					query: {
-						lastres: Hapi.types.Boolean()
-					},
-					payload: false
+						reply(tasks).code(200);
+					});
+				} else {
+					reply(tasks).code(200);
 				}
-			}
+			});
 		},
+		config: {
+			validate: {
+				query: {
+					lastres: Joi.boolean()
+				},
+				payload: false
+			}
+		}
+	});
 
-		// Create a task
-		{
-			method: 'POST',
-			path: '/tasks',
-			handler: function(req) {
-				model.task.create(req.payload, function(err, task) {
-					if (err || !task) {
-						return req.reply().code(500);
-					}
-					req
-						.reply(task)
-						.header('Location', 'http://' + req.info.host + '/tasks/' + task.id)
-						.code(201);
-				});
-			},
-			config: {
-				validate: {
-					query: {},
-					payload: {
-						name: Hapi.types.String().required(),
-						timeout: Hapi.types.Number().integer(),
-						wait: Hapi.types.Number().integer(),
-						url: Hapi.types.String().required(),
-						username: Hapi.types.String().allow(''),
-						password: Hapi.types.String().allow(''),
-						standard: Hapi.types.String().required().valid([
-							'Section508',
-							'WCAG2A',
-							'WCAG2AA',
-							'WCAG2AAA'
-						]),
-						ignore: Hapi.types.Array()
-					}
+	// Create a task
+	server.route({
+		method: 'POST',
+		path: '/tasks',
+		handler: function(req, reply) {
+			model.task.create(req.payload, function(err, task) {
+				if (err || !task) {
+					return reply().code(500);
 				}
-			}
+				reply(task)
+					.header('Location', 'http://' + req.info.host + '/tasks/' + task.id)
+					.code(201);
+			});
 		},
-
-		// Get results for all tasks
-		{
-			method: 'GET',
-			path: '/tasks/results',
-			handler: function(req) {
-				model.result.getAll(req.query, function(err, results) {
-					if (err || !results) {
-						return req.reply().code(500);
-					}
-					req.reply(results).code(200);
-				});
-			},
-			config: {
-				validate: {
-					query: {
-						from: Hapi.types.String().date(),
-						to: Hapi.types.String().date(),
-						full: Hapi.types.Boolean()
-					},
-					payload: false
+		config: {
+			validate: {
+				query: {},
+				payload: {
+					name: Joi.string().required(),
+					timeout: Joi.number().integer(),
+					wait: Joi.number().integer(),
+					url: Joi.string().required(),
+					username: Joi.string().allow(''),
+					password: Joi.string().allow(''),
+					standard: Joi.string().required().valid([
+						'Section508',
+						'WCAG2A',
+						'WCAG2AA',
+						'WCAG2AAA'
+					]),
+					ignore: Joi.array()
 				}
 			}
 		}
+	});
 
-	];
+	// Get results for all tasks
+	server.route({
+		method: 'GET',
+		path: '/tasks/results',
+		handler: function(req, reply) {
+			model.result.getAll(req.query, function(err, results) {
+				if (err || !results) {
+					return reply().code(500);
+				}
+				reply(results).code(200);
+			});
+		},
+		config: {
+			validate: {
+				query: {
+					from: Joi.string().isoDate(),
+					to: Joi.string().isoDate(),
+					full: Joi.boolean()
+				},
+				payload: false
+			}
+		}
+	});
+
 };
