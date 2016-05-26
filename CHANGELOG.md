@@ -1,6 +1,20 @@
 
 # Changelog
 
+## 1.11.0 (2016-05-26)
+
+  * Update Node.js version support to 0.10–6.0
+  * Update dependencies
+    * async: ~1.4 to ~1.5
+    * cron: ~1.0 to ~1.1
+    * freeport: removed
+    * hapi: ~1.9 to ~9.3
+    * joi: added at ~6.10
+    * mongodb: ~2.0 to ~2.1
+    * pa11y: ~3.6 to ~3.7
+    * request: ~2.61 to ^2
+  * Update references/links to the new pa11y organisation
+
 ## 1.10.0 (2016-05-22)
 
   * Add the ability to configure task wait times
