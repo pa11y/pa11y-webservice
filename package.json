@@ -6,7 +6,7 @@
 		"node": ">=0.10"
 	},
 
-	"description": "pa11y-webservice provides scheduled accessibility reports for multiple URLs",
+	"description": "Pa11y Webservice provides scheduled accessibility reports for multiple URLs",
 	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
 
 	"author": "Nature Publishing Group",
@@ -16,10 +16,10 @@
 
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pa11y/pa11y-webservice.git"
+		"url": "https://github.com/pa11y/webservice.git"
 	},
-	"homepage": "https://github.com/pa11y/pa11y-webservice",
-	"bugs": "https://github.com/pa11y/pa11y-webservice/issues",
+	"homepage": "https://github.com/pa11y/webservice",
+	"bugs": "https://github.com/pa11y/webservice/issues",
 
 	"dependencies": {
 		"async": "~1.5",

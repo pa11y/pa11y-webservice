@@ -13,7 +13,7 @@
     * mongodb: ~2.0 to ~2.1
     * pa11y: ~3.6 to ~3.7
     * request: ~2.61 to ^2
-  * Update references/links to the new pa11y organisation
+  * Update references/links to the new Pa11y organisation
 
 ## 1.10.0 (2016-05-22)
 

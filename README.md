@@ -1,8 +1,8 @@
 
-pa11y-webservice
+Pa11y Webservice
 ================
 
-pa11y-webservice provides scheduled accessibility reports for multiple URLs. It runs [pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
+Pa11y Webservice provides scheduled accessibility reports for multiple URLs. It runs [Pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
 
 [![NPM version][shield-npm]][info-npm]
 [![Node.js version support][shield-node]][info-node]
@@ -11,7 +11,7 @@ pa11y-webservice provides scheduled accessibility reports for multiple URLs. It 
 
 ---
 
-✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to pa11y-dashboard and pa11y-webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
+✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to Pa11y Dashboard and Pa11y Webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
 
 ---
 
@@ -19,7 +19,7 @@ pa11y-webservice provides scheduled accessibility reports for multiple URLs. It 
 Setup
 -----
 
-pa11y-webservice requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [pa11y documentation][pa11y-docs] for more information on these dependencies. pa11y-webservice also requires [MongoDB][mongo] to be installed and running.
+Pa11y Webservice requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [Pa11y documentation][pa11y-docs] for more information on these dependencies. Pa11y Webservice also requires [MongoDB][mongo] to be installed and running.
 
 You'll then need to clone this repo locally and install dependencies with `npm install`. Now we need to add some configuration before we can run the application. We can do this in two ways:
 
@@ -57,22 +57,22 @@ See [development instructions](#development) for more information about running 
 Documentation
 -------------
 
-The web-service which pa11y-webservice exposes is documented in the wiki:
+The webservice which Pa11y Webservice exposes is documented in the wiki:
 
-- [Web-Service endpoints][wiki-web-service]
+- [Webservice endpoints][wiki-web-service]
 - [Resource types][wiki-resources]
 
 
 Client Libraries
 ----------------
 
-- Node.js client library: [pa11y-webservice-client-node][pa11y-webservice-client-node]
+- [Pa11y Webservice Node.js Client][pa11y-webservice-client-node]
 
 
 Configurations
 --------------
 
-The boot configurations for pa11y-webservice are as follows. Look at the sample JSON files in the repo for example usage.
+The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
 ### database
 *(string)* The mongodb [connection string][mongo-connection-string] for your database. Set via a config file or the `DATABASE` environment variable.
@@ -90,7 +90,7 @@ The boot configurations for pa11y-webservice are as follows. Look at the sample 
 Development
 -----------
 
-To develop pa11y-webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup).
+To develop Pa11y Webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup).
 
 You'll need to start the application in test mode with:
 
@@ -112,7 +112,7 @@ Code with lint errors or failing tests will not be accepted, please use the buil
 Fixtures
 --------
 
-For demoing pa11y-webservice, you can insert some example tasks and results by running one of the following commands (depending on your environment):
+For demoing Pa11y Webservice, you can insert some example tasks and results by running one of the following commands (depending on your environment):
 
 ```sh
 NODE_ENV=development make fixtures
@@ -123,7 +123,7 @@ NODE_ENV=test make fixtures
 License
 -------
 
-pa11y-webservice is licensed under the [GNU General Public License 3.0][info-license].  
+Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
 Copyright &copy; 2013–2016, Springer Nature
 
 
@@ -135,19 +135,19 @@ Copyright &copy; 2013–2016, Springer Nature
 [node]: http://nodejs.org/
 [pa11y]: https://github.com/pa11y/pa11y
 [pa11y-docs]: https://github.com/pa11y/pa11y#installing
-[pa11y-webservice-client-node]: https://github.com/pa11y/pa11y-webservice-client-node
+[pa11y-webservice-client-node]: https://github.com/pa11y/webservice-client-node
 [phantom]: http://phantomjs.org/
 [sidekick-proposal]: https://github.com/pa11y/sidekick/blob/master/PROPOSAL.md
-[travis]: https://travis-ci.org/pa11y/pa11y-webservice
-[travis-img]: https://travis-ci.org/pa11y/pa11y-webservice.png?branch=master
-[wiki-web-service]: https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints
-[wiki-resources]: https://github.com/pa11y/pa11y-webservice/wiki/Resource-Types
+[travis]: https://travis-ci.org/pa11y/webservice
+[travis-img]: https://travis-ci.org/pa11y/webservice.png?branch=master
+[wiki-web-service]: https://github.com/pa11y/webservice/wiki/Web-Service-Endpoints
+[wiki-resources]: https://github.com/pa11y/webservice/wiki/Resource-Types
 
 [info-license]: LICENSE
 [info-node]: package.json
 [info-npm]: https://www.npmjs.com/package/pa11y-webservice
-[info-build]: https://travis-ci.org/pa11y/pa11y-webservice
+[info-build]: https://travis-ci.org/pa11y/webservice
 [shield-license]: https://img.shields.io/badge/license-GPL%203.0-blue.svg
 [shield-node]: https://img.shields.io/badge/node.js%20support-0.10–6-brightgreen.svg
 [shield-npm]: https://img.shields.io/npm/v/pa11y-webservice.svg
-[shield-build]: https://img.shields.io/travis/pa11y/pa11y-webservice/master.svg
+[shield-build]: https://img.shields.io/travis/pa11y/webservice/master.svg
