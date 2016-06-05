@@ -19,7 +19,7 @@ Pa11y Webservice provides scheduled accessibility reports for multiple URLs. It 
 Setup
 -----
 
-Pa11y Webservice requires [Node.js][node] 0.10+ and [PhantomJS][phantom]. See the [Pa11y documentation][pa11y-docs] for more information on these dependencies. Pa11y Webservice also requires [MongoDB][mongo] to be installed and running.
+Pa11y Webservice requires [Node.js][node] 4+ and [PhantomJS][phantom]. See the [Pa11y documentation][pa11y-docs] for more information on these dependencies. Pa11y Webservice also requires [MongoDB][mongo] to be installed and running.
 
 You'll then need to clone this repo locally and install dependencies with `npm install`. Now we need to add some configuration before we can run the application. We can do this in two ways:
 
@@ -148,6 +148,6 @@ Copyright &copy; 2013–2016, Springer Nature
 [info-npm]: https://www.npmjs.com/package/pa11y-webservice
 [info-build]: https://travis-ci.org/pa11y/webservice
 [shield-license]: https://img.shields.io/badge/license-GPL%203.0-blue.svg
-[shield-node]: https://img.shields.io/badge/node.js%20support-0.10–6-brightgreen.svg
+[shield-node]: https://img.shields.io/badge/node.js%20support-4–6-brightgreen.svg
 [shield-npm]: https://img.shields.io/npm/v/pa11y-webservice.svg
 [shield-build]: https://img.shields.io/travis/pa11y/webservice/master.svg
