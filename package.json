@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/pa11y/webservice",
 	"bugs": "https://github.com/pa11y/webservice/issues",
+	"license": "GPL-3",
 
 	"dependencies": {
 		"async": "~1.5",
