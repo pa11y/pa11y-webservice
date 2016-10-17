@@ -105,7 +105,9 @@ module.exports = function(app) {
 					ignore: Joi.array(),
 					comment: Joi.string(),
 					username: Joi.string().allow(''),
-					password: Joi.string().allow('')
+					password: Joi.string().allow(''),
+					hideElements: Joi.string().allow(''),
+					headers: Joi.string().allow('')
 				}
 			}
 		}
