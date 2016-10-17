@@ -1,6 +1,6 @@
 {
 	"name": "pa11y-webservice",
-	"version": "1.11.1",
+	"version": "2.0.1",
 
 	"engines": {
 		"node": ">=4"
@@ -20,21 +20,22 @@
 	},
 	"homepage": "https://github.com/pa11y/webservice",
 	"bugs": "https://github.com/pa11y/webservice/issues",
+	"license": "GPL-3.0",
 
 	"dependencies": {
 		"async": "~1.5",
 		"chalk": "~1.1",
 		"cron": "~1.1",
-		"hapi": "~9.3",
+		"hapi": "~12.1",
 		"joi": "~6.10",
 		"mongodb": "~2.1",
-		"pa11y": "~3.7",
+		"pa11y": "~4.0",
 		"underscore": "~1.8"
 	},
 	"devDependencies": {
 		"jscs": "^2",
 		"jshint": "^2",
-		"mocha": "^2",
+		"mocha": "^3",
 		"proclaim": "^3",
 		"request": "^2"
 	},

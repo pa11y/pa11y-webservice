@@ -1,6 +1,23 @@
 
 # Changelog
 
+## 2.0.1 (2016-08-19)
+
+  * Add license field to package.json
+  * Upgrade mocha to version 3
+  * Upgrade hapi from ~9.3 to ~12.1. Fixes:
+    * [https://nodesecurity.io/advisories/45](https://nodesecurity.io/advisories/45)
+    * [https://nodesecurity.io/advisories/63](https://nodesecurity.io/advisories/63)
+    * [https://nodesecurity.io/advisories/65](https://nodesecurity.io/advisories/65)
+    * [https://nodesecurity.io/advisories/121](https://nodesecurity.io/advisories/121)
+
+## 2.0.0 (2016-06-05)
+
+  * Drop Node.js 0.10–0.12 support
+  * Update dependencies
+    * pa11y: ~3.7 to ~4.0
+  * See the [migration guide](https://github.com/pa11y/webservice/blob/master/MIGRATION.md#migrating-from-10-to-20) for details
+
 ## 1.11.1 (2016-06-05)
 
   * Update references/links after a repo rename

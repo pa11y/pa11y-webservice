@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-/*jshint maxcomplexity:7*/
+/*jshint maxcomplexity:10*/
 
 'use strict';
 
@@ -171,6 +171,18 @@ module.exports = function(app, callback) {
 							}
 						};
 					}
+					if (task.headers) {
+						if (pa11yOptions.page) {
+							pa11yOptions.page.headers = task.headers;
+						} else {
+							pa11yOptions.page = {
+								headers: task.headers
+							};
+						}
+					}
+					if (task.hideElements) {
+						pa11yOptions.hideElements = task.hideElements;
+					}
 
 					async.waterfall([
 
@@ -213,6 +225,12 @@ module.exports = function(app, callback) {
 				}
 				if (task.password) {
 					output.password = task.password;
+				}
+				if (task.hideElements) {
+					output.hideElements = task.hideElements;
+				}
+				if (task.headers) {
+					output.headers = task.headers;
 				}
 				return output;
 			}

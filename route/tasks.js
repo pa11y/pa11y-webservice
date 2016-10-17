@@ -93,7 +93,9 @@ module.exports = function(app) {
 						'WCAG2AA',
 						'WCAG2AAA'
 					]),
-					ignore: Joi.array()
+					ignore: Joi.array(),
+					hideElements: Joi.string().allow(''),
+					headers: Joi.string().allow('')
 				}
 			}
 		}
