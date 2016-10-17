@@ -205,6 +205,102 @@ describe('POST /tasks', function() {
 
 	});
 
+	describe('with valid JSON and hideElements', function() {
+		var newTask;
+
+		beforeEach(function(done) {
+			newTask = {
+				name: 'NPG Home',
+				url: 'nature.com',
+				timeout: '30000',
+				wait: 1000,
+				standard: 'WCAG2AA',
+				hideElements: '.text-gray-light,.full-width'
+			};
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: newTask
+			};
+			this.navigate(req, done);
+		});
+
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
+				assert.isDefined(task);
+				done(err);
+			});
+		});
+
+		it('should send a 201 status', function() {
+			assert.strictEqual(this.last.status, 201);
+		});
+
+		it('should send a location header pointing to the new task', function() {
+			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			assert.strictEqual(this.last.response.headers.location, taskUrl);
+		});
+
+		it('should output a JSON representation of the new task', function() {
+			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
+			assert.strictEqual(this.last.body.url, newTask.url);
+			assert.strictEqual(this.last.body.standard, newTask.standard);
+			assert.deepEqual(this.last.body.wait, newTask.wait);
+			assert.deepEqual(this.last.body.hideElements, newTask.hideElements);
+			assert.deepEqual(this.last.body.ignore, []);
+		});
+
+	});
+
+	describe('with valid JSON and headers object', function() {
+		var newTask;
+
+		beforeEach(function(done) {
+			newTask = {
+				name: 'NPG Home',
+				url: 'nature.com',
+				timeout: '30000',
+				wait: 1000,
+				standard: 'WCAG2AA',
+				headers: '{"Cookie": "next-flags=ads:off; secure=true"}'
+			};
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: newTask
+			};
+			this.navigate(req, done);
+		});
+
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
+				assert.isDefined(task);
+				done(err);
+			});
+		});
+
+		it('should send a 201 status', function() {
+			assert.strictEqual(this.last.status, 201);
+		});
+
+		it('should send a location header pointing to the new task', function() {
+			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			assert.strictEqual(this.last.response.headers.location, taskUrl);
+		});
+
+		it('should output a JSON representation of the new task', function() {
+			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
+			assert.strictEqual(this.last.body.url, newTask.url);
+			assert.strictEqual(this.last.body.standard, newTask.standard);
+			assert.deepEqual(this.last.body.wait, newTask.wait);
+			assert.deepEqual(this.last.body.headers, newTask.headers);
+			assert.deepEqual(this.last.body.ignore, []);
+		});
+
+	});
+
 	describe('with invalid name', function() {
 
 		beforeEach(function(done) {
