@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.1.0 (2016-10-19)
+
+  * Allow setting of headers and hidden elements
+
 ## 2.0.1 (2016-08-19)
 
   * Add license field to package.json
