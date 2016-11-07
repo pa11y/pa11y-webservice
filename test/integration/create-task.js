@@ -78,7 +78,8 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				username: 'user',
 				password: 'access',
-				ignore: ['foo', 'bar']
+				ignore: ['foo', 'bar'],
+				hideElements: 'foo'
 			};
 			var req = {
 				method: 'POST',
@@ -112,6 +113,7 @@ describe('POST /tasks', function() {
 			assert.strictEqual(this.last.body.password, newTask.password);
 			assert.strictEqual(this.last.body.standard, newTask.standard);
 			assert.deepEqual(this.last.body.ignore, newTask.ignore || []);
+			assert.deepEqual(this.last.body.hideElements, newTask.hideElements);
 		});
 
 	});

@@ -37,6 +37,7 @@ describe('PATCH /tasks/{id}', function() {
 					headers: {
 						foo: 'bar'
 					},
+					hideElements: 'foo',
 					comment: 'Just changing some stuff, you know'
 				};
 				var req = {
@@ -85,6 +86,13 @@ describe('PATCH /tasks/{id}', function() {
 			it('should update the task\'s headers in the database', function(done) {
 				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
 					assert.deepEqual(task.headers, taskEdits.headers);
+					done();
+				});
+			});
+
+			it('should update the task\'s hidden elements in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.deepEqual(task.hideElements, taskEdits.hideElements);
 					done();
 				});
 			});

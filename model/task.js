@@ -104,6 +104,9 @@ module.exports = function(app, callback) {
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
 				}
+				if (edits.hideElements) {
+					taskEdits.hideElements = edits.hideElements;
+				}
 				if (edits.headers) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
