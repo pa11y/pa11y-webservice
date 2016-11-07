@@ -95,7 +95,10 @@ module.exports = function(app) {
 					]),
 					ignore: Joi.array(),
 					hideElements: Joi.string().allow(''),
-					headers: Joi.string().allow('')
+					headers: [
+						Joi.string().allow(''),
+						Joi.object().pattern(/.*/, Joi.string().allow(''))
+					]
 				}
 			}
 		}
