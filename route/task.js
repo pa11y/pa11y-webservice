@@ -107,7 +107,10 @@ module.exports = function(app) {
 					username: Joi.string().allow(''),
 					password: Joi.string().allow(''),
 					hideElements: Joi.string().allow(''),
-					headers: Joi.string().allow('')
+					headers: [
+						Joi.string().allow(''),
+						Joi.object().pattern(/.*/, Joi.string().allow(''))
+					]
 				}
 			}
 		}

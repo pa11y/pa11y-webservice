@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-/*jshint maxcomplexity:10*/
+/*jshint maxcomplexity:12*/
 
 'use strict';
 
@@ -41,6 +41,7 @@ module.exports = function(app, callback) {
 
 			// Create a task
 			create: function(newTask, callback) {
+				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 				collection.insert(newTask, function(err, result) {
 					if (err) {
 						return callback(err);
@@ -102,6 +103,9 @@ module.exports = function(app, callback) {
 				};
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
+				}
+				if (edits.headers) {
+					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
 				collection.update({_id: id}, {$set: taskEdits}, function(err, updateCount) {
 					if (err || updateCount < 1) {
@@ -171,7 +175,7 @@ module.exports = function(app, callback) {
 							}
 						};
 					}
-					if (task.headers) {
+					if (task.headers && typeof task.headers === 'object') {
 						if (pa11yOptions.page) {
 							pa11yOptions.page.headers = task.headers;
 						} else {
@@ -230,9 +234,27 @@ module.exports = function(app, callback) {
 					output.hideElements = task.hideElements;
 				}
 				if (task.headers) {
-					output.headers = task.headers;
+					if (typeof task.headers === 'string') {
+						try {
+							output.headers = JSON.parse(task.headers);
+						} catch (error) {}
+					} else {
+						output.headers = task.headers;
+					}
 				}
 				return output;
+			},
+
+			sanitizeHeaderInput: function(headers) {
+				if (typeof headers === 'string') {
+					try {
+						return JSON.parse(headers);
+					} catch (error) {
+						console.error('Header input contains invalid JSON:', headers);
+						return undefined;
+					}
+				}
+				return headers;
 			}
 
 		};

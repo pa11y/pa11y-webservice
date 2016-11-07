@@ -34,6 +34,9 @@ describe('PATCH /tasks/{id}', function() {
 					username: 'user',
 					password: 'access',
 					ignore: ['bar', 'baz'],
+					headers: {
+						foo: 'bar'
+					},
 					comment: 'Just changing some stuff, you know'
 				};
 				var req = {
@@ -79,6 +82,13 @@ describe('PATCH /tasks/{id}', function() {
 				});
 			});
 
+			it('should update the task\'s headers in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.deepEqual(task.headers, taskEdits.headers);
+					done();
+				});
+			});
+
 			it('should add an annotation for the edit to the task', function(done) {
 				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
 					assert.isArray(task.annotations);
@@ -92,6 +102,33 @@ describe('PATCH /tasks/{id}', function() {
 
 			it('should send a 200 status', function() {
 				assert.strictEqual(this.last.status, 200);
+			});
+
+		});
+
+		describe('with headers set as a string', function() {
+			var taskEdits;
+
+			beforeEach(function(done) {
+				taskEdits = {
+					name: 'New Name',
+					headers: '{"foo":"bar"}'
+				};
+				var req = {
+					method: 'PATCH',
+					endpoint: 'tasks/abc000000000000000000001',
+					body: taskEdits
+				};
+				this.navigate(req, done);
+			});
+
+			it('should update the task\'s headers in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.deepEqual(task.headers, {
+						foo: 'bar'
+					});
+					done();
+				});
 			});
 
 		});
