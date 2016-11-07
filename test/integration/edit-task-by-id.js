@@ -112,7 +112,7 @@ describe('PATCH /tasks/{id}', function() {
 			beforeEach(function(done) {
 				taskEdits = {
 					name: 'New Name',
-					headers: '{"foo":"bar"}',
+					headers: '{"foo":"bar"}'
 				};
 				var req = {
 					method: 'PATCH',

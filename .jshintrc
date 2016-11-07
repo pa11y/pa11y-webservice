@@ -13,7 +13,7 @@
 	},
 	"latedef": "nofunc",
 	"maxcomplexity": 6,
-	"maxdepth": 2,
+	"maxdepth": 4,
 	"maxparams": 4,
 	"noarg": true,
 	"node": true,
