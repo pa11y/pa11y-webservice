@@ -250,6 +250,7 @@ module.exports = function(app, callback) {
 					try {
 						return JSON.parse(headers);
 					} catch (error) {
+						console.error('Header input contains invalid JSON:', headers);
 						return undefined;
 					}
 				}
