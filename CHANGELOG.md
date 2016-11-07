@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.1.2 (2016-11-07)
+
+  * Fix the task hideElements option
+
 ## 2.1.1 (2016-11-07)
 
   * Fix the task header option
