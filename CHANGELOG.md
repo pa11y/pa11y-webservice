@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 2.2.0 (2016-11-21)
+
+  * Update dependencies
+    * pa11y: ~4.0 to ~4.1
+
 ## 2.1.2 (2016-11-07)
 
   * Fix the task hideElements option
