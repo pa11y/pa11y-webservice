@@ -43,6 +43,6 @@
 	"main": "./app.js",
 	"scripts": {
 		"start": "node index.js",
-		"test": "make ci"
+		"test": "snyk test && make ci"
 	}
 }
