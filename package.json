@@ -1,48 +1,47 @@
 {
-	"name": "pa11y-webservice",
-	"version": "2.2.0",
-
-	"engines": {
-		"node": ">=4"
-	},
-
-	"description": "Pa11y Webservice provides scheduled accessibility reports for multiple URLs",
-	"keywords": [ "accessibility", "analysis", "report", "web-service" ],
-
-	"author": "Nature Publishing Group",
-	"contributors": [
-		"Rowan Manning (http://rowanmanning.com/)"
-	],
-
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pa11y/webservice.git"
-	},
-	"homepage": "https://github.com/pa11y/webservice",
-	"bugs": "https://github.com/pa11y/webservice/issues",
-	"license": "GPL-3.0",
-
-	"dependencies": {
-		"async": "~1.5",
-		"chalk": "~1.1",
-		"cron": "~1.1",
-		"hapi": "~12.1",
-		"joi": "~6.10",
-		"mongodb": "~2.1",
-		"pa11y": "~4.1",
-		"underscore": "~1.8"
-	},
-	"devDependencies": {
-		"jscs": "^2",
-		"jshint": "^2",
-		"mocha": "^3",
-		"proclaim": "^3",
-		"request": "^2"
-	},
-
-	"main": "./app.js",
-	"scripts": {
-		"start": "node index.js",
-		"test": "make ci"
-	}
+  "name": "pa11y-webservice",
+  "version": "2.2.0",
+  "engines": {
+    "node": ">=4"
+  },
+  "description": "Pa11y Webservice provides scheduled accessibility reports for multiple URLs",
+  "keywords": [
+    "accessibility",
+    "analysis",
+    "report",
+    "web-service"
+  ],
+  "author": "Nature Publishing Group",
+  "contributors": [
+    "Rowan Manning (http://rowanmanning.com/)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pa11y/webservice.git"
+  },
+  "homepage": "https://github.com/pa11y/webservice",
+  "bugs": "https://github.com/pa11y/webservice/issues",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "async": "~1.5",
+    "chalk": "~1.1",
+    "cron": "~1.1",
+    "hapi": "~12.1",
+    "joi": "~6.10",
+    "mongodb": "~2.1",
+    "pa11y": "~4.1",
+    "underscore": "~1.8"
+  },
+  "devDependencies": {
+    "jscs": "^2",
+    "jshint": "^2",
+    "mocha": "^3",
+    "proclaim": "^3",
+    "request": "^2"
+  },
+  "main": "./app.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "make ci"
+  }
 }
