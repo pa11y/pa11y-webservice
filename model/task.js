@@ -193,7 +193,10 @@ module.exports = function(app, callback) {
 						pa11yOptions.hideElements = task.hideElements;
 					}
 					if (task.beforeScript) {
-						pa11yOptions.beforeScript = task.beforeScript;
+						pa11yOptions.beforeScript = 
+							function(page, options, next) {
+								eval(task.beforeScript);
+							};
 					}
 
 					async.waterfall([
