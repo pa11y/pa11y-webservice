@@ -348,6 +348,50 @@ describe('POST /tasks', function() {
 
 	});
 
+	describe('with valid JSON and beforeScript', function() {
+		var newTask;
+
+		beforeEach(function(done) {
+			newTask = {
+				name: 'NPG Home',
+				url: 'nature.com',
+				timeout: '30000',
+				standard: 'WCAG2AA',
+				beforeScript: 'var beforeScriptText="beforeScript is Running"; function(){console.log(beforeScriptText);}'
+			};
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: newTask
+			};
+			this.navigate(req, done);
+		});
+
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
+				assert.isDefined(task);
+				done(err);
+			});
+		});
+
+		it('should send a 201 status', function() {
+			assert.strictEqual(this.last.status, 201);
+		});
+
+		it('should send a location header pointing to the new task', function() {
+			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			assert.strictEqual(this.last.response.headers.location, taskUrl);
+		});
+
+		it('should output a JSON representation of the new task', function() {
+			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
+			assert.strictEqual(this.last.body.url, newTask.url);
+			assert.strictEqual(this.last.body.standard, newTask.standard);
+			assert.deepEqual(this.last.body.ignore, newTask.ignore || []);
+		});
+	});
+
 	describe('with invalid name', function() {
 
 		beforeEach(function(done) {

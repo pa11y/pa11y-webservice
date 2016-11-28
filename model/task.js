@@ -98,6 +98,7 @@ module.exports = function(app, callback) {
 					name: edits.name,
 					timeout: parseInt(edits.timeout, 10),
 					wait: parseInt(edits.wait, 10),
+					beforeScript: edits.beforeScript,
 					username: edits.username,
 					password: edits.password
 				};
@@ -162,6 +163,7 @@ module.exports = function(app, callback) {
 						standard: task.standard,
 						timeout: (task.timeout || 30000),
 						wait: (task.wait || 0),
+						beforeScript: (task.beforeScript || ''),
 						ignore: task.ignore,
 						phantom: {},
 						log: {
@@ -189,6 +191,9 @@ module.exports = function(app, callback) {
 					}
 					if (task.hideElements) {
 						pa11yOptions.hideElements = task.hideElements;
+					}
+					if (task.beforeScript) {
+						pa11yOptions.beforeScript = task.beforeScript;
 					}
 
 					async.waterfall([
@@ -244,6 +249,9 @@ module.exports = function(app, callback) {
 					} else {
 						output.headers = task.headers;
 					}
+				}
+				if (task.beforeScript) {
+					output.beforeScript = task.beforeScript;
 				}
 				return output;
 			},

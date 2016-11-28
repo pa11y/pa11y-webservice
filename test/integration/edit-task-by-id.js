@@ -62,6 +62,13 @@ describe('PATCH /tasks/{id}', function() {
 				});
 			});
 
+			it('should update the task\'s beforeScript in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.strictEqual(task.beforeScript, taskEdits.beforeScript);
+					done();
+				});
+			});
+
 			it('should update the task\'s username in the database', function(done) {
 				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
 					assert.strictEqual(task.username, taskEdits.username);
