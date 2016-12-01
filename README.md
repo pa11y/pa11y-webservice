@@ -87,10 +87,12 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 *(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
 
-Development
------------
+Contributing
+------------
 
-To develop Pa11y Webservice, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup).
+There are many ways to contribute to Pa11y Webservice, we cover these in the [contributing guide](CONTRIBUTING.md) for this repo.
+
+If you're ready to contribute some code, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup).
 
 You'll need to start the application in test mode with:
 
