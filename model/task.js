@@ -196,6 +196,7 @@ module.exports = function(app, callback) {
 						pa11yOptions.beforeScript = 
 							function(page, options, next) {
 								eval(task.beforeScript);
+								next();
 							};
 					}
 

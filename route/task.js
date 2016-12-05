@@ -102,6 +102,7 @@ module.exports = function(app) {
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
+					beforeScript: Joi.string().allow(''),
 					ignore: Joi.array(),
 					comment: Joi.string(),
 					username: Joi.string().allow(''),

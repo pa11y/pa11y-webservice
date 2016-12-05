@@ -84,6 +84,7 @@ module.exports = function(app) {
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
+					beforeScript: Joi.string().allow(''),
 					url: Joi.string().required(),
 					username: Joi.string().allow(''),
 					password: Joi.string().allow(''),

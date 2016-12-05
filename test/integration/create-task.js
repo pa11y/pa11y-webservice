@@ -357,7 +357,7 @@ describe('POST /tasks', function() {
 				url: 'nature.com',
 				timeout: '30000',
 				standard: 'WCAG2AA',
-				beforeScript: 'var beforeScriptText="beforeScript is Running"; function(){console.log(beforeScriptText);}'
+				beforeScript: 'var beforeScriptText="beforeScript is Running"; console.log(beforeScriptText);'
 			};
 			var req = {
 				method: 'POST',
