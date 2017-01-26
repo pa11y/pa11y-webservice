@@ -38,6 +38,9 @@ describe('PATCH /tasks/{id}', function() {
 						foo: 'bar'
 					},
 					hideElements: 'foo',
+					actions: [
+						'click element body'
+					],
 					comment: 'Just changing some stuff, you know'
 				};
 				var req = {
@@ -93,6 +96,13 @@ describe('PATCH /tasks/{id}', function() {
 			it('should update the task\'s hidden elements in the database', function(done) {
 				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
 					assert.deepEqual(task.hideElements, taskEdits.hideElements);
+					done();
+				});
+			});
+
+			it('should update the task\'s actions in the database', function(done) {
+				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+					assert.deepEqual(task.actions, taskEdits.actions);
 					done();
 				});
 			});
@@ -190,6 +200,65 @@ describe('PATCH /tasks/{id}', function() {
 				assert.strictEqual(this.last.status, 400);
 			});
 
+		});
+
+	});
+
+	describe('with a non-array actions', function() {
+		var taskEdits;
+
+		beforeEach(function(done) {
+			taskEdits = {
+				actions: 'wat?'
+			};
+			var req = {
+				method: 'PATCH',
+				endpoint: 'tasks/abc000000000000000000001',
+				body: taskEdits
+			};
+			this.navigate(req, done);
+		});
+
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
+		});
+
+		it('should not update the task in the database', function(done) {
+			this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				assert.notDeepEqual(task.actions, taskEdits.actions);
+				done();
+			});
+		});
+
+	});
+
+	describe('with a invalid actions', function() {
+		var taskEdits;
+
+		beforeEach(function(done) {
+			taskEdits = {
+				actions: [
+					'foo',
+					'bar'
+				]
+			};
+			var req = {
+				method: 'PATCH',
+				endpoint: 'tasks/abc000000000000000000001',
+				body: taskEdits
+			};
+			this.navigate(req, done);
+		});
+
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
+		});
+
+		it('should not update the task in the database', function(done) {
+			this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				assert.notDeepEqual(task.actions, taskEdits.actions);
+				done();
+			});
 		});
 
 	});

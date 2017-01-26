@@ -17,6 +17,7 @@
 
 var _ = require('underscore');
 var Joi = require('joi');
+var validateAction = require('pa11y').validateAction;
 
 // Routes relating to all tasks
 module.exports = function(app) {
@@ -68,6 +69,16 @@ module.exports = function(app) {
 		method: 'POST',
 		path: '/tasks',
 		handler: function(req, reply) {
+			if (req.payload.actions && req.payload.actions.length) {
+				for (var action of req.payload.actions) {
+					if (!validateAction(action)) {
+						return reply({
+							statusCode: 400,
+							message: 'Invalid action: "' + action + '"'
+						}).code(400);
+					}
+				}
+			}
 			model.task.create(req.payload, function(err, task) {
 				if (err || !task) {
 					return reply().code(500);
@@ -94,6 +105,7 @@ module.exports = function(app) {
 						'WCAG2AAA'
 					]),
 					ignore: Joi.array(),
+					actions: Joi.array().items(Joi.string()),
 					hideElements: Joi.string().allow(''),
 					headers: [
 						Joi.string().allow(''),
