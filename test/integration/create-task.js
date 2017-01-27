@@ -256,6 +256,57 @@ describe('POST /tasks', function() {
 
 	});
 
+	describe('with valid JSON and actions', function() {
+		var newTask;
+
+		beforeEach(function(done) {
+			newTask = {
+				name: 'NPG Home',
+				url: 'nature.com',
+				timeout: '30000',
+				wait: 1000,
+				standard: 'WCAG2AA',
+				actions: [
+					'click element div',
+					'click element body'
+				]
+			};
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: newTask
+			};
+			this.navigate(req, done);
+		});
+
+		it('should add the new task to the database', function(done) {
+			this.app.model.task.collection.findOne(newTask, function(err, task) {
+				assert.isDefined(task);
+				done(err);
+			});
+		});
+
+		it('should send a 201 status', function() {
+			assert.strictEqual(this.last.status, 201);
+		});
+
+		it('should send a location header pointing to the new task', function() {
+			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			assert.strictEqual(this.last.response.headers.location, taskUrl);
+		});
+
+		it('should output a JSON representation of the new task', function() {
+			assert.isDefined(this.last.body.id);
+			assert.strictEqual(this.last.body.name, newTask.name);
+			assert.strictEqual(this.last.body.url, newTask.url);
+			assert.strictEqual(this.last.body.standard, newTask.standard);
+			assert.deepEqual(this.last.body.wait, newTask.wait);
+			assert.deepEqual(this.last.body.actions, newTask.actions);
+			assert.deepEqual(this.last.body.ignore, []);
+		});
+
+	});
+
 	describe('with valid JSON and headers object', function() {
 		var newTask;
 
@@ -398,6 +449,53 @@ describe('POST /tasks', function() {
 				body: {
 					url: 'nature.com',
 					standard: 'foo'
+				}
+			};
+			this.navigate(req, done);
+		});
+
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
+		});
+
+	});
+
+	describe('with a non-array actions', function() {
+
+		beforeEach(function(done) {
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: {
+					name: 'NPG Home',
+					url: 'nature.com',
+					standard: 'WCAG2AA',
+					actions: 'wat?'
+				}
+			};
+			this.navigate(req, done);
+		});
+
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
+		});
+
+	});
+
+	describe('with invalid actions', function() {
+
+		beforeEach(function(done) {
+			var req = {
+				method: 'POST',
+				endpoint: 'tasks',
+				body: {
+					name: 'NPG Home',
+					url: 'nature.com',
+					standard: 'WCAG2AA',
+					actions: [
+						'foo',
+						'bar'
+					]
 				}
 			};
 			this.navigate(req, done);

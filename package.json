@@ -29,7 +29,7 @@
     "hapi": "~12.1",
     "joi": "~6.10",
     "mongodb": "~2.1",
-    "pa11y": "~4.1",
+    "pa11y": "^4.5.0",
     "underscore": "~1.8"
   },
   "devDependencies": {

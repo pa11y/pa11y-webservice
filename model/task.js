@@ -98,6 +98,7 @@ module.exports = function(app, callback) {
 					name: edits.name,
 					timeout: parseInt(edits.timeout, 10),
 					wait: parseInt(edits.wait, 10),
+					actions: edits.actions,
 					username: edits.username,
 					password: edits.password
 				};
@@ -163,6 +164,7 @@ module.exports = function(app, callback) {
 						timeout: (task.timeout || 30000),
 						wait: (task.wait || 0),
 						ignore: task.ignore,
+						actions: task.actions || [],
 						phantom: {},
 						log: {
 							debug: pa11yLog,
@@ -222,7 +224,8 @@ module.exports = function(app, callback) {
 					timeout: (task.timeout ? parseInt(task.timeout, 10) : 30000),
 					wait: (task.wait ? parseInt(task.wait, 10) : 0),
 					standard: task.standard,
-					ignore: task.ignore || []
+					ignore: task.ignore || [],
+					actions: task.actions || []
 				};
 				if (task.annotations) {
 					output.annotations = task.annotations;

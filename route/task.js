@@ -17,6 +17,7 @@
 
 var chalk = require('chalk');
 var Joi = require('joi');
+var validateAction = require('pa11y').validateAction;
 
 // Routes relating to individual tasks
 module.exports = function(app) {
@@ -82,6 +83,16 @@ module.exports = function(app) {
 						error: 'Not Found'
 					}).code(404);
 				}
+				if (req.payload.actions && req.payload.actions.length) {
+					for (var action of req.payload.actions) {
+						if (!validateAction(action)) {
+							return reply({
+								statusCode: 400,
+								message: 'Invalid action: "' + action + '"'
+							}).code(400);
+						}
+					}
+				}
 				model.task.editById(task.id, req.payload, function(err, updateCount) {
 					if (err || updateCount < 1) {
 						return reply().code(500);
@@ -103,6 +114,7 @@ module.exports = function(app) {
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
 					ignore: Joi.array(),
+					actions: Joi.array().items(Joi.string()),
 					comment: Joi.string(),
 					username: Joi.string().allow(''),
 					password: Joi.string().allow(''),
