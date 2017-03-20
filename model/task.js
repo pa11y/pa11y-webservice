@@ -12,8 +12,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-/*jshint maxcomplexity:12*/
 
+/* eslint id-length: 'off' */
+/* eslint no-catch-shadow: 'off' */
+/* eslint no-underscore-dangle: 'off' */
 'use strict';
 
 var async = require('async');
@@ -27,7 +29,7 @@ function pa11yLog(message) {
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', function(err, collection) {
+	app.db.collection('tasks', function(error, collection) {
 		collection.ensureIndex({
 			name: 1,
 			url: 1,
@@ -42,9 +44,9 @@ module.exports = function(app, callback) {
 			// Create a task
 			create: function(newTask, callback) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
-				collection.insert(newTask, function(err, result) {
-					if (err) {
-						return callback(err);
+				collection.insert(newTask, function(error, result) {
+					if (error) {
+						return callback(error);
 					}
 					callback(null, model.prepareForOutput(result.ops[0]));
 				});
@@ -59,9 +61,9 @@ module.exports = function(app, callback) {
 						standard: 1,
 						url: 1
 					})
-					.toArray(function(err, tasks) {
-						if (err) {
-							return callback(err);
+					.toArray(function(error, tasks) {
+						if (error) {
+							return callback(error);
 						}
 						callback(null, tasks.map(model.prepareForOutput));
 					});
@@ -71,12 +73,12 @@ module.exports = function(app, callback) {
 			getById: function(id, callback) {
 				try {
 					id = new ObjectID(id);
-				} catch (err) {
+				} catch (error) {
 					return callback(null, null);
 				}
-				collection.findOne({_id: id}, function(err, task) {
-					if (err) {
-						return callback(err);
+				collection.findOne({_id: id}, function(error, task) {
+					if (error) {
+						return callback(error);
 					}
 					if (task) {
 						task = model.prepareForOutput(task);
@@ -90,7 +92,7 @@ module.exports = function(app, callback) {
 				var idString = id;
 				try {
 					id = new ObjectID(id);
-				} catch (err) {
+				} catch (error) {
 					return callback(null, 0);
 				}
 				var now = Date.now();
@@ -111,32 +113,32 @@ module.exports = function(app, callback) {
 				if (edits.headers) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
-				collection.update({_id: id}, {$set: taskEdits}, function(err, updateCount) {
-					if (err || updateCount < 1) {
-						return callback(err, 0);
+				collection.update({_id: id}, {$set: taskEdits}, function(error, updateCount) {
+					if (error || updateCount < 1) {
+						return callback(error, 0);
 					}
 					var annotation = {
 						type: 'edit',
 						date: now,
 						comment: edits.comment || 'Edited task'
 					};
-					model.addAnnotationById(idString, annotation, function(err) {
-						callback(err, updateCount);
+					model.addAnnotationById(idString, annotation, function(error) {
+						callback(error, updateCount);
 					});
 				});
 			},
 
 			// Add an annotation to a task
 			addAnnotationById: function(id, annotation, callback) {
-				model.getById(id, function(err, task) {
-					if (err || !task) {
-						return callback(err, 0);
+				model.getById(id, function(error, task) {
+					if (error || !task) {
+						return callback(error, 0);
 					}
 					id = new ObjectID(id);
-					if (!Array.isArray(task.annotations)) {
-						collection.update({_id: id}, {$set: {annotations: [annotation]}}, callback);
-					} else {
+					if (Array.isArray(task.annotations)) {
 						collection.update({_id: id}, {$push: {annotations: annotation}}, callback);
+					} else {
+						collection.update({_id: id}, {$set: {annotations: [annotation]}}, callback);
 					}
 				});
 			},
@@ -145,7 +147,7 @@ module.exports = function(app, callback) {
 			deleteById: function(id, callback) {
 				try {
 					id = new ObjectID(id);
-				} catch (err) {
+				} catch (error) {
 					return callback(null);
 				}
 				collection.deleteOne({_id: id}, function(error, result) {
@@ -155,9 +157,9 @@ module.exports = function(app, callback) {
 
 			// Run a task by ID
 			runById: function(id, callback) {
-				model.getById(id, function(err, task) {
-					if (err) {
-						return callback(err);
+				model.getById(id, function(error, task) {
+					if (error) {
+						return callback(error);
 					}
 					var pa11yOptions = {
 						standard: task.standard,
@@ -200,7 +202,7 @@ module.exports = function(app, callback) {
 								var test = pa11y(pa11yOptions);
 								test.run(task.url, next);
 							} catch (error) {
-								next(error);
+								return next(error);
 							}
 						},
 
@@ -264,6 +266,6 @@ module.exports = function(app, callback) {
 			}
 
 		};
-		callback(err, model);
+		callback(error, model);
 	});
 };

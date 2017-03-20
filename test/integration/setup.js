@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global afterEach, before */
-/* jshint maxlen: 200 */
 'use strict';
 
 var app = require('../../app');
@@ -25,17 +22,17 @@ var request = require('request');
 
 // Run before all tests
 before(function(done) {
-	var self = this;
+	var that = this;
 
-	self.baseUrl = 'http://localhost:' + config.port + '/';
-	self.app = null;
-	self.last = {};
-	self.navigate = createNavigator(self.baseUrl, self.last);
+	that.baseUrl = 'http://localhost:' + config.port + '/';
+	that.app = null;
+	that.last = {};
+	that.navigate = createNavigator(that.baseUrl, that.last);
 
-	assertTestAppIsRunning(self.baseUrl, function() {
+	assertTestAppIsRunning(that.baseUrl, function() {
 		config.dbOnly = true;
-		app(config, function(err, app) {
-			self.app = app;
+		app(config, function(error, app) {
+			that.app = app;
 			loadFixtures('test', config, done);
 		});
 	});
@@ -49,8 +46,8 @@ afterEach(function(done) {
 
 // Check that the test application is running, and exit if not
 function assertTestAppIsRunning(baseUrl, done) {
-	request(baseUrl, function(err) {
-		if (err) {
+	request(baseUrl, function(error) {
+		if (error) {
 			console.error('Error: Test app not started; run with `NODE_ENV=test node index.js`');
 			process.exit();
 		}

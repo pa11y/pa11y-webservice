@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint camelcase: 'off' */
 'use strict';
 
 var chalk = require('chalk');
@@ -28,9 +29,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{id}',
-		handler: function(req, reply) {
-			model.task.getById(req.params.id, function(err, task) {
-				if (err) {
+		handler: function(request, reply) {
+			model.task.getById(request.params.id, function(error, task) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!task) {
@@ -39,12 +40,12 @@ module.exports = function(app) {
 						error: 'Not Found'
 					}).code(404);
 				}
-				if (req.query.lastres) {
+				if (request.query.lastres) {
 					model.result.getByTaskId(task.id, {
 						limit: 1,
 						full: true
-					}, function(err, results) {
-						if (err || !results) {
+					}, function(error, results) {
+						if (error || !results) {
 							return reply().code(500);
 						}
 						task.last_result = null;
@@ -72,9 +73,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'PATCH',
 		path: '/tasks/{id}',
-		handler: function(req, reply) {
-			model.task.getById(req.params.id, function(err, task) {
-				if (err) {
+		handler: function(request, reply) {
+			model.task.getById(request.params.id, function(error, task) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!task) {
@@ -83,8 +84,8 @@ module.exports = function(app) {
 						error: 'Not Found'
 					}).code(404);
 				}
-				if (req.payload.actions && req.payload.actions.length) {
-					for (var action of req.payload.actions) {
+				if (request.payload.actions && request.payload.actions.length) {
+					for (var action of request.payload.actions) {
 						if (!validateAction(action)) {
 							return reply({
 								statusCode: 400,
@@ -93,12 +94,12 @@ module.exports = function(app) {
 						}
 					}
 				}
-				model.task.editById(task.id, req.payload, function(err, updateCount) {
-					if (err || updateCount < 1) {
+				model.task.editById(task.id, request.payload, function(error, updateCount) {
+					if (error || updateCount < 1) {
 						return reply().code(500);
 					}
-					model.task.getById(task.id, function(err, task) {
-						if (err) {
+					model.task.getById(task.id, function(error, task) {
+						if (error) {
 							return reply().code(500);
 						}
 						reply(task).code(200);
@@ -132,9 +133,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'DELETE',
 		path: '/tasks/{id}',
-		handler: function(req, reply) {
-			model.task.deleteById(req.params.id, function(err, task) {
-				if (err) {
+		handler: function(request, reply) {
+			model.task.deleteById(request.params.id, function(error, task) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!task) {
@@ -143,8 +144,8 @@ module.exports = function(app) {
 						error: 'Not Found'
 					}).code(404);
 				}
-				model.result.deleteByTaskId(req.params.id, function(err) {
-					if (err) {
+				model.result.deleteByTaskId(request.params.id, function(error) {
+					if (error) {
 						return reply().code(500);
 					}
 					reply().code(204);
@@ -163,9 +164,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'POST',
 		path: '/tasks/{id}/run',
-		handler: function(req, reply) {
-			model.task.getById(req.params.id, function(err, task) {
-				if (err) {
+		handler: function(request, reply) {
+			model.task.getById(request.params.id, function(error, task) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!task) {
@@ -178,12 +179,12 @@ module.exports = function(app) {
 					console.log('');
 					console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
 					console.log('Starting task %s', task.id);
-					model.task.runById(req.params.id, function(err) {
-						if (err) {
+					model.task.runById(request.params.id, function(error) {
+						if (error) {
 							console.log(
 								chalk.red('Failed to finish task %s: %s'),
 								task.id,
-								err.message
+								error.message
 							);
 						} else {
 							console.log(chalk.green('Finished task %s'), task.id);
@@ -208,9 +209,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{id}/results',
-		handler: function(req, reply) {
-			model.task.getById(req.params.id, function(err, task) {
-				if (err) {
+		handler: function(request, reply) {
+			model.task.getById(request.params.id, function(error, task) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!task) {
@@ -219,8 +220,8 @@ module.exports = function(app) {
 						error: 'Not Found'
 					}).code(404);
 				}
-				model.result.getByTaskId(req.params.id, req.query, function(err, results) {
-					if (err || !results) {
+				model.result.getByTaskId(request.params.id, request.query, function(error, results) {
+					if (error || !results) {
 						return reply().code(500);
 					}
 					reply(results).code(200);
@@ -243,11 +244,11 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{tid}/results/{rid}',
-		handler: function(req, reply) {
-			var rid = req.params.rid;
-			var tid = req.params.tid;
-			model.result.getByIdAndTaskId(rid, tid, req.query, function(err, result) {
-				if (err) {
+		handler: function(request, reply) {
+			var rid = request.params.rid;
+			var tid = request.params.tid;
+			model.result.getByIdAndTaskId(rid, tid, request.query, function(error, result) {
+				if (error) {
 					return reply().code(500);
 				}
 				if (!result) {

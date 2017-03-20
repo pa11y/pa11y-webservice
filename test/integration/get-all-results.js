@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200, maxstatements: 20 */
 'use strict';
 
 var assert = require('proclaim');
@@ -24,11 +21,11 @@ describe('GET /tasks/results', function() {
 	describe('with no query', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/results'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 200 status', function() {
@@ -37,7 +34,7 @@ describe('GET /tasks/results', function() {
 
 		it('should output a JSON representation of all results (in the last 30 days) sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll({}, function(err, results) {
+			this.app.model.result.getAll({}, function(error, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 4);
 				assert.strictEqual(body[0].id, 'def000000000000000000001');
@@ -59,7 +56,7 @@ describe('GET /tasks/results', function() {
 		var query;
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {
@@ -67,8 +64,8 @@ describe('GET /tasks/results', function() {
 					to: '2013-01-07'
 				}
 			};
-			query = req.query;
-			this.navigate(req, done);
+			query = request.query;
+			this.navigate(request, done);
 		});
 
 		it('should send a 200 status', function() {
@@ -77,7 +74,7 @@ describe('GET /tasks/results', function() {
 
 		it('should output a JSON representation of all expected results sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll(query, function(err, results) {
+			this.app.model.result.getAll(query, function(error, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
 				assert.strictEqual(body[0].id, 'def000000000000000000007');
@@ -95,15 +92,15 @@ describe('GET /tasks/results', function() {
 		var query;
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {
 					full: true
 				}
 			};
-			query = req.query;
-			this.navigate(req, done);
+			query = request.query;
+			this.navigate(request, done);
 		});
 
 		it('should send a 200 status', function() {
@@ -112,7 +109,7 @@ describe('GET /tasks/results', function() {
 
 		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', function(done) {
 			var body = this.last.body;
-			this.app.model.result.getAll(query, function(err, results) {
+			this.app.model.result.getAll(query, function(error, results) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 4);
 				assert.strictEqual(body[0].id, 'def000000000000000000001');
@@ -133,14 +130,14 @@ describe('GET /tasks/results', function() {
 	describe('with invalid query', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {
 					foo: 'bar'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {

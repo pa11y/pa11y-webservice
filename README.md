@@ -103,8 +103,6 @@ You'll now be able to run the following commands:
 ```sh
 make verify              # Verify all of the code (ESLint)
 make test                # Run all tests
-make test-unit           # Run the unit tests
-make test-unit-coverage  # Run the unit tests with coverage
 make test-integration    # Run the integration tests
 ```
 

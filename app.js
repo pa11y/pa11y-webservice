@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
 'use strict';
 
 var async = require('async');
@@ -38,23 +37,24 @@ function initApp(config, callback) {
 	async.series([
 
 		function(next) {
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(err, db) {
+			/* eslint camelcase: 'off' */
+			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
 				app.db = db;
-				next(err);
+				next(error);
 			});
 		},
 
 		function(next) {
-			require('./model/result')(app, function(err, model) {
+			require('./model/result')(app, function(error, model) {
 				app.model.result = model;
-				next(err);
+				next(error);
 			});
 		},
 
 		function(next) {
-			require('./model/task')(app, function(err, model) {
+			require('./model/task')(app, function(error, model) {
 				app.model.task = model;
-				next(err);
+				next(error);
 			});
 		},
 
@@ -66,17 +66,16 @@ function initApp(config, callback) {
 		},
 
 		function(next) {
-			if (!config.dbOnly) {
-				require('./route/tasks')(app);
-				require('./route/task')(app);
-				app.server.start(next);
-			} else {
-				next();
+			if (config.dbOnly) {
+				return next();
 			}
+			require('./route/tasks')(app);
+			require('./route/task')(app);
+			app.server.start(next);
 		}
 
-	], function(err) {
-		callback(err, app);
+	], function(error) {
+		callback(error, app);
 	});
 
 }

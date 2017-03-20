@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200 */
 'use strict';
 
 var assert = require('proclaim');
@@ -33,18 +30,18 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				ignore: ['foo', 'bar']
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -81,18 +78,18 @@ describe('POST /tasks', function() {
 				ignore: ['foo', 'bar'],
 				hideElements: 'foo'
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -128,18 +125,18 @@ describe('POST /tasks', function() {
 				timeout: '30000',
 				standard: 'WCAG2AA'
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -173,18 +170,18 @@ describe('POST /tasks', function() {
 				wait: 1000,
 				standard: 'WCAG2AA'
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -220,18 +217,18 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				hideElements: '.text-gray-light,.full-width'
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -271,18 +268,18 @@ describe('POST /tasks', function() {
 					'click element body'
 				]
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(err, task) {
+			this.app.model.task.collection.findOne(newTask, function(error, task) {
 				assert.isDefined(task);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -319,21 +316,21 @@ describe('POST /tasks', function() {
 					foo: 'bar'
 				}
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
 			this.app.model.task.collection.findOne({
 				_id: new ObjectID(this.last.response.body.id)
-			}, function(err, task) {
+			}, function(error, task) {
 				assert.isDefined(task);
 				assert.deepEqual(task.headers, newTask.headers);
-				done(err);
+				done(error);
 			});
 		});
 
@@ -362,23 +359,23 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				headers: '{"foo":"bar"}'
 			};
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should add the new task to the database', function(done) {
 			this.app.model.task.collection.findOne({
 				_id: new ObjectID(this.last.response.body.id)
-			}, function(err, task) {
+			}, function(error, task) {
 				assert.isDefined(task);
 				assert.deepEqual(task.headers, {
 					foo: 'bar'
 				});
-				done(err);
+				done(error);
 			});
 		});
 
@@ -402,7 +399,7 @@ describe('POST /tasks', function() {
 	describe('with invalid name', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -411,7 +408,7 @@ describe('POST /tasks', function() {
 					standard: 'WCAG2AA'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -423,7 +420,7 @@ describe('POST /tasks', function() {
 	describe('with invalid URL', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -431,7 +428,7 @@ describe('POST /tasks', function() {
 					standard: 'WCAG2AA'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -443,7 +440,7 @@ describe('POST /tasks', function() {
 	describe('with invalid standard', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -451,7 +448,7 @@ describe('POST /tasks', function() {
 					standard: 'foo'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -463,7 +460,7 @@ describe('POST /tasks', function() {
 	describe('with a non-array actions', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -473,7 +470,7 @@ describe('POST /tasks', function() {
 					actions: 'wat?'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -485,7 +482,7 @@ describe('POST /tasks', function() {
 	describe('with invalid actions', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -498,7 +495,7 @@ describe('POST /tasks', function() {
 					]
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {

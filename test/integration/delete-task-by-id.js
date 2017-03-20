@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200 */
 'use strict';
 
 var assert = require('proclaim');
@@ -24,22 +21,22 @@ describe('DELETE /tasks/{id}', function() {
 	describe('with valid and existing task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000001'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should remove the task from the database', function(done) {
-			this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+			this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 				assert.isNull(task);
 				done();
 			});
 		});
 
 		it('should remove all of the task\'s results from the database', function(done) {
-			this.app.model.result.getByTaskId('abc000000000000000000001', {}, function(err, results) {
+			this.app.model.result.getByTaskId('abc000000000000000000001', {}, function(error, results) {
 				assert.strictEqual(results.length, 0);
 				done();
 			});
@@ -54,11 +51,11 @@ describe('DELETE /tasks/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000000'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {
@@ -70,11 +67,11 @@ describe('DELETE /tasks/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'DELETE',
 				endpoint: 'tasks/-abc-'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {

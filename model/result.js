@@ -13,13 +13,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint id-length: 'off' */
+/* eslint no-catch-shadow: 'off' */
+/* eslint no-underscore-dangle: 'off' */
 'use strict';
 
 var ObjectID = require('mongodb').ObjectID;
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', function(err, collection) {
+	app.db.collection('results', function(error, collection) {
 		collection.ensureIndex({
 			date: 1
 		}, {
@@ -37,9 +40,9 @@ module.exports = function(app, callback) {
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				collection.insert(newResult, function(err, result) {
-					if (err) {
-						return callback(err);
+				collection.insert(newResult, function(error, result) {
+					if (error) {
+						return callback(error);
 					}
 					callback(null, model.prepareForOutput(result.ops[0]));
 				});
@@ -52,7 +55,7 @@ module.exports = function(app, callback) {
 				return {
 					from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
 					to: (new Date(opts.to || now)).getTime(),
-					full: !!opts.full,
+					full: Boolean(opts.full),
 					task: opts.task
 				};
 			},
@@ -73,9 +76,9 @@ module.exports = function(app, callback) {
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
-					.toArray(function(err, results) {
-						if (err) {
-							return callback(err);
+					.toArray(function(error, results) {
+						if (error) {
+							return callback(error);
 						}
 						callback(null, results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput));
 					});
@@ -92,12 +95,12 @@ module.exports = function(app, callback) {
 				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
-				} catch (err) {
+				} catch (error) {
 					return callback(null, null);
 				}
-				collection.findOne({_id: id}, function(err, result) {
-					if (err) {
-						return callback(err);
+				collection.findOne({_id: id}, function(error, result) {
+					if (error) {
+						return callback(error);
 					}
 					if (result) {
 						result = prepare(result);
@@ -116,7 +119,7 @@ module.exports = function(app, callback) {
 			deleteByTaskId: function(id, callback) {
 				try {
 					id = new ObjectID(id);
-				} catch (err) {
+				} catch (error) {
 					return callback(null);
 				}
 				collection.deleteMany({task: id}, callback);
@@ -128,15 +131,15 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
-				} catch (err) {
+				} catch (error) {
 					return callback(null, null);
 				}
 				collection.findOne({
 					_id: id,
 					task: task
-				}, function(err, result) {
-					if (err) {
-						return callback(err);
+				}, function(error, result) {
+					if (error) {
+						return callback(error);
 					}
 					if (result) {
 						result = prepare(result);
@@ -181,6 +184,6 @@ module.exports = function(app, callback) {
 			}
 
 		};
-		callback(err, model);
+		callback(error, model);
 	});
 };
