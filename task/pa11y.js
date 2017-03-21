@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
 'use strict';
 
 var async = require('async');
@@ -45,9 +44,9 @@ function run(app) {
 			runPa11yOnTasks(tasks, app, next);
 		}
 
-	], function(err) {
-		if (err) {
-			console.error(chalk.red('Failed to run tasks: %s'), err.message);
+	], function(error) {
+		if (error) {
+			console.error(chalk.red('Failed to run tasks: %s'), error.message);
 			console.log('');
 			process.exit(1);
 		}
@@ -59,9 +58,9 @@ function runPa11yOnTasks(tasks, app, done) {
 
 	var queue = async.queue(function(task, nextInQueue) {
 		console.log('Starting task %s', task.id);
-		app.model.task.runById(task.id, function(err) {
-			if (err) {
-				console.log(chalk.red('Failed to finish task %s: %s'), task.id, err.message);
+		app.model.task.runById(task.id, function(error) {
+			if (error) {
+				console.log(chalk.red('Failed to finish task %s: %s'), task.id, error.message);
 			} else {
 				console.log(chalk.green('Finished task %s'), task.id);
 			}

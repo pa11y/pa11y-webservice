@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200, maxstatements: 20 */
 'use strict';
 
 var assert = require('proclaim');
@@ -28,11 +25,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with no query', function() {
 
 				beforeEach(function(done) {
-					var req = {
+					var request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001'
 					};
-					this.navigate(req, done);
+					this.navigate(request, done);
 				});
 
 				it('should send a 200 status', function() {
@@ -41,7 +38,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 
 				it('should output a JSON representation of the requested result', function(done) {
 					var body = this.last.body;
-					this.app.model.result.getById('def000000000000000000001', false, function(err, result) {
+					this.app.model.result.getById('def000000000000000000001', false, function(error, result) {
 						assert.isObject(body);
 						assert.strictEqual(body.id, 'def000000000000000000001');
 						assert.deepEqual(body, result);
@@ -54,14 +51,14 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with full details query', function() {
 
 				beforeEach(function(done) {
-					var req = {
+					var request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
 						query: {
 							full: true
 						}
 					};
-					this.navigate(req, done);
+					this.navigate(request, done);
 				});
 
 				it('should send a 200 status', function() {
@@ -70,7 +67,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 
 				it('should output a JSON representation of the requested result with full details', function(done) {
 					var body = this.last.body;
-					this.app.model.result.getById('def000000000000000000001', true, function(err, result) {
+					this.app.model.result.getById('def000000000000000000001', true, function(error, result) {
 						assert.isObject(body);
 						assert.strictEqual(body.id, 'def000000000000000000001');
 						assert.deepEqual(body, result);
@@ -83,14 +80,14 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with invalid query', function() {
 
 				beforeEach(function(done) {
-					var req = {
+					var request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
 						query: {
 							foo: 'bar'
 						}
 					};
-					this.navigate(req, done);
+					this.navigate(request, done);
 				});
 
 				it('should send a 400 status', function() {
@@ -104,11 +101,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 		describe('with valid but non-existent result ID', function() {
 
 			beforeEach(function(done) {
-				var req = {
+				var request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000000'
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should send a 404 status', function() {
@@ -120,11 +117,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 		describe('with invalid result ID', function() {
 
 			beforeEach(function(done) {
-				var req = {
+				var request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/-def-'
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should send a 404 status', function() {
@@ -138,11 +135,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with valid and existing but non-matching task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000002/results/def000000000000000000001'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {
@@ -154,11 +151,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000/results/def000000000000000000001'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {
@@ -170,11 +167,11 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-/results/def000000000000000000001'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {

@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
 'use strict';
 
 var chalk = require('chalk');
@@ -24,15 +23,15 @@ process.on('SIGINT', function() {
 	process.exit();
 });
 
-require('./app')(config, function(err, app) {
+require('./app')(config, function(error, app) {
 	console.log('');
 	console.log(chalk.underline.cyan('Pa11y Webservice started'));
 	console.log(chalk.grey('mode: %s'), env);
 	console.log(chalk.grey('uri:  %s'), app.server.info.uri);
 
-	if (err) {
+	if (error) {
 		console.error('');
 		console.error(chalk.red('Error starting Pa11y Webservice:'));
-		console.error(err.message);
+		console.error(error.message);
 	}
 });

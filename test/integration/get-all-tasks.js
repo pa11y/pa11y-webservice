@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200, maxstatements: 20 */
 'use strict';
 
 var assert = require('proclaim');
@@ -24,11 +21,11 @@ describe('GET /tasks', function() {
 	describe('with no query', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks'
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 200 status', function() {
@@ -37,7 +34,7 @@ describe('GET /tasks', function() {
 
 		it('should output a JSON representation of all tasks sorted by URL/standard', function(done) {
 			var body = this.last.body;
-			this.app.model.task.getAll(function(err, tasks) {
+			this.app.model.task.getAll(function(error, tasks) {
 				assert.isArray(body);
 				assert.strictEqual(body.length, 3);
 				assert.deepEqual(body, tasks);
@@ -50,14 +47,14 @@ describe('GET /tasks', function() {
 	describe('with last result query', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'GET',
 				endpoint: 'tasks',
 				query: {
 					lastres: true
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 200 status', function() {

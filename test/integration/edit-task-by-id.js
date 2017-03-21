@@ -12,9 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* global beforeEach, describe, it */
-/* jshint maxlen: 200 */
 'use strict';
 
 var assert = require('proclaim');
@@ -43,72 +40,72 @@ describe('PATCH /tasks/{id}', function() {
 					],
 					comment: 'Just changing some stuff, you know'
 				};
-				var req = {
+				var request = {
 					method: 'PATCH',
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should update the task\'s name in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.strictEqual(task.name, taskEdits.name);
 					done();
 				});
 			});
 
 			it('should update the task\'s wait time in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.strictEqual(task.wait, taskEdits.wait);
 					done();
 				});
 			});
 
 			it('should update the task\'s username in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.strictEqual(task.username, taskEdits.username);
 					done();
 				});
 			});
 
 			it('should update the task\'s password in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.strictEqual(task.password, taskEdits.password);
 					done();
 				});
 			});
 
 			it('should update the task\'s ignore rules in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.deepEqual(task.ignore, taskEdits.ignore);
 					done();
 				});
 			});
 
 			it('should update the task\'s headers in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.deepEqual(task.headers, taskEdits.headers);
 					done();
 				});
 			});
 
 			it('should update the task\'s hidden elements in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.deepEqual(task.hideElements, taskEdits.hideElements);
 					done();
 				});
 			});
 
 			it('should update the task\'s actions in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.deepEqual(task.actions, taskEdits.actions);
 					done();
 				});
 			});
 
 			it('should add an annotation for the edit to the task', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.isArray(task.annotations);
 					assert.isObject(task.annotations[0]);
 					assert.strictEqual(task.annotations[0].comment, taskEdits.comment);
@@ -132,16 +129,16 @@ describe('PATCH /tasks/{id}', function() {
 					name: 'New Name',
 					headers: '{"foo":"bar"}'
 				};
-				var req = {
+				var request = {
 					method: 'PATCH',
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should update the task\'s headers in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.deepEqual(task.headers, {
 						foo: 'bar'
 					});
@@ -158,12 +155,12 @@ describe('PATCH /tasks/{id}', function() {
 				taskEdits = {
 					name: null
 				};
-				var req = {
+				var request = {
 					method: 'PATCH',
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should send a 400 status', function() {
@@ -180,16 +177,16 @@ describe('PATCH /tasks/{id}', function() {
 					name: 'New Name',
 					url: 'http://example.com/'
 				};
-				var req = {
+				var request = {
 					method: 'PATCH',
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(req, done);
+				this.navigate(request, done);
 			});
 
 			it('should not the task in the database', function(done) {
-				this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 					assert.notStrictEqual(task.name, taskEdits.name);
 					assert.notStrictEqual(task.url, taskEdits.url);
 					done();
@@ -211,12 +208,12 @@ describe('PATCH /tasks/{id}', function() {
 			taskEdits = {
 				actions: 'wat?'
 			};
-			var req = {
+			var request = {
 				method: 'PATCH',
 				endpoint: 'tasks/abc000000000000000000001',
 				body: taskEdits
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -224,7 +221,7 @@ describe('PATCH /tasks/{id}', function() {
 		});
 
 		it('should not update the task in the database', function(done) {
-			this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+			this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 				assert.notDeepEqual(task.actions, taskEdits.actions);
 				done();
 			});
@@ -242,12 +239,12 @@ describe('PATCH /tasks/{id}', function() {
 					'bar'
 				]
 			};
-			var req = {
+			var request = {
 				method: 'PATCH',
 				endpoint: 'tasks/abc000000000000000000001',
 				body: taskEdits
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 400 status', function() {
@@ -255,7 +252,7 @@ describe('PATCH /tasks/{id}', function() {
 		});
 
 		it('should not update the task in the database', function(done) {
-			this.app.model.task.getById('abc000000000000000000001', function(err, task) {
+			this.app.model.task.getById('abc000000000000000000001', function(error, task) {
 				assert.notDeepEqual(task.actions, taskEdits.actions);
 				done();
 			});
@@ -266,7 +263,7 @@ describe('PATCH /tasks/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'PATCH',
 				endpoint: 'tasks/abc000000000000000000000',
 				body: {
@@ -274,7 +271,7 @@ describe('PATCH /tasks/{id}', function() {
 					timeout: '30000'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {
@@ -286,7 +283,7 @@ describe('PATCH /tasks/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var req = {
+			var request = {
 				method: 'PATCH',
 				endpoint: 'tasks/-abc-',
 				body: {
@@ -294,7 +291,7 @@ describe('PATCH /tasks/{id}', function() {
 					timeout: '30000'
 				}
 			};
-			this.navigate(req, done);
+			this.navigate(request, done);
 		});
 
 		it('should send a 404 status', function() {

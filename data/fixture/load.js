@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
 'use strict';
 
 var app = require('../../app');
@@ -29,7 +28,10 @@ function loadFixtures(env, config, done) {
 
 	config.dbOnly = true;
 
-	app(config, function(err, app) {
+	app(config, function(error, app) {
+		if (error) {
+			done(error);
+		}
 		async.series([
 			clearDatabase.bind(null, app),
 			insertFixtures.bind(null, app, fixtures)

@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint camelcase: 'off' */
 'use strict';
 
 var _ = require('underscore');
@@ -28,14 +29,14 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks',
-		handler: function(req, reply) {
-			model.task.getAll(function(err, tasks) {
-				if (err || !tasks) {
+		handler: function(request, reply) {
+			model.task.getAll(function(error, tasks) {
+				if (error || !tasks) {
 					return reply().code(500);
 				}
-				if (req.query.lastres) {
-					model.result.getAll({}, function(err, results) {
-						if (err || !results) {
+				if (request.query.lastres) {
+					model.result.getAll({}, function(error, results) {
+						if (error || !results) {
 							return reply().code(500);
 						}
 						var resultsByTask = _.groupBy(results, 'task');
@@ -68,9 +69,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'POST',
 		path: '/tasks',
-		handler: function(req, reply) {
-			if (req.payload.actions && req.payload.actions.length) {
-				for (var action of req.payload.actions) {
+		handler: function(request, reply) {
+			if (request.payload.actions && request.payload.actions.length) {
+				for (var action of request.payload.actions) {
 					if (!validateAction(action)) {
 						return reply({
 							statusCode: 400,
@@ -79,12 +80,12 @@ module.exports = function(app) {
 					}
 				}
 			}
-			model.task.create(req.payload, function(err, task) {
-				if (err || !task) {
+			model.task.create(request.payload, function(error, task) {
+				if (error || !task) {
 					return reply().code(500);
 				}
 				reply(task)
-					.header('Location', 'http://' + req.info.host + '/tasks/' + task.id)
+					.header('Location', 'http://' + request.info.host + '/tasks/' + task.id)
 					.code(201);
 			});
 		},
@@ -120,9 +121,9 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/results',
-		handler: function(req, reply) {
-			model.result.getAll(req.query, function(err, results) {
-				if (err || !results) {
+		handler: function(request, reply) {
+			model.result.getAll(request.query, function(error, results) {
+				if (error || !results) {
 					return reply().code(500);
 				}
 				reply(results).code(200);

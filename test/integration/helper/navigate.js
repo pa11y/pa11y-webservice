@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
 'use strict';
 
 var request = require('request');
@@ -34,12 +33,12 @@ function createNavigator(baseUrl, store) {
 			body: opts.body,
 			json: true,
 			qs: opts.query
-		}, function(err, res, body) {
+		}, function(error, response, body) {
 			store.body = body;
-			store.request = res.request;
-			store.response = res;
-			store.status = res.statusCode;
-			callback(err);
+			store.request = response.request;
+			store.response = response;
+			store.status = response.statusCode;
+			callback(error);
 		});
 
 	};

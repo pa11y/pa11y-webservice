@@ -33,9 +33,9 @@
     "underscore": "~1.8"
   },
   "devDependencies": {
-    "jscs": "^2",
-    "jshint": "^2",
+    "eslint": "^3.18.0",
     "mocha": "^3",
+    "pa11y-lint-config": "^1.0.0",
     "proclaim": "^3",
     "request": "^2"
   },
