@@ -13,8 +13,6 @@ Pa11y Webservice provides scheduled accessibility reports for multiple URLs. It 
 
 ## Latest news from Pa11y
 
-💭 We'd like to find out how you use Pa11y and what you think about it. Please [fill in our survey][survey] to let us know your thoughts!
-
 ✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to Pa11y Dashboard and Pa11y Webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
 
 ---
@@ -155,7 +153,6 @@ Copyright &copy; 2013–2017, Team Pa11y
 [pa11y-webservice-client-node]: https://github.com/pa11y/webservice-client-node
 [phantom]: http://phantomjs.org/
 [sidekick-proposal]: https://github.com/pa11y/sidekick/blob/master/PROPOSAL.md
-[survey]: https://goo.gl/forms/AiMDJR2IuaqX4iD03
 [travis]: https://travis-ci.org/pa11y/webservice
 [travis-img]: https://travis-ci.org/pa11y/webservice.png?branch=master
 [wiki-web-service]: https://github.com/pa11y/webservice/wiki/Web-Service-Endpoints
