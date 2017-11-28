@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 2.3.1 (2017-11-28)
+
+  * Update tooling
+  * Update dependencies
+    * pa11y: ^4.5.0 to ^4.13.2
+
 ## 2.3.0 (2017-01-27)
 
   * Add support for Pa11y actions
