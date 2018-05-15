@@ -1,8 +1,8 @@
 {
   "name": "pa11y-webservice",
-  "version": "2.3.1",
+  "version": "3.0.0",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "description": "Pa11y Webservice provides scheduled accessibility reports for multiple URLs",
   "keywords": [
@@ -29,7 +29,7 @@
     "hapi": "~12.1",
     "joi": "~6.10",
     "mongodb": "~2.1",
-    "pa11y": "^4.13.2",
+    "pa11y": "^5.0.3",
     "underscore": "~1.8"
   },
   "devDependencies": {

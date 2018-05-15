@@ -167,18 +167,18 @@ module.exports = function(app, callback) {
 			convertPa11y2Results: function(results) {
 				var resultObject = {
 					count: {
-						total: results.length,
-						error: results.filter(function(result) {
+						total: results.issues.length,
+						error: results.issues.filter(function(result) {
 							return (result.type === 'error');
 						}).length,
-						warning: results.filter(function(result) {
+						warning: results.issues.filter(function(result) {
 							return (result.type === 'warning');
 						}).length,
-						notice: results.filter(function(result) {
+						notice: results.issues.filter(function(result) {
 							return (result.type === 'notice');
 						}).length
 					},
-					results: results
+					results: results.issues
 				};
 				return resultObject;
 			}
