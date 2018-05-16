@@ -18,7 +18,7 @@
 
 var _ = require('underscore');
 var Joi = require('joi');
-var validateAction = require('pa11y').validateAction;
+var validateAction = require('pa11y').isValidAction;
 
 // Routes relating to all tasks
 module.exports = function(app) {
