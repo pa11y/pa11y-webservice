@@ -163,8 +163,8 @@ module.exports = function(app, callback) {
 					}
 					var pa11yOptions = {
 						standard: task.standard,
-						includeWarnings: task.includeWarnings === false ? false : true,
-						includeNotices: task.includeNotices === false ? false : true,
+						includeWarnings: true,
+						includeNotices: true,
 						timeout: (task.timeout || 30000),
 						wait: (task.wait || 0),
 						ignore: task.ignore,
