@@ -40,6 +40,9 @@ function initApp(config, callback) {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
 				app.db = db;
+				if (error) {
+					console.error('Error: Unable to connect to MongoDB: ' + error.message);
+				}
 				next(error);
 			});
 		},
