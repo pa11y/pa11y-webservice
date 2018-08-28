@@ -152,7 +152,7 @@ Copyright &copy; 2013–2017, Team Pa11y
 [pa11y-docs]: https://github.com/pa11y/pa11y#installing
 [pa11y-webservice-client-node]: https://github.com/pa11y/pa11y-webservice-client-node
 [phantom]: http://phantomjs.org/
-[sidekick-proposal]: https://github.com/pa11y/sidekick/blob/master/PROPOSAL.md
+[sidekick-proposal]: https://github.com/pa11y/sidekick/blob/master/docs/PROPOSAL.md
 [travis]: https://travis-ci.org/pa11y/pa11y-webservice
 [travis-img]: https://travis-ci.org/pa11y/pa11y-webservice.png?branch=master
 [wiki-web-service]: https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints
