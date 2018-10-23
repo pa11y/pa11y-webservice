@@ -141,4 +141,66 @@ module.exports = function(app) {
 		}
 	});
 
+	// import tasks
+	server.route({
+		method: 'POST',
+		path: '/tasks/import',
+		handler: function(request, reply) {
+			var result = [];
+			var done = _.after(request.payload.length, function() {
+				reply(result)
+					.header('Location', 'http://' + request.info.host + '/tasks/')
+					.code(200);
+			});
+
+			request.payload.forEach(taskInput => {
+				if (taskInput.actions && taskInput.actions.length) {
+					for (var action of taskInput.actions) {
+						if (!validateAction(action)) {
+							result.push({
+								statusCode: 400,
+								message: 'Invalid action: "' + action + '"'
+							});
+							return done();
+						}
+					}
+				}
+				model.task.create(taskInput, function(error, task) {
+					if (error || !task) {
+						result.push(error);
+					} else {
+						result.push(task);
+					}
+					done();
+				});
+			});
+		},
+		config: {
+			validate: {
+				query: {},
+				payload: Joi.array().items(Joi.object({
+					name: Joi.string().required(),
+					timeout: Joi.number().integer(),
+					wait: Joi.number().integer(),
+					url: Joi.string().required(),
+					username: Joi.string().allow(''),
+					password: Joi.string().allow(''),
+					standard: Joi.string().required().valid([
+						'Section508',
+						'WCAG2A',
+						'WCAG2AA',
+						'WCAG2AAA'
+					]),
+					ignore: Joi.array(),
+					actions: Joi.array().items(Joi.string()),
+					hideElements: Joi.string().allow(''),
+					headers: [
+						Joi.string().allow(''),
+						Joi.object().pattern(/.*/, Joi.string().allow(''))
+					]
+				}))
+			}
+		}
+	});
+
 };
