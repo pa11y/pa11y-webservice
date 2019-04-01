@@ -31,7 +31,7 @@ module.exports = function(app) {
 		path: '/tasks',
 		handler: async function(request, reply) {
 
-			const tasks = await model.task.getAll();
+			let tasks = await model.task.getAll();
 
 			if (!tasks) {
 				return reply.response().code(500);
@@ -125,7 +125,7 @@ module.exports = function(app) {
 		method: 'GET',
 		path: '/tasks/results',
 		handler: async function(request, reply) {
-			const results = await model.result.getAll(request.query)
+			const results = await model.result.getAll(request.query);
 			return reply.response(results).code(200);
 		},
 		options: {

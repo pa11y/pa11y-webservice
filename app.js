@@ -37,7 +37,7 @@ function initApp(config, callback) {
 		function(next) {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
-				app.db = db; // v3: client.db();
+				app.db = db; // V3: client.db();
 				next(error);
 			});
 		},
@@ -72,7 +72,7 @@ function initApp(config, callback) {
 			require('./route/task')(app);
 			app.server.start(next);
 
-    	console.log(`Server running at: ${app.server.info.uri}`);
+			console.log(`Server running at: ${app.server.info.uri}`);
 		}
 
 	], function(error) {

@@ -18,10 +18,9 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-var async = require('async');
-var chalk = require('chalk');
-var ObjectID = require('mongodb').ObjectID;
-var pa11y = require('pa11y');
+const chalk = require('chalk');
+const ObjectID = require('mongodb').ObjectID;
+const pa11y = require('pa11y');
 
 function pa11yLog(message) {
 	console.log(chalk.grey('  > ' + message));
@@ -37,7 +36,7 @@ module.exports = function(app, callback) {
 		}, {
 			w: -1
 		});
-		var model = {
+		const model = {
 
 			collection: collection,
 
@@ -46,7 +45,7 @@ module.exports = function(app, callback) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
 				return collection.insert(newTask)
-					.then((result) => {
+					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					});
 			},
@@ -61,7 +60,7 @@ module.exports = function(app, callback) {
 						url: 1
 					})
 					.toArray()
-					.then((tasks) => {
+					.then(tasks => {
 						return tasks.map(model.prepareForOutput);
 					});
 			},
@@ -75,21 +74,21 @@ module.exports = function(app, callback) {
 				}
 
 				return collection.findOne({_id: id})
-					.then((task) => {
+					.then(task => {
 						return model.prepareForOutput(task);
 					});
 			},
 
 			// Edit a task by ID
 			editById: function(id, edits) {
-				var idString = id;
+				const idString = id;
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
 					return new Promise();
 				}
-				var now = Date.now();
-				var taskEdits = {
+				const now = Date.now();
+				const taskEdits = {
 					name: edits.name,
 					timeout: parseInt(edits.timeout, 10),
 					wait: parseInt(edits.wait, 10),
@@ -108,11 +107,11 @@ module.exports = function(app, callback) {
 				}
 
 				return collection.update({_id: id}, {$set: taskEdits})
-					.then((updateCount) => {
+					.then(updateCount => {
 						if (updateCount < 1) {
 							return 0;
 						}
-						var annotation = {
+						const annotation = {
 							type: 'edit',
 							date: now,
 							comment: edits.comment || 'Edited task'
@@ -128,16 +127,16 @@ module.exports = function(app, callback) {
 			// Add an annotation to a task
 			addAnnotationById: function(id, annotation) {
 				return model.getById(id)
-					.then((task) => {
+					.then(task => {
 						if (!task) {
 							return 0;
 						}
 						id = new ObjectID(id);
 						if (Array.isArray(task.annotations)) {
 							return collection.update({_id: id}, {$push: {annotations: annotation}});
-						} else {
-							return collection.update({_id: id}, {$set: {annotations: [annotation]}});
 						}
+						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
+
 					});
 			},
 
@@ -149,7 +148,7 @@ module.exports = function(app, callback) {
 					return new Promise();
 				}
 				return collection.deleteOne({_id: id})
-					.then((result) => {
+					.then(result => {
 						return result ? result.deletedCount : null;
 					});
 			},
@@ -159,10 +158,10 @@ module.exports = function(app, callback) {
 				let options;
 
 				return model.getById(id)
-					.then((task) => {
+					.then(task => {
 						options = task;
 
-						var pa11yOptions = {
+						const pa11yOptions = {
 							standard: task.standard,
 							timeout: (task.timeout || 30000),
 							wait: (task.wait || 0),
@@ -197,11 +196,11 @@ module.exports = function(app, callback) {
 							pa11yOptions.hideElements = task.hideElements;
 						}
 
-						var test = pa11y(pa11yOptions);
+						const test = pa11y(pa11yOptions);
 						return test.run(task.url);
 
 					})
-					.then((results) => {
+					.then(results => {
 						results = app.model.result.convertPa11y2Results(results);
 						results.task = new ObjectID(options.id);
 						results.ignore = options.ignore;
@@ -212,7 +211,7 @@ module.exports = function(app, callback) {
 
 			// Prepare a task for output
 			prepareForOutput: function(task) {
-				var output = {
+				const output = {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,

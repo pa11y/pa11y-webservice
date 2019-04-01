@@ -18,7 +18,7 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 
 // Result model
 module.exports = function(app, callback) {
@@ -28,7 +28,7 @@ module.exports = function(app, callback) {
 		}, {
 			w: -1
 		});
-		var model = {
+		const model = {
 
 			collection: collection,
 
@@ -41,15 +41,15 @@ module.exports = function(app, callback) {
 					newResult.task = new ObjectID(newResult.task);
 				}
 				return collection.insert(newResult)
-					.then((result) => {
-						return model.prepareForOutput(result.ops[0])
+					.then(result => {
+						return model.prepareForOutput(result.ops[0]);
 					});
 			},
 
 			// Default filter options
 			_defaultFilterOpts: function(opts) {
-				var now = Date.now();
-				var thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
+				const now = Date.now();
+				const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
 				return {
 					from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
 					to: (new Date(opts.to || now)).getTime(),
@@ -61,7 +61,7 @@ module.exports = function(app, callback) {
 			// Get results
 			_getFiltered: function(opts) {
 				opts = model._defaultFilterOpts(opts);
-				var filter = {
+				const filter = {
 					date: {
 						$lt: opts.to,
 						$gt: opts.from
@@ -76,7 +76,7 @@ module.exports = function(app, callback) {
 					.sort({date: -1})
 					.limit(opts.limit || 0)
 					.toArray()
-					.then((results) => {
+					.then(results => {
 						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 					});
 			},
@@ -89,14 +89,14 @@ module.exports = function(app, callback) {
 
 			// Get a result by ID
 			getById: function(id, full) {
-				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
+				const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
 					return new Promise();
 				}
 				return collection.findOne({_id: id})
-					.then((result) => {
+					.then(result => {
 						if (result) {
 							result = prepare(result);
 						}
@@ -122,7 +122,7 @@ module.exports = function(app, callback) {
 
 			// Get a result by ID and task ID
 			getByIdAndTaskId: function(id, task, opts) {
-				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+				const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
@@ -134,12 +134,12 @@ module.exports = function(app, callback) {
 					_id: id,
 					task: task
 				})
-				.then((result) => {
-					if (result) {
-						result = prepare(result);
-					}
-					return result;
-				});
+					.then(result => {
+						if (result) {
+							result = prepare(result);
+						}
+						return result;
+					});
 			},
 
 			// Prepare a result for output
@@ -159,7 +159,7 @@ module.exports = function(app, callback) {
 				};
 			},
 			convertPa11y2Results: function(results) {
-				var resultObject = {
+				const resultObject = {
 					count: {
 						total: results.length,
 						error: results.filter(function(result) {

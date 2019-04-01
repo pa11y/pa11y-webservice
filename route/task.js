@@ -72,7 +72,7 @@ module.exports = function(app) {
 		method: 'PATCH',
 		path: '/tasks/{id}',
 		handler: async function(request, reply) {
-		  const task = await model.task.getById(request.params.id);
+			const task = await model.task.getById(request.params.id);
 
 			if (!task) {
 				return reply.response({
@@ -165,14 +165,13 @@ module.exports = function(app) {
 				console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
 				console.log('Starting task %s', task.id);
 				const executed = await model.task.runById(request.params.id);
-				if (!executed) {
-					console.log(
-						chalk.red('Failed to finish task %s: %s'),
-						task.id,
-						error.message
-					);
-				} else {
+				if (executed) {
 					console.log(chalk.green('Finished task %s'), task.id);
+				} else {
+					console.log(
+						chalk.red('Failed to finish task %s'),
+						task.id
+					);
 				}
 				console.log(
 					chalk.grey('Finished running one-off task @ %s'),
