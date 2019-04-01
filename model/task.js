@@ -42,58 +42,51 @@ module.exports = function(app, callback) {
 			collection: collection,
 
 			// Create a task
-			create: function(newTask, callback) {
+			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
-				collection.insert(newTask, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					callback(null, model.prepareForOutput(result.ops[0]));
-				});
+
+				return collection.insert(newTask)
+					.then((result) => {
+						return model.prepareForOutput(result.ops[0]);
+					});
 			},
 
 			// Get all tasks
-			getAll: function(callback) {
-				collection
+			getAll: function() {
+				return collection
 					.find()
 					.sort({
 						name: 1,
 						standard: 1,
 						url: 1
 					})
-					.toArray(function(error, tasks) {
-						if (error) {
-							return callback(error);
-						}
-						callback(null, tasks.map(model.prepareForOutput));
+					.toArray()
+					.then((tasks) => {
+						return tasks.map(model.prepareForOutput);
 					});
 			},
 
 			// Get a task by ID
-			getById: function(id, callback) {
+			getById: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, null);
+					return new Promise();
 				}
-				collection.findOne({_id: id}, function(error, task) {
-					if (error) {
-						return callback(error);
-					}
-					if (task) {
-						task = model.prepareForOutput(task);
-					}
-					callback(null, task);
-				});
+
+				return collection.findOne({_id: id})
+					.then((task) => {
+						return model.prepareForOutput(task);
+					});
 			},
 
 			// Edit a task by ID
-			editById: function(id, edits, callback) {
+			editById: function(id, edits) {
 				var idString = id;
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, 0);
+					return new Promise();
 				}
 				var now = Date.now();
 				var taskEdits = {
@@ -113,108 +106,108 @@ module.exports = function(app, callback) {
 				if (edits.headers) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
-				collection.update({_id: id}, {$set: taskEdits}, function(error, updateCount) {
-					if (error || updateCount < 1) {
-						return callback(error, 0);
-					}
-					var annotation = {
-						type: 'edit',
-						date: now,
-						comment: edits.comment || 'Edited task'
-					};
-					model.addAnnotationById(idString, annotation, function(error) {
-						callback(error, updateCount);
+
+				return collection.update({_id: id}, {$set: taskEdits})
+					.then((updateCount) => {
+						if (updateCount < 1) {
+							return 0;
+						}
+						var annotation = {
+							type: 'edit',
+							date: now,
+							comment: edits.comment || 'Edited task'
+						};
+						return model.addAnnotationById(idString, annotation)
+							.then(() => {
+								return updateCount;
+							});
+
 					});
-				});
 			},
 
 			// Add an annotation to a task
-			addAnnotationById: function(id, annotation, callback) {
-				model.getById(id, function(error, task) {
-					if (error || !task) {
-						return callback(error, 0);
-					}
-					id = new ObjectID(id);
-					if (Array.isArray(task.annotations)) {
-						collection.update({_id: id}, {$push: {annotations: annotation}}, callback);
-					} else {
-						collection.update({_id: id}, {$set: {annotations: [annotation]}}, callback);
-					}
-				});
+			addAnnotationById: function(id, annotation) {
+				return model.getById(id)
+					.then((task) => {
+						if (!task) {
+							return 0;
+						}
+						id = new ObjectID(id);
+						if (Array.isArray(task.annotations)) {
+							return collection.update({_id: id}, {$push: {annotations: annotation}});
+						} else {
+							return collection.update({_id: id}, {$set: {annotations: [annotation]}});
+						}
+					});
 			},
 
 			// Delete a task by ID
-			deleteById: function(id, callback) {
+			deleteById: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null);
+					return new Promise();
 				}
-				collection.deleteOne({_id: id}, function(error, result) {
-					callback(error, result ? result.deletedCount : null);
-				});
+				return collection.deleteOne({_id: id})
+					.then((result) => {
+						return result ? result.deletedCount : null;
+					});
 			},
 
 			// Run a task by ID
-			runById: function(id, callback) {
-				model.getById(id, function(error, task) {
-					if (error) {
-						return callback(error);
-					}
-					var pa11yOptions = {
-						standard: task.standard,
-						timeout: (task.timeout || 30000),
-						wait: (task.wait || 0),
-						ignore: task.ignore,
-						actions: task.actions || [],
-						phantom: {},
-						log: {
-							debug: pa11yLog,
-							error: pa11yLog,
-							log: pa11yLog
-						}
-					};
-					if (task.username && task.password) {
-						pa11yOptions.page = {
-							settings: {
-								userName: task.username,
-								password: task.password
+			runById: function(id) {
+				let options;
+
+				return model.getById(id)
+					.then((task) => {
+						options = task;
+
+						var pa11yOptions = {
+							standard: task.standard,
+							timeout: (task.timeout || 30000),
+							wait: (task.wait || 0),
+							ignore: task.ignore,
+							actions: task.actions || [],
+							phantom: {},
+							log: {
+								debug: pa11yLog,
+								error: pa11yLog,
+								log: pa11yLog
 							}
 						};
-					}
-					if (task.headers && typeof task.headers === 'object') {
-						if (pa11yOptions.page) {
-							pa11yOptions.page.headers = task.headers;
-						} else {
+						if (task.username && task.password) {
 							pa11yOptions.page = {
-								headers: task.headers
+								settings: {
+									userName: task.username,
+									password: task.password
+								}
 							};
 						}
-					}
-					if (task.hideElements) {
-						pa11yOptions.hideElements = task.hideElements;
-					}
 
-					async.waterfall([
-
-						function(next) {
-							try {
-								var test = pa11y(pa11yOptions);
-								test.run(task.url, next);
-							} catch (error) {
-								return next(error);
+						if (task.headers && typeof task.headers === 'object') {
+							if (pa11yOptions.page) {
+								pa11yOptions.page.headers = task.headers;
+							} else {
+								pa11yOptions.page = {
+									headers: task.headers
+								};
 							}
-						},
-
-						function(results, next) {
-							results = app.model.result.convertPa11y2Results(results);
-							results.task = new ObjectID(task.id);
-							results.ignore = task.ignore;
-							app.model.result.create(results, next);
+						}
+						if (task.hideElements) {
+							pa11yOptions.hideElements = task.hideElements;
 						}
 
-					], callback);
-				});
+						var test = pa11y(pa11yOptions);
+						return test.run(task.url);
+
+					})
+					.then((results) => {
+						results = app.model.result.convertPa11y2Results(results);
+						results.task = new ObjectID(options.id);
+						results.ignore = options.ignore;
+						return app.model.result.create(results);
+					});
+
 			},
 
 			// Prepare a task for output

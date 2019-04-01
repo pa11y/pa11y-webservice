@@ -33,19 +33,17 @@ module.exports = function(app, callback) {
 			collection: collection,
 
 			// Create a result
-			create: function(newResult, callback) {
+			create: function(newResult) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				collection.insert(newResult, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					callback(null, model.prepareForOutput(result.ops[0]));
-				});
+				return collection.insert(newResult)
+					.then((result) => {
+						return model.prepareForOutput(result.ops[0])
+					});
 			},
 
 			// Default filter options
@@ -61,7 +59,7 @@ module.exports = function(app, callback) {
 			},
 
 			// Get results
-			_getFiltered: function(opts, callback) {
+			_getFiltered: function(opts) {
 				opts = model._defaultFilterOpts(opts);
 				var filter = {
 					date: {
@@ -72,79 +70,75 @@ module.exports = function(app, callback) {
 				if (opts.task) {
 					filter.task = new ObjectID(opts.task);
 				}
-				collection
+
+				return collection
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
-					.toArray(function(error, results) {
-						if (error) {
-							return callback(error);
-						}
-						callback(null, results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput));
+					.toArray()
+					.then((results) => {
+						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 					});
 			},
 
 			// Get results for all tasks
-			getAll: function(opts, callback) {
+			getAll: function(opts) {
 				delete opts.task;
-				model._getFiltered(opts, callback);
+				return model._getFiltered(opts);
 			},
 
 			// Get a result by ID
-			getById: function(id, full, callback) {
+			getById: function(id, full) {
 				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, null);
+					return new Promise();
 				}
-				collection.findOne({_id: id}, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					if (result) {
-						result = prepare(result);
-					}
-					callback(null, result);
-				});
+				return collection.findOne({_id: id})
+					.then((result) => {
+						if (result) {
+							result = prepare(result);
+						}
+						return result;
+					});
 			},
 
 			// Get results for a single task
-			getByTaskId: function(id, opts, callback) {
+			getByTaskId: function(id, opts) {
 				opts.task = id;
-				model._getFiltered(opts, callback);
+				return model._getFiltered(opts);
 			},
 
 			// Delete results for a single task
-			deleteByTaskId: function(id, callback) {
+			deleteByTaskId: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null);
+					return new Promise();
 				}
-				collection.deleteMany({task: id}, callback);
+				return collection.deleteMany({task: id});
 			},
 
 			// Get a result by ID and task ID
-			getByIdAndTaskId: function(id, task, opts, callback) {
+			getByIdAndTaskId: function(id, task, opts) {
 				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					return callback(null, null);
+					return new Promise();
 				}
-				collection.findOne({
+
+				return collection.findOne({
 					_id: id,
 					task: task
-				}, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
+				})
+				.then((result) => {
 					if (result) {
 						result = prepare(result);
 					}
-					callback(null, result);
+					return result;
 				});
 			},
 

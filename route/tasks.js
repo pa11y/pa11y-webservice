@@ -16,46 +16,46 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-var _ = require('underscore');
-var Joi = require('joi');
-var validateAction = require('pa11y').validateAction;
+const _ = require('underscore');
+const Joi = require('joi');
+const validateAction = require('pa11y').validateAction;
 
 // Routes relating to all tasks
 module.exports = function(app) {
-	var model = app.model;
-	var server = app.server;
+	const model = app.model;
+	const server = app.server;
 
 	// Get all tasks
 	server.route({
 		method: 'GET',
 		path: '/tasks',
-		handler: function(request, reply) {
-			model.task.getAll(function(error, tasks) {
-				if (error || !tasks) {
-					return reply().code(500);
+		handler: async function(request, reply) {
+
+			const tasks = await model.task.getAll();
+
+			if (!tasks) {
+				return reply.response().code(500);
+			}
+			if (request.query.lastres) {
+				const results = await model.result.getAll({});
+				if (!results) {
+					return reply.response().code(500);
 				}
-				if (request.query.lastres) {
-					model.result.getAll({}, function(error, results) {
-						if (error || !results) {
-							return reply().code(500);
-						}
-						var resultsByTask = _.groupBy(results, 'task');
-						tasks = tasks.map(function(task) {
-							if (resultsByTask[task.id] && resultsByTask[task.id].length) {
-								task.last_result = resultsByTask[task.id][0];
-							} else {
-								task.last_result = null;
-							}
-							return task;
-						});
-						reply(tasks).code(200);
-					});
-				} else {
-					reply(tasks).code(200);
-				}
-			});
+				const resultsByTask = _.groupBy(results, 'task');
+				tasks = tasks.map(function(task) {
+					if (resultsByTask[task.id] && resultsByTask[task.id].length) {
+						task.last_result = resultsByTask[task.id][0];
+					} else {
+						task.last_result = null;
+					}
+					return task;
+				});
+				return reply.response(tasks).code(200);
+			}
+
+			return reply.response(tasks).code(200);
 		},
-		config: {
+		options: {
 			validate: {
 				query: {
 					lastres: Joi.boolean()
@@ -69,27 +69,30 @@ module.exports = function(app) {
 	server.route({
 		method: 'POST',
 		path: '/tasks',
-		handler: function(request, reply) {
+		handler: async function(request, reply) {
+
 			if (request.payload.actions && request.payload.actions.length) {
-				for (var action of request.payload.actions) {
+				for (let action of request.payload.actions) {
 					if (!validateAction(action)) {
-						return reply({
+
+						return reply.response({
 							statusCode: 400,
 							message: 'Invalid action: "' + action + '"'
 						}).code(400);
 					}
 				}
 			}
-			model.task.create(request.payload, function(error, task) {
-				if (error || !task) {
-					return reply().code(500);
-				}
-				reply(task)
-					.header('Location', 'http://' + request.info.host + '/tasks/' + task.id)
-					.code(201);
-			});
+
+			const task = await model.task.create(request.payload);
+
+			if (!task) {
+				return reply.response().code(500);
+			}
+			return reply.response(task)
+				.header('Location', 'http://' + request.info.host + '/tasks/' + task.id)
+				.code(201);
 		},
-		config: {
+		options: {
 			validate: {
 				query: {},
 				payload: {
@@ -121,15 +124,11 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/results',
-		handler: function(request, reply) {
-			model.result.getAll(request.query, function(error, results) {
-				if (error || !results) {
-					return reply().code(500);
-				}
-				reply(results).code(200);
-			});
+		handler: async function(request, reply) {
+			const results = await model.result.getAll(request.query)
+			return reply.response(results).code(200);
 		},
-		config: {
+		options: {
 			validate: {
 				query: {
 					from: Joi.string().isoDate(),
