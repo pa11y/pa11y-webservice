@@ -14,32 +14,28 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('DELETE /tasks/{id}', function() {
 
 	describe('with valid and existing task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000001'
 			};
 			this.navigate(request, done);
 		});
 
-		it('should remove the task from the database', function(done) {
-			this.app.model.task.getById('abc000000000000000000001', function(error, task) {
-				assert.isNull(task);
-				done();
-			});
+		it('should remove the task from the database', async function() {
+			const task = await this.app.model.task.getById('abc000000000000000000001');
+			assert.isNull(task);
 		});
 
-		it('should remove all of the task\'s results from the database', function(done) {
-			this.app.model.result.getByTaskId('abc000000000000000000001', {}, function(error, results) {
-				assert.strictEqual(results.length, 0);
-				done();
-			});
+		it('should remove all of the task\'s results from the database', async function() {
+			const results = await this.app.model.result.getByTaskId('abc000000000000000000001', {});
+			assert.strictEqual(results.length, 0);
 		});
 
 		it('should send a 204 status', function() {
@@ -51,7 +47,7 @@ describe('DELETE /tasks/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000000'
 			};
@@ -67,7 +63,7 @@ describe('DELETE /tasks/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/-abc-'
 			};

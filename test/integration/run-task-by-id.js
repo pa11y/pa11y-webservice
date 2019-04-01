@@ -14,14 +14,14 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('POST /tasks/{id}/run', function() {
 
 	describe('with valid and existing task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks/abc000000000000000000001/run'
 			};
@@ -37,7 +37,7 @@ describe('POST /tasks/{id}/run', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks/abc000000000000000000000/run'
 			};
@@ -53,7 +53,7 @@ describe('POST /tasks/{id}/run', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks/-abc-/run'
 			};

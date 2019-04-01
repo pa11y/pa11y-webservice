@@ -14,7 +14,7 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('GET /tasks/{id}', function() {
 
@@ -23,7 +23,7 @@ describe('GET /tasks/{id}', function() {
 		describe('with no query', function() {
 
 			beforeEach(function(done) {
-				var request = {
+				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001'
 				};
@@ -34,14 +34,12 @@ describe('GET /tasks/{id}', function() {
 				assert.strictEqual(this.last.status, 200);
 			});
 
-			it('should output a JSON representation of the requested task', function(done) {
-				var body = this.last.body;
-				this.app.model.task.getById('abc000000000000000000001', function(error, task) {
-					assert.isObject(body);
-					assert.strictEqual(body.id, 'abc000000000000000000001');
-					assert.deepEqual(body, task);
-					done();
-				});
+			it('should output a JSON representation of the requested task', async function() {
+				const body = this.last.body;
+				const task = await this.app.model.task.getById('abc000000000000000000001');
+				assert.isObject(body);
+				assert.strictEqual(body.id, 'abc000000000000000000001');
+				assert.deepEqual(body, task);
 			});
 
 		});
@@ -49,7 +47,7 @@ describe('GET /tasks/{id}', function() {
 		describe('with last result query', function() {
 
 			beforeEach(function(done) {
-				var request = {
+				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001',
 					query: {
@@ -63,16 +61,14 @@ describe('GET /tasks/{id}', function() {
 				assert.strictEqual(this.last.status, 200);
 			});
 
-			it('should output a JSON representation of the requested task including the last result (with full details)', function(done) {
-				var body = this.last.body;
-				this.app.model.task.getById('abc000000000000000000001', function() {
-					assert.isObject(body);
-					assert.strictEqual(body.id, 'abc000000000000000000001');
-					assert.isObject(body.last_result);
-					assert.strictEqual(body.last_result.id, 'def000000000000000000001');
-					assert.isArray(body.last_result.results);
-					done();
-				});
+			it('should output a JSON representation of the requested task including the last result (with full details)', async function() {
+				const body = this.last.body;
+				await this.app.model.task.getById('abc000000000000000000001');
+				assert.isObject(body);
+				assert.strictEqual(body.id, 'abc000000000000000000001');
+				assert.isObject(body.last_result);
+				assert.strictEqual(body.last_result.id, 'def000000000000000000001');
+				assert.isArray(body.last_result.results);
 			});
 
 		});
@@ -82,7 +78,7 @@ describe('GET /tasks/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000'
 			};
@@ -98,7 +94,7 @@ describe('GET /tasks/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-'
 			};

@@ -14,14 +14,14 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('GET /tasks', function() {
 
 	describe('with no query', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks'
 			};
@@ -32,14 +32,12 @@ describe('GET /tasks', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all tasks sorted by URL/standard', function(done) {
-			var body = this.last.body;
-			this.app.model.task.getAll(function(error, tasks) {
-				assert.isArray(body);
-				assert.strictEqual(body.length, 3);
-				assert.deepEqual(body, tasks);
-				done();
-			});
+		it('should output a JSON representation of all tasks sorted by URL/standard', async function() {
+			const body = this.last.body;
+			const tasks = await this.app.model.task.getAll();
+			assert.isArray(body);
+			assert.strictEqual(body.length, 3);
+			assert.deepEqual(body, tasks);
 		});
 
 	});
@@ -47,7 +45,7 @@ describe('GET /tasks', function() {
 	describe('with last result query', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks',
 				query: {
@@ -62,7 +60,7 @@ describe('GET /tasks', function() {
 		});
 
 		it('should output a JSON representation of all tasks including their last result', function(done) {
-			var body = this.last.body;
+			const body = this.last.body;
 			assert.isArray(body);
 			assert.strictEqual(body.length, 3);
 			assert.strictEqual(body[0].id, 'abc000000000000000000001');

@@ -14,9 +14,9 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var async = require('async');
-var chalk = require('chalk');
-var CronJob = require('cron').CronJob;
+const async = require('async');
+const chalk = require('chalk');
+const CronJob = require('cron').CronJob;
 
 module.exports = initTask;
 exports.runPa11yOnTasks = runPa11yOnTasks;
@@ -26,7 +26,7 @@ function initTask(config, app) {
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
-	var job = new CronJob(config.cron, run.bind(null, app));
+	const job = new CronJob(config.cron, run.bind(null, app));
 	job.start();
 }
 
@@ -56,7 +56,7 @@ function run(app) {
 // Run Pa11y on an array of tasks
 function runPa11yOnTasks(tasks, app, done) {
 
-	var queue = async.queue(function(task, nextInQueue) {
+	const queue = async.queue(function(task, nextInQueue) {
 		console.log('Starting task %s', task.id);
 		app.model.task.runById(task.id, function(error) {
 			if (error) {

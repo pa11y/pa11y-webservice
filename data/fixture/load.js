@@ -14,14 +14,14 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var app = require('../../app');
-var async = require('async');
+const app = require('../../app');
+const async = require('async');
 
 module.exports = loadFixtures;
 
 function loadFixtures(env, config, done) {
 	env = (env || 'development');
-	var fixtures = {
+	const fixtures = {
 		results: require('./' + env + '/results.js'),
 		tasks: require('./' + env + '/tasks.js')
 	};

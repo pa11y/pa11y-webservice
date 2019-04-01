@@ -14,13 +14,13 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
-var ObjectID = require('mongodb').ObjectID;
+const assert = require('proclaim');
+const ObjectID = require('mongodb').ObjectID;
 
 describe('POST /tasks', function() {
 
 	describe('with valid JSON', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -30,7 +30,7 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				ignore: ['foo', 'bar']
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -38,11 +38,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -50,7 +48,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -65,7 +63,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and HTTP basic user authentication', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -78,7 +76,7 @@ describe('POST /tasks', function() {
 				ignore: ['foo', 'bar'],
 				hideElements: 'foo'
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -86,11 +84,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -98,7 +94,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -116,7 +112,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and no ignore rules', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -125,7 +121,7 @@ describe('POST /tasks', function() {
 				timeout: '30000',
 				standard: 'WCAG2AA'
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -133,11 +129,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -145,7 +139,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -160,7 +154,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and wait time', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -170,7 +164,7 @@ describe('POST /tasks', function() {
 				wait: 1000,
 				standard: 'WCAG2AA'
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -178,11 +172,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -190,7 +182,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -206,7 +198,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and hideElements', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -217,7 +209,7 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				hideElements: '.text-gray-light,.full-width'
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -225,11 +217,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -237,7 +227,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -254,7 +244,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and actions', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -268,7 +258,7 @@ describe('POST /tasks', function() {
 					'click element body'
 				]
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -276,11 +266,9 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne(newTask, function(error, task) {
-				assert.isDefined(task);
-				done(error);
-			});
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne(newTask);
+			assert.isDefined(task);
 		});
 
 		it('should send a 201 status', function() {
@@ -288,7 +276,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -305,7 +293,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and headers object', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -316,7 +304,7 @@ describe('POST /tasks', function() {
 					foo: 'bar'
 				}
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -324,14 +312,12 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne({
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne({
 				_id: new ObjectID(this.last.response.body.id)
-			}, function(error, task) {
-				assert.isDefined(task);
-				assert.deepEqual(task.headers, newTask.headers);
-				done(error);
 			});
+			assert.isDefined(task);
+			assert.deepEqual(task.headers, newTask.headers);
 		});
 
 		it('should send a 201 status', function() {
@@ -339,7 +325,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -350,7 +336,7 @@ describe('POST /tasks', function() {
 	});
 
 	describe('with valid JSON and headers string', function() {
-		var newTask;
+		let newTask;
 
 		beforeEach(function(done) {
 			newTask = {
@@ -359,7 +345,7 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				headers: '{"foo":"bar"}'
 			};
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
@@ -367,15 +353,13 @@ describe('POST /tasks', function() {
 			this.navigate(request, done);
 		});
 
-		it('should add the new task to the database', function(done) {
-			this.app.model.task.collection.findOne({
+		it('should add the new task to the database', async function() {
+			const task = await this.app.model.task.collection.findOne({
 				_id: new ObjectID(this.last.response.body.id)
-			}, function(error, task) {
-				assert.isDefined(task);
-				assert.deepEqual(task.headers, {
-					foo: 'bar'
-				});
-				done(error);
+			});
+			assert.isDefined(task);
+			assert.deepEqual(task.headers, {
+				foo: 'bar'
 			});
 		});
 
@@ -384,7 +368,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			var taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -399,7 +383,7 @@ describe('POST /tasks', function() {
 	describe('with invalid name', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -420,7 +404,7 @@ describe('POST /tasks', function() {
 	describe('with invalid URL', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -440,7 +424,7 @@ describe('POST /tasks', function() {
 	describe('with invalid standard', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -460,7 +444,7 @@ describe('POST /tasks', function() {
 	describe('with a non-array actions', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
@@ -482,7 +466,7 @@ describe('POST /tasks', function() {
 	describe('with invalid actions', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: {
