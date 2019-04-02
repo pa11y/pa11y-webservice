@@ -50,7 +50,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error('model:task:create failed');
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -69,7 +69,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error('model:task:getAll failed');
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -78,7 +78,8 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(error);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 
 				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
@@ -88,7 +89,8 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:task:getById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
+						return null;
 					});
 			},
 
@@ -98,7 +100,8 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(error);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 				const now = Date.now();
 				const taskEdits = {
@@ -136,7 +139,8 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:task:editById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
+						return null;
 					});
 			},
 
@@ -156,7 +160,8 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
+						return null;
 					});
 			},
 
@@ -165,7 +170,8 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(error);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 				return collection.deleteOne({_id: id})
 					.then(result => {
@@ -173,7 +179,8 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:task:deleteById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
+						return null;
 					});
 			},
 
@@ -232,13 +239,17 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:task:runById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
+						return null;
 					});
 
 			},
 
 			// Prepare a task for output
 			prepareForOutput: function(task) {
+				if (!task) {
+					return null;
+				}
 				const output = {
 					id: task._id.toString(),
 					name: task.name,
@@ -267,7 +278,7 @@ module.exports = function(app, callback) {
 							output.headers = JSON.parse(task.headers);
 						} catch (error) {
 							console.error('Header input contains invalid JSON:', task.headers);
-							console.error(error);
+							console.error(error.message);
 						}
 					} else {
 						output.headers = task.headers;
@@ -282,8 +293,8 @@ module.exports = function(app, callback) {
 						return JSON.parse(headers);
 					} catch (error) {
 						console.error('Header input contains invalid JSON:', headers);
-						console.error(error);
-						return undefined;
+						console.error(error.message);
+						return null;
 					}
 				}
 				return headers;

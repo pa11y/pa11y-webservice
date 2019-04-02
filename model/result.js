@@ -46,7 +46,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error('model:result:create failed');
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -85,7 +85,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error('model:result:_getFiltered failed');
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -101,7 +101,8 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 				return collection.findOne({_id: id})
 					.then(result => {
@@ -112,7 +113,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:result:getById failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -127,12 +128,13 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(error);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 				return collection.deleteMany({task: id})
 					.catch(error => {
 						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
@@ -143,7 +145,8 @@ module.exports = function(app, callback) {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					return Promise.reject(error);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
 
 				return collection.findOne({
@@ -158,7 +161,7 @@ module.exports = function(app, callback) {
 					})
 					.catch(error => {
 						console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
-						console.error(error);
+						console.error(error.message);
 					});
 			},
 
