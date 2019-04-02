@@ -166,7 +166,7 @@ module.exports = function(app) {
 		options: {
 			validate: {
 				query: {}
-   		}
+			}
 		}
 	});
 
