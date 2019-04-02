@@ -14,7 +14,7 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var request = require('request');
+const request = require('request');
 
 module.exports = createNavigator;
 

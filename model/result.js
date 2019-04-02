@@ -22,7 +22,7 @@ const ObjectID = require('mongodb').ObjectID;
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', function(error, collection) {
+	app.db.collection('results', function(errors, collection) {
 		collection.ensureIndex({
 			date: 1
 		}, {
@@ -44,7 +44,7 @@ module.exports = function(app, callback) {
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error('model:result:create failed');
 						console.error(error);
 					});
@@ -83,8 +83,9 @@ module.exports = function(app, callback) {
 					.then(results => {
 						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error('model:result:_getFiltered failed');
+						console.error(error);
 					});
 			},
 
@@ -109,8 +110,9 @@ module.exports = function(app, callback) {
 						}
 						return result;
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:result:getById failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -125,11 +127,12 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					return Promise.reject(error);
 				}
 				return collection.deleteMany({task: id})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -140,7 +143,7 @@ module.exports = function(app, callback) {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					return Promise.reject(error);
 				}
 
 				return collection.findOne({
@@ -153,8 +156,9 @@ module.exports = function(app, callback) {
 						}
 						return result;
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -194,6 +198,6 @@ module.exports = function(app, callback) {
 			}
 
 		};
-		callback(error, model);
+		callback(errors, model);
 	});
 };

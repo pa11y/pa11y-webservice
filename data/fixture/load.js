@@ -14,7 +14,7 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const app = require('../../app');
+const application = require('../../app');
 
 module.exports = loadFixtures;
 
@@ -27,7 +27,7 @@ function loadFixtures(env, config, done) {
 
 	config.dbOnly = true;
 
-	app(config, async function(error, app) {
+	application(config, async function(error, app) {
 		if (error) {
 			done(error);
 		}
@@ -36,11 +36,11 @@ function loadFixtures(env, config, done) {
 		await app.model.task.collection.remove();
 
 		// Insert new content
-		await Promise.all(fixtures.tasks.map(async function(task) {
-			return await app.model.task.create(task);
+		await Promise.all(fixtures.tasks.map(function(task) {
+			return app.model.task.create(task);
 		}));
-		await Promise.all(fixtures.results.map(async function(result) {
-			return await app.model.result.create(result);
+		await Promise.all(fixtures.results.map(function(result) {
+			return app.model.result.create(result);
 		}));
 
 		await app.db.close();

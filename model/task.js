@@ -28,7 +28,7 @@ function pa11yLog(message) {
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', function(error, collection) {
+	app.db.collection('tasks', function(errors, collection) {
 		collection.ensureIndex({
 			name: 1,
 			url: 1,
@@ -48,7 +48,7 @@ module.exports = function(app, callback) {
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error('model:task:create failed');
 						console.error(error);
 					});
@@ -67,8 +67,9 @@ module.exports = function(app, callback) {
 					.then(tasks => {
 						return tasks.map(model.prepareForOutput);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error('model:task:getAll failed');
+						console.error(error);
 					});
 			},
 
@@ -77,7 +78,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					return Promise.reject(error);
 				}
 
 				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
@@ -85,8 +86,9 @@ module.exports = function(app, callback) {
 					.then(task => {
 						return model.prepareForOutput(task);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:task:getById failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -96,7 +98,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					return Promise.reject(error);
 				}
 				const now = Date.now();
 				const taskEdits = {
@@ -132,8 +134,9 @@ module.exports = function(app, callback) {
 								return updateCount;
 							});
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:task:editById failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -151,8 +154,9 @@ module.exports = function(app, callback) {
 						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
 
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -161,14 +165,15 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return Promise.reject(new Error('Getting ID from MongoDB failed'));
+					return Promise.reject(error);
 				}
 				return collection.deleteOne({_id: id})
 					.then(result => {
 						return result ? result.deletedCount : null;
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:task:deleteById failed, with id: ${id}`);
+						console.error(error);
 					});
 			},
 
@@ -225,8 +230,9 @@ module.exports = function(app, callback) {
 						results.ignore = options.ignore;
 						return app.model.result.create(results);
 					})
-					.catch((error) => {
+					.catch(error => {
 						console.error(`model:task:runById failed, with id: ${id}`);
+						console.error(error);
 					});
 
 			},
@@ -259,7 +265,10 @@ module.exports = function(app, callback) {
 					if (typeof task.headers === 'string') {
 						try {
 							output.headers = JSON.parse(task.headers);
-						} catch (error) {}
+						} catch (error) {
+							console.error('Header input contains invalid JSON:', task.headers);
+							console.error(error);
+						}
 					} else {
 						output.headers = task.headers;
 					}
@@ -273,6 +282,7 @@ module.exports = function(app, callback) {
 						return JSON.parse(headers);
 					} catch (error) {
 						console.error('Header input contains invalid JSON:', headers);
+						console.error(error);
 						return undefined;
 					}
 				}
@@ -280,6 +290,6 @@ module.exports = function(app, callback) {
 			}
 
 		};
-		callback(error, model);
+		callback(errors, model);
 	});
 };
