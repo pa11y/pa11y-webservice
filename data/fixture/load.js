@@ -15,7 +15,6 @@
 'use strict';
 
 const app = require('../../app');
-const async = require('async');
 
 module.exports = loadFixtures;
 
@@ -28,41 +27,30 @@ function loadFixtures(env, config, done) {
 
 	config.dbOnly = true;
 
-	app(config, function(error, app) {
+	app(config, async function(error, app) {
 		if (error) {
 			done(error);
 		}
-		async.series([
-			clearDatabase.bind(null, app),
-			insertFixtures.bind(null, app, fixtures)
-		], function() {
-			app.db.close();
-			done();
-		});
+		await clearDatabase.bind(null, app);
+		await insertFixtures.bind(null, app, fixtures);
+		await app.db.close();
+		done();
 	});
 }
 
-function clearDatabase(app, done) {
-	async.parallel([
-		app.model.result.collection.remove.bind(app.model.result.collection),
-		app.model.task.collection.remove.bind(app.model.task.collection)
-	], done);
+async function clearDatabase(app) {
+	await app.model.result.collection.remove.bind(app.model.result.collection);
+	await app.model.task.collection.remove.bind(app.model.task.collection);
 }
 
-function insertFixtures(app, fixtures, done) {
-	async.series([
+function insertFixtures(app, fixtures) {
 
-		function(next) {
-			async.parallel(fixtures.tasks.map(function(task) {
-				return app.model.task.create.bind(null, task);
-			}), next);
-		},
+	fixtures.tasks.forEach(async function(task) {
+		await app.model.task.create.bind(null, task);
+	});
 
-		function(next) {
-			async.parallel(fixtures.results.map(function(result) {
-				return app.model.result.create.bind(null, result);
-			}), next);
-		}
+	fixtures.results.forEach(async function(result) {
+		await app.model.result.create.bind(null, result);
+	});
 
-	], done);
 }

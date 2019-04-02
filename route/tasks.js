@@ -18,7 +18,7 @@
 
 const _ = require('underscore');
 const Joi = require('joi');
-const validateAction = require('pa11y').validateAction;
+const validateAction = require('pa11y').isValidAction;
 
 // Routes relating to all tasks
 module.exports = function(app) {

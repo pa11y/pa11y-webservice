@@ -18,7 +18,7 @@
 
 const chalk = require('chalk');
 const Joi = require('joi');
-const validateAction = require('pa11y').validateAction;
+const validateAction = require('pa11y').isValidAction;
 
 // Routes relating to individual tasks
 module.exports = function(app) {

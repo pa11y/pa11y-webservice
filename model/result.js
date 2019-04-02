@@ -43,6 +43,9 @@ module.exports = function(app, callback) {
 				return collection.insert(newResult)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
+					})
+					.catch((error) => {
+						console.error('create failed');
 					});
 			},
 
@@ -78,6 +81,9 @@ module.exports = function(app, callback) {
 					.toArray()
 					.then(results => {
 						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+					})
+					.catch((error) => {
+						console.error('_getFiltered failed');
 					});
 			},
 
@@ -93,7 +99,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 				return collection.findOne({_id: id})
 					.then(result => {
@@ -101,6 +107,9 @@ module.exports = function(app, callback) {
 							result = prepare(result);
 						}
 						return result;
+					})
+					.catch((error) => {
+						console.error('getById failed');
 					});
 			},
 
@@ -115,9 +124,12 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
-				return collection.deleteMany({task: id});
+				return collection.deleteMany({task: id})
+					.catch((error) => {
+						console.error('deleteByTaskId failed');
+					});
 			},
 
 			// Get a result by ID and task ID
@@ -127,7 +139,7 @@ module.exports = function(app, callback) {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 
 				return collection.findOne({
@@ -139,6 +151,9 @@ module.exports = function(app, callback) {
 							result = prepare(result);
 						}
 						return result;
+					})
+					.catch((error) => {
+						console.error('getByIdAndTaskId failed');
 					});
 			},
 

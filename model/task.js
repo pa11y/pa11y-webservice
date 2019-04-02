@@ -47,6 +47,9 @@ module.exports = function(app, callback) {
 				return collection.insert(newTask)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
+					})
+					.catch((error) => {
+						console.error('create failed');
 					});
 			},
 
@@ -62,6 +65,9 @@ module.exports = function(app, callback) {
 					.toArray()
 					.then(tasks => {
 						return tasks.map(model.prepareForOutput);
+					})
+					.catch((error) => {
+						console.error('getAll failed');
 					});
 			},
 
@@ -70,12 +76,15 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 
 				return collection.findOne({_id: id})
 					.then(task => {
 						return model.prepareForOutput(task);
+					})
+					.catch((error) => {
+						console.error('getById failed');
 					});
 			},
 
@@ -85,7 +94,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 				const now = Date.now();
 				const taskEdits = {
@@ -120,7 +129,9 @@ module.exports = function(app, callback) {
 							.then(() => {
 								return updateCount;
 							});
-
+					})
+					.catch((error) => {
+						console.error('editById failed');
 					});
 			},
 
@@ -137,6 +148,9 @@ module.exports = function(app, callback) {
 						}
 						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
 
+					})
+					.catch((error) => {
+						console.error('addAnnotationById failed');
 					});
 			},
 
@@ -145,11 +159,14 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return new Promise();
+					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 				return collection.deleteOne({_id: id})
 					.then(result => {
 						return result ? result.deletedCount : null;
+					})
+					.catch((error) => {
+						console.error('deleteById failed');
 					});
 			},
 
@@ -205,6 +222,9 @@ module.exports = function(app, callback) {
 						results.task = new ObjectID(options.id);
 						results.ignore = options.ignore;
 						return app.model.result.create(results);
+					})
+					.catch((error) => {
+						console.error('runById failed');
 					});
 
 			},
