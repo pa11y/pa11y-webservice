@@ -49,7 +49,7 @@ module.exports = function(app, callback) {
 						return model.prepareForOutput(result.ops[0]);
 					})
 					.catch((error) => {
-						console.error('create failed');
+						console.error('model:task:create failed');
 					});
 			},
 
@@ -67,7 +67,7 @@ module.exports = function(app, callback) {
 						return tasks.map(model.prepareForOutput);
 					})
 					.catch((error) => {
-						console.error('getAll failed');
+						console.error('model:task:getAll failed');
 					});
 			},
 
@@ -79,12 +79,13 @@ module.exports = function(app, callback) {
 					return Promise.reject(new Error('Getting ID from MongoDB failed'));
 				}
 
+				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
 				return collection.findOne({_id: id})
 					.then(task => {
 						return model.prepareForOutput(task);
 					})
 					.catch((error) => {
-						console.error('getById failed');
+						console.error(`model:task:getById failed, with id: ${id}`);
 					});
 			},
 
@@ -131,7 +132,7 @@ module.exports = function(app, callback) {
 							});
 					})
 					.catch((error) => {
-						console.error('editById failed');
+						console.error(`model:task:editById failed, with id: ${id}`);
 					});
 			},
 
@@ -150,7 +151,7 @@ module.exports = function(app, callback) {
 
 					})
 					.catch((error) => {
-						console.error('addAnnotationById failed');
+						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
 					});
 			},
 
@@ -166,7 +167,7 @@ module.exports = function(app, callback) {
 						return result ? result.deletedCount : null;
 					})
 					.catch((error) => {
-						console.error('deleteById failed');
+						console.error(`model:task:deleteById failed, with id: ${id}`);
 					});
 			},
 
@@ -224,7 +225,7 @@ module.exports = function(app, callback) {
 						return app.model.result.create(results);
 					})
 					.catch((error) => {
-						console.error('runById failed');
+						console.error(`model:task:runById failed, with id: ${id}`);
 					});
 
 			},

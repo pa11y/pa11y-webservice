@@ -31,9 +31,6 @@ function initApp(config, callback) {
 		database: null,
 		model: {}
 	};
-	app.server.events.on('route', route => {
-		console.log(`New route added: ${route.path}`);
-	});
 
 	async.series([
 

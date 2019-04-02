@@ -50,7 +50,6 @@ module.exports = function(app) {
 					}
 					return task;
 				});
-				return reply.response(tasks).code(200);
 			}
 
 			return reply.response(tasks).code(200);

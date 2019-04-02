@@ -45,7 +45,7 @@ module.exports = function(app, callback) {
 						return model.prepareForOutput(result.ops[0]);
 					})
 					.catch((error) => {
-						console.error('create failed');
+						console.error('model:result:create failed');
 					});
 			},
 
@@ -83,7 +83,7 @@ module.exports = function(app, callback) {
 						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 					})
 					.catch((error) => {
-						console.error('_getFiltered failed');
+						console.error('model:result:_getFiltered failed');
 					});
 			},
 
@@ -109,7 +109,7 @@ module.exports = function(app, callback) {
 						return result;
 					})
 					.catch((error) => {
-						console.error('getById failed');
+						console.error(`model:result:getById failed, with id: ${id}`);
 					});
 			},
 
@@ -128,7 +128,7 @@ module.exports = function(app, callback) {
 				}
 				return collection.deleteMany({task: id})
 					.catch((error) => {
-						console.error('deleteByTaskId failed');
+						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
 					});
 			},
 
@@ -153,7 +153,7 @@ module.exports = function(app, callback) {
 						return result;
 					})
 					.catch((error) => {
-						console.error('getByIdAndTaskId failed');
+						console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
 					});
 			},
 

@@ -49,10 +49,9 @@ module.exports = function(app) {
 					return reply.response().code(500);
 				}
 				task.last_result = null;
-				if (results && results.length) {
+				if (results.length) {
 					task.last_result = results[0];
 				}
-				return reply.response(task).code(200);
 			}
 
 			return reply.response(task).code(200);
@@ -96,8 +95,7 @@ module.exports = function(app) {
 				return reply.response().code(500);
 			}
 			const taskAgain = await model.task.getById(task.id);
-			reply.response(taskAgain).code(200);
-
+			return reply.response(taskAgain).code(200);
 		},
 		options: {
 			validate: {
