@@ -46,6 +46,7 @@ module.exports = function(app, callback) {
 					})
 					.catch((error) => {
 						console.error('model:result:create failed');
+						console.error(error);
 					});
 			},
 

@@ -34,10 +34,7 @@ module.exports = function(app) {
 			const task = await model.task.getById(request.params.id);
 
 			if (!task) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 
 			if (request.query.lastres) {
@@ -74,19 +71,13 @@ module.exports = function(app) {
 			const task = await model.task.getById(request.params.id);
 
 			if (!task) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 
 			if (request.payload.actions && request.payload.actions.length) {
 				for (let action of request.payload.actions) {
 					if (!validateAction(action)) {
-						return reply.response({
-							statusCode: 400,
-							message: 'Invalid action: "' + action + '"'
-						}).code(400);
+						return reply.response('Invalid action: "' + action + '"').code(400);
 					}
 				}
 			}
@@ -126,10 +117,7 @@ module.exports = function(app) {
 		handler: async function(request, reply) {
 			const task = await model.task.deleteById(request.params.id);
 			if (!task) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 
 			const removed = await model.result.deleteByTaskId(request.params.id);
@@ -153,10 +141,7 @@ module.exports = function(app) {
 		handler: async function(request, reply) {
 			const task = await model.task.getById(request.params.id);
 			if (!task) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 			if (process.env.NODE_ENV !== 'test') {
 				console.log('');
@@ -192,10 +177,7 @@ module.exports = function(app) {
 		handler: async function(request, reply) {
 			const task = await model.task.getById(request.params.id);
 			if (!task) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 
 			const results = await model.result.getByTaskId(request.params.id, request.query);
@@ -226,10 +208,7 @@ module.exports = function(app) {
 			const result = await model.result.getByIdAndTaskId(rid, tid, request.query);
 
 			if (!result) {
-				return reply.response({
-					code: 404,
-					error: 'Not Found'
-				}).code(404);
+				return reply.response('Not Found').code(404);
 			}
 			return reply.response(result).code(200);
 		},

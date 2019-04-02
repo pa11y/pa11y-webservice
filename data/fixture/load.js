@@ -31,31 +31,19 @@ function loadFixtures(env, config, done) {
 		if (error) {
 			done(error);
 		}
-		await clearDatabase(app);
-		await insertFixtures(app, fixtures);
+		// Clear existing content
+		await app.model.result.collection.remove();
+		await app.model.task.collection.remove();
+
+		// Insert new content
+		await Promise.all(fixtures.tasks.map(async function(task) {
+			return await app.model.task.create(task);
+		}));
+		await Promise.all(fixtures.results.map(async function(result) {
+			return await app.model.result.create(result);
+		}));
+
 		await app.db.close();
-		console.log('Done loading fixtures.');
 		done();
 	});
-}
-
-async function clearDatabase(app) {
-	console.log('clearDatabase');
-	await app.model.result.collection.remove();
-	await app.model.task.collection.remove();
-}
-
-async function insertFixtures(app, fixtures) {
-	console.log('insertFixtures');
-
-	await fixtures.tasks.forEach(async function(task) {
-		console.log('Going to insert task fixture.', task);
-		await app.model.task.create(task);
-	});
-
-	await fixtures.results.forEach(async function(result) {
-		console.log('Going to insert result fixture.', result);
-		await app.model.result.create(result);
-	});
-
 }

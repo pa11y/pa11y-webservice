@@ -74,10 +74,7 @@ module.exports = function(app) {
 				for (let action of request.payload.actions) {
 					if (!validateAction(action)) {
 
-						return reply.response({
-							statusCode: 400,
-							message: 'Invalid action: "' + action + '"'
-						}).code(400);
+						return reply.response('Invalid action: "' + action + '"').code(400);
 					}
 				}
 			}

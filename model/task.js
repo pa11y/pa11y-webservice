@@ -50,6 +50,7 @@ module.exports = function(app, callback) {
 					})
 					.catch((error) => {
 						console.error('model:task:create failed');
+						console.error(error);
 					});
 			},
 
