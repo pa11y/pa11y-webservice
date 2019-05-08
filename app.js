@@ -39,22 +39,22 @@ function initApp(config, callback) {
 		function(next) {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
-				if(error) {
+				if (error) {
 					console.log('Error connecting to MongoDB:');
 					console.log(JSON.stringify(error));
 				}
 
 				db.on('timeout', () => {
 					console.log('Mongo connection timeout');
-				})
+				});
 
 				db.on('close', () => {
 					console.log('Mongo connection closed');
-				})
+				});
 
 				db.on('reconnect', () => {
 					console.log('Mongo reconnected');
-				})
+				});
 
 				app.db = db;
 				next(error);
