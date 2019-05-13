@@ -86,6 +86,7 @@ function initApp(config, callback) {
 			if (config.dbOnly) {
 				return next();
 			}
+			require('./route/index')(app);
 			require('./route/tasks')(app);
 			require('./route/task')(app);
 			app.server.start(next);
