@@ -185,27 +185,40 @@ module.exports = function(app, callback) {
 			},
 
 			// Run a task by ID
-			runById: function(id) {
-				let options;
-
-				return model.getById(id)
-					.then(task => {
-						options = task;
-
-						const pa11yOptions = {
-							standard: task.standard,
-							timeout: (task.timeout || 30000),
-							wait: (task.wait || 0),
-							ignore: task.ignore,
-							actions: task.actions || [],
-							phantom: {},
-							log: {
-								debug: pa11yLog,
-								error: pa11yLog,
-								log: pa11yLog
+			runById: function(id, callback) {
+				model.getById(id, function(error, task) {
+					if (error) {
+						return callback(error);
+					}
+					var pa11yOptions = {
+						standard: task.standard,
+						includeWarnings: true,
+						includeNotices: true,
+						timeout: (task.timeout || 30000),
+						wait: (task.wait || 0),
+						ignore: task.ignore,
+						actions: task.actions || [],
+						chromeLaunchConfig: {},
+						log: {
+							debug: pa11yLog,
+							error: pa11yLog,
+							info: pa11yLog,
+							log: pa11yLog
+						}
+					};
+					if (task.username && task.password) {
+						pa11yOptions.page = {
+							settings: {
+								userName: task.username,
+								password: task.password
 							}
 						};
-						if (task.username && task.password) {
+					}
+					if (task.headers && typeof task.headers === 'object' &&
+					Object.keys(task.headers).length > 0) {
+						if (pa11yOptions.page) {
+							pa11yOptions.page.headers = task.headers;
+						} else {
 							pa11yOptions.page = {
 								settings: {
 									userName: task.username,
@@ -227,8 +240,15 @@ module.exports = function(app, callback) {
 							pa11yOptions.hideElements = task.hideElements;
 						}
 
-						const test = pa11y(pa11yOptions);
-						return test.run(task.url);
+						function(next) {
+							pa11y(task.url, pa11yOptions)
+								.then(function(results) {
+									next(null, results);
+								})
+								.catch(function(error) {
+									next(error);
+								});
+						},
 
 					})
 					.then(results => {
