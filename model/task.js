@@ -163,14 +163,17 @@ module.exports = function(app, callback) {
 					}
 					var pa11yOptions = {
 						standard: task.standard,
+						includeWarnings: true,
+						includeNotices: true,
 						timeout: (task.timeout || 30000),
 						wait: (task.wait || 0),
 						ignore: task.ignore,
 						actions: task.actions || [],
-						phantom: {},
+						chromeLaunchConfig: {},
 						log: {
 							debug: pa11yLog,
 							error: pa11yLog,
+							info: pa11yLog,
 							log: pa11yLog
 						}
 					};
@@ -182,7 +185,8 @@ module.exports = function(app, callback) {
 							}
 						};
 					}
-					if (task.headers && typeof task.headers === 'object') {
+					if (task.headers && typeof task.headers === 'object' &&
+					Object.keys(task.headers).length > 0) {
 						if (pa11yOptions.page) {
 							pa11yOptions.page.headers = task.headers;
 						} else {
@@ -198,12 +202,13 @@ module.exports = function(app, callback) {
 					async.waterfall([
 
 						function(next) {
-							try {
-								var test = pa11y(pa11yOptions);
-								test.run(task.url, next);
-							} catch (error) {
-								return next(error);
-							}
+							pa11y(task.url, pa11yOptions)
+								.then(function(results) {
+									next(null, results);
+								})
+								.catch(function(error) {
+									next(error);
+								});
 						},
 
 						function(results, next) {
