@@ -185,12 +185,13 @@ module.exports = function(app, callback) {
 			},
 
 			// Run a task by ID
-			runById: function(id, callback) {
-				model.getById(id, function(error, task) {
-					if (error) {
-						return callback(error);
-					}
-					var pa11yOptions = {
+			runById: function(id) {
+				let options;
+
+				return model.getById(id).then(task => {
+					options = task;
+
+					const pa11yOptions = {
 						standard: task.standard,
 						includeWarnings: true,
 						includeNotices: true,
@@ -239,18 +240,11 @@ module.exports = function(app, callback) {
 						if (task.hideElements) {
 							pa11yOptions.hideElements = task.hideElements;
 						}
+					}
 
-						function(next) {
-							pa11y(task.url, pa11yOptions)
-								.then(function(results) {
-									next(null, results);
-								})
-								.catch(function(error) {
-									next(error);
-								});
-						},
-
-					})
+					const test = pa11y(pa11yOptions);
+					return test.run(task.url);
+				})
 					.then(results => {
 						results = app.model.result.convertPa11y2Results(results);
 						results.task = new ObjectID(options.id);
