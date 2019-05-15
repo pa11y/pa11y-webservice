@@ -221,22 +221,10 @@ module.exports = function(app, callback) {
 							pa11yOptions.page.headers = task.headers;
 						} else {
 							pa11yOptions.page = {
-								settings: {
-									userName: task.username,
-									password: task.password
-								}
+								headers: task.headers
 							};
 						}
-
-						if (task.headers && typeof task.headers === 'object') {
-							if (pa11yOptions.page) {
-								pa11yOptions.page.headers = task.headers;
-							} else {
-								pa11yOptions.page = {
-									headers: task.headers
-								};
-							}
-						}
+						
 						if (task.hideElements) {
 							pa11yOptions.hideElements = task.hideElements;
 						}
