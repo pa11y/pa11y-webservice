@@ -94,13 +94,13 @@ Contributing
 
 There are many ways to contribute to Pa11y Webservice, we cover these in the [contributing guide](CONTRIBUTING.md) for this repo.
 
-If you're ready to contribute some code, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). You'll then need to start the application in test mode with:
+If you're ready to contribute some code, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). To run the test suite, remember to copy its config file with `cp config/test.sample.json config/test.json` if you haven't done so already! Manually start the application in test mode with:
 
 ```sh
 NODE_ENV=test node index.js
 ```
 
-You'll now be able to run the following commands:
+You'll now be able to run the following commands, either in a separate terminal session or by putting the server process into the background (`ctrl+z` then `bg`):
 
 ```sh
 make verify              # Verify all of the code (ESLint)

@@ -15,7 +15,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const env = (process.env.NODE_ENV || 'development');
 const config = require('./config');
 
 process.on('SIGINT', function() {
@@ -26,8 +25,10 @@ process.on('SIGINT', function() {
 require('./app')(config, function(error, app) {
 	console.log('');
 	console.log(chalk.underline.cyan('Pa11y Webservice started'));
-	console.log(chalk.grey('mode: %s'), env);
-	console.log(chalk.grey('uri:  %s'), app.server.info.uri);
+	console.log(chalk.grey('mode:     %s'), process.env.NODE_ENV);
+	console.log(chalk.grey('uri:      %s'), app.server.info.uri);
+	console.log(chalk.grey('database: %s'), config.database);
+	console.log(chalk.grey('cron:     %s'), config.cron);
 
 	if (error) {
 		console.error('');
