@@ -224,7 +224,7 @@ module.exports = function(app, callback) {
 								headers: task.headers
 							};
 						}
-						
+
 						if (task.hideElements) {
 							pa11yOptions.hideElements = task.hideElements;
 						}
