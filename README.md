@@ -85,7 +85,7 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 
 ### chromeLaunchConfig (config file only)
 *(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
-This configuration option is not available through environment variables, only from a configuration file. 
+This configuration option isn't available when you're using environment variables. [Use a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files) if you need to pass these parameters. 
 
 Contributing
 ------------
