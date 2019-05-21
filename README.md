@@ -67,7 +67,7 @@ Client Libraries
 Configurations
 --------------
 
-Pa11y Webservices will load configuration options first from environment variables, then from a configuration file (if present).
+If both environment variables _and_ a configuration file are present, the settings in the configuration file will override the environment variables.
 
 The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
