@@ -84,7 +84,7 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 *(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
 ### chromeLaunchConfig (config file only)
-*(object)* An object that is passed to pa11y for its (`chromeLaunchConfig`)[https://github.com/pa11y/pa11y#chromelaunchconfig-object].
+*(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
 This configuration option is not available through environment variables, only from a configuration file. 
 
 Contributing
