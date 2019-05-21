@@ -11,13 +11,6 @@ Pa11y Webservice provides scheduled accessibility reports for multiple URLs. It 
 
 ---
 
-## Latest news from Pa11y
-
-✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to Pa11y Dashboard and Pa11y Webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
-
----
-
-
 Setup
 -----
 
@@ -74,6 +67,8 @@ Client Libraries
 Configurations
 --------------
 
+Pa11y Webservices will load configuration options first from environment variables, then from a configuration file (if present).
+
 The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
 ### database
@@ -88,6 +83,9 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 ### cron
 *(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
+### chromeLaunchConfig (config file only)
+*(object)* An object that is passed to pa11y for its (`chromeLaunchConfig`)[https://github.com/pa11y/pa11y#chromelaunchconfig-object].
+This configuration option is not available through environment variables, only from a configuration file. 
 
 Contributing
 ------------
