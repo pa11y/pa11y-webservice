@@ -48,7 +48,7 @@ afterEach(function(done) {
 function assertTestAppIsRunning(baseUrl, done) {
 	request(baseUrl, function(error) {
 		if (error) {
-			console.error('Error: Test app not started; run with `NODE_ENV=test node index.js`');
+			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test node index.js\``);
 			process.exit();
 		}
 		done();

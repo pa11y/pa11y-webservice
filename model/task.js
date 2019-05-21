@@ -169,7 +169,7 @@ module.exports = function(app, callback) {
 						wait: (task.wait || 0),
 						ignore: task.ignore,
 						actions: task.actions || [],
-						chromeLaunchConfig: {},
+						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
 						log: {
 							debug: pa11yLog,
 							error: pa11yLog,

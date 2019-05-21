@@ -18,13 +18,22 @@ var fs = require('fs');
 var jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
 
 if (fs.existsSync(jsonPath)) {
-	module.exports = require(jsonPath);
+	var jsonConfig = require(jsonPath);
+
+	module.exports = {
+		database: env('DATABASE', jsonConfig.database),
+		host: env('HOST', jsonConfig.host),
+		port: Number(env('PORT', jsonConfig.port)),
+		cron: env('CRON', jsonConfig.cron),
+		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {}
+	};
 } else {
 	module.exports = {
 		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
-		cron: env('CRON', false)
+		cron: env('CRON', false),
+		chromeLaunchConfig: {}
 	};
 }
 

@@ -11,13 +11,6 @@ Pa11y Webservice provides scheduled accessibility reports for multiple URLs. It 
 
 ---
 
-## Latest news from Pa11y
-
-✨ 🔜 ✨ The Pa11y team is very excited to announce plans for the successor to Pa11y Dashboard and Pa11y Webservice, codename "Sidekick". Help us define the features that you want to see by visiting the [proposal][sidekick-proposal]. ✨  
-
----
-
-
 Setup
 -----
 
@@ -74,6 +67,8 @@ Client Libraries
 Configurations
 --------------
 
+If both environment variables _and_ a configuration file are present, the settings in the configuration file will override the environment variables.
+
 The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
 ### database
@@ -88,6 +83,9 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 ### cron
 *(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
+### chromeLaunchConfig (config file only)
+*(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
+This configuration option isn't available when you're using environment variables. [Use a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files) if you need to pass these parameters. 
 
 Contributing
 ------------
