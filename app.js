@@ -26,7 +26,8 @@ function initApp(config, callback) {
 	var app = module.exports = {
 		server: new Hapi.Server(),
 		database: null,
-		model: {}
+		model: {},
+		config: config
 	};
 
 	app.server.connection({
