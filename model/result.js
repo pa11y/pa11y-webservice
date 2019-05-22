@@ -18,40 +18,42 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', function(error, collection) {
+	app.db.collection('results', function(errors, collection) {
 		collection.ensureIndex({
 			date: 1
 		}, {
 			w: -1
 		});
-		var model = {
+		const model = {
 
 			collection: collection,
 
 			// Create a result
-			create: function(newResult, callback) {
+			create: function(newResult) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				collection.insert(newResult, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					callback(null, model.prepareForOutput(result.ops[0]));
-				});
+				return collection.insert(newResult)
+					.then(result => {
+						return model.prepareForOutput(result.ops[0]);
+					})
+					.catch(error => {
+						console.error('model:result:create failed');
+						console.error(error.message);
+					});
 			},
 
 			// Default filter options
 			_defaultFilterOpts: function(opts) {
-				var now = Date.now();
-				var thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
+				const now = Date.now();
+				const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
 				return {
 					from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
 					to: (new Date(opts.to || now)).getTime(),
@@ -61,9 +63,9 @@ module.exports = function(app, callback) {
 			},
 
 			// Get results
-			_getFiltered: function(opts, callback) {
+			_getFiltered: function(opts) {
 				opts = model._defaultFilterOpts(opts);
-				var filter = {
+				const filter = {
 					date: {
 						$lt: opts.to,
 						$gt: opts.from
@@ -72,80 +74,95 @@ module.exports = function(app, callback) {
 				if (opts.task) {
 					filter.task = new ObjectID(opts.task);
 				}
-				collection
+
+				return collection
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
-					.toArray(function(error, results) {
-						if (error) {
-							return callback(error);
-						}
-						callback(null, results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput));
+					.toArray()
+					.then(results => {
+						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+					})
+					.catch(error => {
+						console.error('model:result:_getFiltered failed');
+						console.error(error.message);
 					});
 			},
 
 			// Get results for all tasks
-			getAll: function(opts, callback) {
+			getAll: function(opts) {
 				delete opts.task;
-				model._getFiltered(opts, callback);
+				return model._getFiltered(opts);
 			},
 
 			// Get a result by ID
-			getById: function(id, full, callback) {
-				var prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
+			getById: function(id, full) {
+				const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, null);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				collection.findOne({_id: id}, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					if (result) {
-						result = prepare(result);
-					}
-					callback(null, result);
-				});
+				return collection.findOne({_id: id})
+					.then(result => {
+						if (result) {
+							result = prepare(result);
+						}
+						return result;
+					})
+					.catch(error => {
+						console.error(`model:result:getById failed, with id: ${id}`);
+						console.error(error.message);
+					});
 			},
 
 			// Get results for a single task
-			getByTaskId: function(id, opts, callback) {
+			getByTaskId: function(id, opts) {
 				opts.task = id;
-				model._getFiltered(opts, callback);
+				return model._getFiltered(opts);
 			},
 
 			// Delete results for a single task
-			deleteByTaskId: function(id, callback) {
+			deleteByTaskId: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				collection.deleteMany({task: id}, callback);
+				return collection.deleteMany({task: id})
+					.catch(error => {
+						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
+						console.error(error.message);
+					});
 			},
 
 			// Get a result by ID and task ID
-			getByIdAndTaskId: function(id, task, opts, callback) {
-				var prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+			getByIdAndTaskId: function(id, task, opts) {
+				const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					return callback(null, null);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				collection.findOne({
+
+				return collection.findOne({
 					_id: id,
 					task: task
-				}, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					if (result) {
-						result = prepare(result);
-					}
-					callback(null, result);
-				});
+				})
+					.then(result => {
+						if (result) {
+							result = prepare(result);
+						}
+						return result;
+					})
+					.catch(error => {
+						console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
+						console.error(error.message);
+					});
 			},
 
 			// Prepare a result for output
@@ -165,7 +182,7 @@ module.exports = function(app, callback) {
 				};
 			},
 			convertPa11y2Results: function(results) {
-				var resultObject = {
+				const resultObject = {
 					count: {
 						total: results.issues.length,
 						error: results.issues.filter(function(result) {
@@ -184,6 +201,6 @@ module.exports = function(app, callback) {
 			}
 
 		};
-		callback(error, model);
+		callback(errors, model);
 	});
 };

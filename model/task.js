@@ -18,10 +18,9 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-var async = require('async');
-var chalk = require('chalk');
-var ObjectID = require('mongodb').ObjectID;
-var pa11y = require('pa11y');
+const chalk = require('chalk');
+const ObjectID = require('mongodb').ObjectID;
+const pa11y = require('pa11y');
 
 function pa11yLog(message) {
 	console.log(chalk.grey('  > ' + message));
@@ -29,7 +28,7 @@ function pa11yLog(message) {
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', function(error, collection) {
+	app.db.collection('tasks', function(errors, collection) {
 		collection.ensureIndex({
 			name: 1,
 			url: 1,
@@ -37,66 +36,75 @@ module.exports = function(app, callback) {
 		}, {
 			w: -1
 		});
-		var model = {
+		const model = {
 
 			collection: collection,
 
 			// Create a task
-			create: function(newTask, callback) {
+			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
-				collection.insert(newTask, function(error, result) {
-					if (error) {
-						return callback(error);
-					}
-					callback(null, model.prepareForOutput(result.ops[0]));
-				});
+
+				return collection.insert(newTask)
+					.then(result => {
+						return model.prepareForOutput(result.ops[0]);
+					})
+					.catch(error => {
+						console.error('model:task:create failed');
+						console.error(error.message);
+					});
 			},
 
 			// Get all tasks
-			getAll: function(callback) {
-				collection
+			getAll: function() {
+				return collection
 					.find()
 					.sort({
 						name: 1,
 						standard: 1,
 						url: 1
 					})
-					.toArray(function(error, tasks) {
-						if (error) {
-							return callback(error);
-						}
-						callback(null, tasks.map(model.prepareForOutput));
+					.toArray()
+					.then(tasks => {
+						return tasks.map(model.prepareForOutput);
+					})
+					.catch(error => {
+						console.error('model:task:getAll failed');
+						console.error(error.message);
 					});
 			},
 
 			// Get a task by ID
-			getById: function(id, callback) {
+			getById: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, null);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				collection.findOne({_id: id}, function(error, task) {
-					if (error) {
-						return callback(error);
-					}
-					if (task) {
-						task = model.prepareForOutput(task);
-					}
-					callback(null, task);
-				});
+
+				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
+				return collection.findOne({_id: id})
+					.then(task => {
+						return model.prepareForOutput(task);
+					})
+					.catch(error => {
+						console.error(`model:task:getById failed, with id: ${id}`);
+						console.error(error.message);
+						return null;
+					});
 			},
 
 			// Edit a task by ID
-			editById: function(id, edits, callback) {
-				var idString = id;
+			editById: function(id, edits) {
+				const idString = id;
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null, 0);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				var now = Date.now();
-				var taskEdits = {
+				const now = Date.now();
+				const taskEdits = {
 					name: edits.name,
 					timeout: parseInt(edits.timeout, 10),
 					wait: parseInt(edits.wait, 10),
@@ -113,55 +121,77 @@ module.exports = function(app, callback) {
 				if (edits.headers) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
-				collection.update({_id: id}, {$set: taskEdits}, function(error, updateCount) {
-					if (error || updateCount < 1) {
-						return callback(error, 0);
-					}
-					var annotation = {
-						type: 'edit',
-						date: now,
-						comment: edits.comment || 'Edited task'
-					};
-					model.addAnnotationById(idString, annotation, function(error) {
-						callback(error, updateCount);
+
+				return collection.update({_id: id}, {$set: taskEdits})
+					.then(updateCount => {
+						if (updateCount < 1) {
+							return 0;
+						}
+						const annotation = {
+							type: 'edit',
+							date: now,
+							comment: edits.comment || 'Edited task'
+						};
+						return model.addAnnotationById(idString, annotation)
+							.then(() => {
+								return updateCount;
+							});
+					})
+					.catch(error => {
+						console.error(`model:task:editById failed, with id: ${id}`);
+						console.error(error.message);
+						return null;
 					});
-				});
 			},
 
 			// Add an annotation to a task
-			addAnnotationById: function(id, annotation, callback) {
-				model.getById(id, function(error, task) {
-					if (error || !task) {
-						return callback(error, 0);
-					}
-					id = new ObjectID(id);
-					if (Array.isArray(task.annotations)) {
-						collection.update({_id: id}, {$push: {annotations: annotation}}, callback);
-					} else {
-						collection.update({_id: id}, {$set: {annotations: [annotation]}}, callback);
-					}
-				});
+			addAnnotationById: function(id, annotation) {
+				return model.getById(id)
+					.then(task => {
+						if (!task) {
+							return 0;
+						}
+						id = new ObjectID(id);
+						if (Array.isArray(task.annotations)) {
+							return collection.update({_id: id}, {$push: {annotations: annotation}});
+						}
+						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
+
+					})
+					.catch(error => {
+						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
+						console.error(error.message);
+						return null;
+					});
 			},
 
 			// Delete a task by ID
-			deleteById: function(id, callback) {
+			deleteById: function(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					return callback(null);
+					console.error('ObjectID generation failed.', error.message);
+					return null;
 				}
-				collection.deleteOne({_id: id}, function(error, result) {
-					callback(error, result ? result.deletedCount : null);
-				});
+				return collection.deleteOne({_id: id})
+					.then(result => {
+						return result ? result.deletedCount : null;
+					})
+					.catch(error => {
+						console.error(`model:task:deleteById failed, with id: ${id}`);
+						console.error(error.message);
+						return null;
+					});
 			},
 
 			// Run a task by ID
-			runById: function(id, callback) {
-				model.getById(id, function(error, task) {
-					if (error) {
-						return callback(error);
-					}
-					var pa11yOptions = {
+			runById: function(id) {
+				let options;
+
+				return model.getById(id).then(task => {
+					options = task;
+
+					const pa11yOptions = {
 						standard: task.standard,
 						includeWarnings: true,
 						includeNotices: true,
@@ -194,37 +224,35 @@ module.exports = function(app, callback) {
 								headers: task.headers
 							};
 						}
-					}
-					if (task.hideElements) {
-						pa11yOptions.hideElements = task.hideElements;
-					}
 
-					async.waterfall([
-
-						function(next) {
-							pa11y(task.url, pa11yOptions)
-								.then(function(results) {
-									next(null, results);
-								})
-								.catch(function(error) {
-									next(error);
-								});
-						},
-
-						function(results, next) {
-							results = app.model.result.convertPa11y2Results(results);
-							results.task = new ObjectID(task.id);
-							results.ignore = task.ignore;
-							app.model.result.create(results, next);
+						if (task.hideElements) {
+							pa11yOptions.hideElements = task.hideElements;
 						}
+					}
 
-					], callback);
-				});
+					const test = pa11y(pa11yOptions);
+					return test.run(task.url);
+				})
+					.then(results => {
+						results = app.model.result.convertPa11y2Results(results);
+						results.task = new ObjectID(options.id);
+						results.ignore = options.ignore;
+						return app.model.result.create(results);
+					})
+					.catch(error => {
+						console.error(`model:task:runById failed, with id: ${id}`);
+						console.error(error.message);
+						return null;
+					});
+
 			},
 
 			// Prepare a task for output
 			prepareForOutput: function(task) {
-				var output = {
+				if (!task) {
+					return null;
+				}
+				const output = {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,
@@ -250,7 +278,10 @@ module.exports = function(app, callback) {
 					if (typeof task.headers === 'string') {
 						try {
 							output.headers = JSON.parse(task.headers);
-						} catch (error) {}
+						} catch (error) {
+							console.error('Header input contains invalid JSON:', task.headers);
+							console.error(error.message);
+						}
 					} else {
 						output.headers = task.headers;
 					}
@@ -264,13 +295,14 @@ module.exports = function(app, callback) {
 						return JSON.parse(headers);
 					} catch (error) {
 						console.error('Header input contains invalid JSON:', headers);
-						return undefined;
+						console.error(error.message);
+						return null;
 					}
 				}
 				return headers;
 			}
 
 		};
-		callback(error, model);
+		callback(errors, model);
 	});
 };

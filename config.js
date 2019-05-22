@@ -14,8 +14,8 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var fs = require('fs');
-var jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
+const fs = require('fs');
+const jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
 
 if (fs.existsSync(jsonPath)) {
 	var jsonConfig = require(jsonPath);
@@ -38,6 +38,6 @@ if (fs.existsSync(jsonPath)) {
 }
 
 function env(name, defaultValue) {
-	var value = process.env[name];
+	const value = process.env[name];
 	return (typeof value === 'string' ? value : defaultValue);
 }

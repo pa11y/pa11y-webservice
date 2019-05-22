@@ -14,15 +14,15 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var app = require('../../app');
-var config = require('../../config/test.json');
-var createNavigator = require('./helper/navigate');
-var loadFixtures = require('../../data/fixture/load');
-var request = require('request');
+const app = require('../../app');
+const config = require('../../config/test.json');
+const createNavigator = require('./helper/navigate');
+const loadFixtures = require('../../data/fixture/load');
+const request = require('request');
 
 // Run before all tests
 before(function(done) {
-	var that = this;
+	const that = this;
 
 	that.baseUrl = 'http://localhost:' + config.port + '/';
 	that.app = null;

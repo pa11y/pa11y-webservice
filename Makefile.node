@@ -98,15 +98,15 @@ test: test-unit-coverage verify-coverage test-integration
 	@$(TASK_DONE)
 
 test-unit:
-	@if [ -d test/unit ]; then mocha test/unit --recursive && $(TASK_DONE); fi
+	@if [ -d test/unit ]; then mocha test/unit --exit --recursive && $(TASK_DONE); fi
 
 test-unit-coverage:
 	@if [ -d test/unit ]; then \
 		if [ -x $(NPM_BIN)/nyc ]; then \
-			nyc --reporter=text --reporter=html $(NPM_BIN)/_mocha test/unit --recursive && $(TASK_DONE); \
+			nyc --reporter=text --reporter=html $(NPM_BIN)/_mocha test/unit --exit --recursive && $(TASK_DONE); \
 		else \
 			if [ -x $(NPM_BIN)/istanbul ]; then \
-				istanbul cover $(NPM_BIN)/_mocha -- test/unit --recursive && $(TASK_DONE); \
+				istanbul cover $(NPM_BIN)/_mocha -- test/unit --exit --recursive && $(TASK_DONE); \
 			else \
 				make test-unit; \
 			fi \
@@ -114,7 +114,7 @@ test-unit-coverage:
 	fi
 
 test-integration:
-	@if [ -d test/integration ]; then mocha test/integration --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE); fi
+	@if [ -d test/integration ]; then mocha test/integration --exit --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE); fi
 
 
 # Tooling tasks

@@ -14,26 +14,24 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var async = require('async');
-var Hapi = require('hapi');
-var MongoClient = require('mongodb').MongoClient;
+const async = require('async');
+const Hapi = require('hapi');
+const MongoClient = require('mongodb').MongoClient;
 
 module.exports = initApp;
 
 // Initialise the application
 function initApp(config, callback) {
 
-	var app = module.exports = {
-		server: new Hapi.Server(),
+	const app = module.exports = {
+		server: new Hapi.Server({
+			host: config.host,
+			port: config.port
+		}),
 		database: null,
 		model: {},
 		config: config
 	};
-
-	app.server.connection({
-		host: config.host,
-		port: config.port
-	});
 
 	async.series([
 
@@ -91,6 +89,8 @@ function initApp(config, callback) {
 			require('./route/tasks')(app);
 			require('./route/task')(app);
 			app.server.start(next);
+
+			console.log(`Server running at: ${app.server.info.uri}`);
 		}
 
 	], function(error) {

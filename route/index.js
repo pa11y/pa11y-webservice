@@ -18,14 +18,14 @@
 
 // Default route, to help new users know they've installed correctly.
 module.exports = function(app) {
-	var server = app.server;
+	const server = app.server;
 
 	// Default index page
 	server.route({
 		method: 'GET',
 		path: '/',
 		handler: function(request, reply) {
-			return reply('Pa11y-webservice is running.  Documentation at https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints').code(200);
+			return reply.response('Pa11y-webservice is running.  Documentation at https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints').code(200);
 		}
 	});
 };

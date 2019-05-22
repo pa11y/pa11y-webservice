@@ -14,7 +14,7 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('GET /tasks/{id}/results/{id}', function() {
 
@@ -25,7 +25,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with no query', function() {
 
 				beforeEach(function(done) {
-					var request = {
+					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001'
 					};
@@ -36,14 +36,12 @@ describe('GET /tasks/{id}/results/{id}', function() {
 					assert.strictEqual(this.last.status, 200);
 				});
 
-				it('should output a JSON representation of the requested result', function(done) {
-					var body = this.last.body;
-					this.app.model.result.getById('def000000000000000000001', false, function(error, result) {
-						assert.isObject(body);
-						assert.strictEqual(body.id, 'def000000000000000000001');
-						assert.deepEqual(body, result);
-						done();
-					});
+				it('should output a JSON representation of the requested result', async function() {
+					const body = this.last.body;
+					const result = await this.app.model.result.getById('def000000000000000000001', false);
+					assert.isObject(body);
+					assert.strictEqual(body.id, 'def000000000000000000001');
+					assert.deepEqual(body, result);
 				});
 
 			});
@@ -51,7 +49,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with full details query', function() {
 
 				beforeEach(function(done) {
-					var request = {
+					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
 						query: {
@@ -65,14 +63,12 @@ describe('GET /tasks/{id}/results/{id}', function() {
 					assert.strictEqual(this.last.status, 200);
 				});
 
-				it('should output a JSON representation of the requested result with full details', function(done) {
-					var body = this.last.body;
-					this.app.model.result.getById('def000000000000000000001', true, function(error, result) {
-						assert.isObject(body);
-						assert.strictEqual(body.id, 'def000000000000000000001');
-						assert.deepEqual(body, result);
-						done();
-					});
+				it('should output a JSON representation of the requested result with full details', async function() {
+					const body = this.last.body;
+					const result = await this.app.model.result.getById('def000000000000000000001', true);
+					assert.isObject(body);
+					assert.strictEqual(body.id, 'def000000000000000000001');
+					assert.deepEqual(body, result);
 				});
 
 			});
@@ -80,7 +76,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			describe('with invalid query', function() {
 
 				beforeEach(function(done) {
-					var request = {
+					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
 						query: {
@@ -101,7 +97,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 		describe('with valid but non-existent result ID', function() {
 
 			beforeEach(function(done) {
-				var request = {
+				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000000'
 				};
@@ -117,7 +113,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 		describe('with invalid result ID', function() {
 
 			beforeEach(function(done) {
-				var request = {
+				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/-def-'
 				};
@@ -135,7 +131,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with valid and existing but non-matching task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000002/results/def000000000000000000001'
 			};
@@ -151,7 +147,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with valid but non-existent task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000/results/def000000000000000000001'
 			};
@@ -167,7 +163,7 @@ describe('GET /tasks/{id}/results/{id}', function() {
 	describe('with invalid task ID', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-/results/def000000000000000000001'
 			};

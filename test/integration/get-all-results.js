@@ -14,14 +14,14 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var assert = require('proclaim');
+const assert = require('proclaim');
 
 describe('GET /tasks/results', function() {
 
 	describe('with no query', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results'
 			};
@@ -32,31 +32,29 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) sorted by date', function(done) {
-			var body = this.last.body;
-			this.app.model.result.getAll({}, function(error, results) {
-				assert.isArray(body);
-				assert.strictEqual(body.length, 4);
-				assert.strictEqual(body[0].id, 'def000000000000000000001');
-				assert.isUndefined(body[0].results);
-				assert.strictEqual(body[1].id, 'def000000000000000000002');
-				assert.isUndefined(body[1].results);
-				assert.strictEqual(body[2].id, 'def000000000000000000003');
-				assert.isUndefined(body[2].results);
-				assert.strictEqual(body[3].id, 'def000000000000000000004');
-				assert.isUndefined(body[3].results);
-				assert.deepEqual(body, results);
-				done();
-			});
+		it('should output a JSON representation of all results (in the last 30 days) sorted by date', async function() {
+			const body = this.last.body;
+			const results = await this.app.model.result.getAll({});
+			assert.isArray(body);
+			assert.strictEqual(body.length, 4);
+			assert.strictEqual(body[0].id, 'def000000000000000000001');
+			assert.isUndefined(body[0].results);
+			assert.strictEqual(body[1].id, 'def000000000000000000002');
+			assert.isUndefined(body[1].results);
+			assert.strictEqual(body[2].id, 'def000000000000000000003');
+			assert.isUndefined(body[2].results);
+			assert.strictEqual(body[3].id, 'def000000000000000000004');
+			assert.isUndefined(body[3].results);
+			assert.deepEqual(body, results);
 		});
 
 	});
 
 	describe('with date-range query', function() {
-		var query;
+		let query;
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {
@@ -72,27 +70,25 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all expected results sorted by date', function(done) {
-			var body = this.last.body;
-			this.app.model.result.getAll(query, function(error, results) {
-				assert.isArray(body);
-				assert.strictEqual(body.length, 2);
-				assert.strictEqual(body[0].id, 'def000000000000000000007');
-				assert.isUndefined(body[0].results);
-				assert.strictEqual(body[1].id, 'def000000000000000000006');
-				assert.isUndefined(body[1].results);
-				assert.deepEqual(body, results);
-				done();
-			});
+		it('should output a JSON representation of all expected results sorted by date', async function() {
+			const body = this.last.body;
+			const results = await this.app.model.result.getAll(query);
+			assert.isArray(body);
+			assert.strictEqual(body.length, 2);
+			assert.strictEqual(body[0].id, 'def000000000000000000007');
+			assert.isUndefined(body[0].results);
+			assert.strictEqual(body[1].id, 'def000000000000000000006');
+			assert.isUndefined(body[1].results);
+			assert.deepEqual(body, results);
 		});
 
 	});
 
 	describe('with full details query', function() {
-		var query;
+		let query;
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {
@@ -107,22 +103,20 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.last.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', function(done) {
-			var body = this.last.body;
-			this.app.model.result.getAll(query, function(error, results) {
-				assert.isArray(body);
-				assert.strictEqual(body.length, 4);
-				assert.strictEqual(body[0].id, 'def000000000000000000001');
-				assert.isArray(body[0].results);
-				assert.strictEqual(body[1].id, 'def000000000000000000002');
-				assert.isArray(body[1].results);
-				assert.strictEqual(body[2].id, 'def000000000000000000003');
-				assert.isArray(body[2].results);
-				assert.strictEqual(body[3].id, 'def000000000000000000004');
-				assert.isArray(body[3].results);
-				assert.deepEqual(body, results);
-				done();
-			});
+		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
+			const body = this.last.body;
+			const results = await this.app.model.result.getAll(query);
+			assert.isArray(body);
+			assert.strictEqual(body.length, 4);
+			assert.strictEqual(body[0].id, 'def000000000000000000001');
+			assert.isArray(body[0].results);
+			assert.strictEqual(body[1].id, 'def000000000000000000002');
+			assert.isArray(body[1].results);
+			assert.strictEqual(body[2].id, 'def000000000000000000003');
+			assert.isArray(body[2].results);
+			assert.strictEqual(body[3].id, 'def000000000000000000004');
+			assert.isArray(body[3].results);
+			assert.deepEqual(body, results);
 		});
 
 	});
@@ -130,7 +124,7 @@ describe('GET /tasks/results', function() {
 	describe('with invalid query', function() {
 
 		beforeEach(function(done) {
-			var request = {
+			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
 				query: {

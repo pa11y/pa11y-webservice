@@ -14,8 +14,8 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var chalk = require('chalk');
-var config = require('./config');
+const chalk = require('chalk');
+const config = require('./config');
 
 process.on('SIGINT', function() {
 	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
