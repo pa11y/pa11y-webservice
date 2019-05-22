@@ -15,7 +15,7 @@
 'use strict';
 
 const async = require('async');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const MongoClient = require('mongodb').MongoClient;
 
 module.exports = initApp;
