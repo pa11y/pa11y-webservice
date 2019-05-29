@@ -27,10 +27,7 @@ function loadFixtures(env, config, done) {
 
 	config.dbOnly = true;
 
-	application(config, async function(error, app) {
-		if (error) {
-			done(error);
-		}
+	application(config, async function(app) {
 		// Clear existing content
 		await app.model.result.collection.remove();
 		await app.model.task.collection.remove();

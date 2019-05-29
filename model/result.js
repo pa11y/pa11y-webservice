@@ -22,12 +22,14 @@ const ObjectID = require('mongodb').ObjectID;
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', function(errors, collection) {
-		collection.ensureIndex({
+	app.db.collection('results', async function(errors, collection) {
+
+		await collection.createIndex({
 			date: 1
 		}, {
 			w: -1
 		});
+
 		const model = {
 
 			collection: collection,
@@ -101,7 +103,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 				return collection.findOne({_id: id})
@@ -128,7 +130,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 				return collection.deleteMany({task: id})
@@ -145,7 +147,7 @@ module.exports = function(app, callback) {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 

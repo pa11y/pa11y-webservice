@@ -22,17 +22,11 @@ process.on('SIGINT', function() {
 	process.exit();
 });
 
-require('./app')(config, function(error, app) {
+require('./app')(config, function(app) {
 	console.log('');
 	console.log(chalk.underline.cyan('Pa11y Webservice started'));
 	console.log(chalk.grey('mode:     %s'), process.env.NODE_ENV);
 	console.log(chalk.grey('uri:      %s'), app.server.info.uri);
 	console.log(chalk.grey('database: %s'), config.database);
 	console.log(chalk.grey('cron:     %s'), config.cron);
-
-	if (error) {
-		console.error('');
-		console.error(chalk.red('Error starting Pa11y Webservice:'));
-		console.error(error.message);
-	}
 });

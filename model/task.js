@@ -28,8 +28,8 @@ function pa11yLog(message) {
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', function(errors, collection) {
-		collection.ensureIndex({
+	app.db.collection('tasks', async function(errors, collection) {
+		await collection.createIndex({
 			name: 1,
 			url: 1,
 			standard: 1
@@ -78,11 +78,11 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 
-				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
+				// http://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#findOne
 				return collection.findOne({_id: id})
 					.then(task => {
 						return model.prepareForOutput(task);
@@ -100,7 +100,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 				const now = Date.now();
@@ -170,7 +170,7 @@ module.exports = function(app, callback) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
 				return collection.deleteOne({_id: id})

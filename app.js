@@ -14,87 +14,65 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const async = require('async');
 const Hapi = require('@hapi/hapi');
 const MongoClient = require('mongodb').MongoClient;
 
-module.exports = initApp;
-
 // Initialise the application
-function initApp(config, callback) {
+module.exports = async (config, callback) => {
 
 	const app = module.exports = {
 		server: new Hapi.Server({
 			host: config.host,
 			port: config.port
 		}),
-		database: null,
+		db: null,
 		model: {},
 		config: config
 	};
 
-	async.series([
+	/* eslint camelcase: 'off' */
+	await MongoClient.connect(config.database, {
+		autoReconnect: false,
+		useNewUrlParser: true
+	}).then(client => {
+		app.db = client.db();
 
-		function(next) {
-			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
-				if (error) {
-					console.log('Error connecting to MongoDB:');
-					console.log(JSON.stringify(error));
-				}
+		app.db.on('timeout', () => {
+			console.log('Mongo connection timeout');
+		});
 
-				db.on('timeout', () => {
-					console.log('Mongo connection timeout');
-				});
+		app.db.on('close', () => {
+			console.log('Mongo connection closed');
+		});
 
-				db.on('close', () => {
-					console.log('Mongo connection closed');
-				});
-
-				db.on('reconnect', () => {
-					console.log('Mongo reconnected');
-				});
-
-				app.db = db;
-				next(error);
-			});
-		},
-
-		function(next) {
-			require('./model/result')(app, function(error, model) {
-				app.model.result = model;
-				next(error);
-			});
-		},
-
-		function(next) {
-			require('./model/task')(app, function(error, model) {
-				app.model.task = model;
-				next(error);
-			});
-		},
-
-		function(next) {
-			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
-				require('./task/pa11y')(config, app);
-			}
-			next();
-		},
-
-		function(next) {
-			if (config.dbOnly) {
-				return next();
-			}
-			require('./route/index')(app);
-			require('./route/tasks')(app);
-			require('./route/task')(app);
-			app.server.start(next);
-
-			console.log(`Server running at: ${app.server.info.uri}`);
-		}
-
-	], function(error) {
-		callback(error, app);
+		app.db.on('reconnect', () => {
+			console.log('Mongo reconnected');
+		});
+	}).catch(error => {
+		console.log('Error connecting to MongoDB:');
+		console.log(JSON.stringify(error));
 	});
 
-}
+	await require('./model/result')(app, function(error, model) {
+		app.model.result = model;
+	});
+
+	await require('./model/task')(app, function(error, model) {
+		app.model.task = model;
+	});
+
+	if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
+		await require('./task/pa11y')(config, app);
+	}
+
+	if (!config.dbOnly) {
+		await require('./route/index')(app);
+		await require('./route/tasks')(app);
+		await require('./route/task')(app);
+		await app.server.start();
+
+		console.log(`Server running at: ${app.server.info.uri}`);
+	}
+	callback(app);
+
+};
