@@ -30,11 +30,13 @@ describe('POST /tasks', function() {
 				standard: 'WCAG2AA',
 				ignore: ['foo', 'bar']
 			};
+
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
 			};
+
 			this.navigate(request, done);
 		});
 

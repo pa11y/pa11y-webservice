@@ -34,13 +34,15 @@ function initApp(config, callback) {
 	};
 
 	async.series([
-
 		function(next) {
 			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
+			MongoClient.connect(config.database, {
+				autoReconnect: true
+			}, function(error, db) {
 				if (error) {
 					console.log('Error connecting to MongoDB:');
 					console.log(JSON.stringify(error));
+					return next(error);
 				}
 
 				db.on('timeout', () => {
