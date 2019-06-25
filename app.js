@@ -34,13 +34,15 @@ function initApp(config, callback) {
 	};
 
 	async.series([
-
 		function(next) {
 			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
+			MongoClient.connect(config.database, {
+				autoReconnect: true
+			}, function(error, db) {
 				if (error) {
 					console.log('Error connecting to MongoDB:');
 					console.log(JSON.stringify(error));
+					return next(error);
 				}
 
 				db.on('timeout', () => {
@@ -85,10 +87,16 @@ function initApp(config, callback) {
 			if (config.dbOnly) {
 				return next();
 			}
+
 			require('./route/index')(app);
 			require('./route/tasks')(app);
 			require('./route/task')(app);
-			app.server.start(next);
+
+			app.server.start()
+				.then(
+					() => next(),
+					error => next(error)
+				);
 
 			console.log(`Server running at: ${app.server.info.uri}`);
 		}
