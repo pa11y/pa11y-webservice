@@ -154,6 +154,7 @@ module.exports = function(app) {
 					chalk.red('Failed to finish task %s'),
 					task.id
 				);
+				return reply.response(`Failed to finish task ${task.id}`).code(500);
 			}
 			console.log(
 				chalk.grey('Finished running one-off task @ %s'),
