@@ -186,11 +186,7 @@ module.exports = function(app, callback) {
 
 			// Run a task by ID
 			runById: function(id) {
-				let options;
-
-				return model.getById(id).then(task => {
-					options = task;
-
+				return model.getById(id).then(async task => {
 					const pa11yOptions = {
 						standard: task.standard,
 						includeWarnings: true,
@@ -200,6 +196,7 @@ module.exports = function(app, callback) {
 						ignore: task.ignore,
 						actions: task.actions || [],
 						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
+						headers: task.headers || {},
 						log: {
 							debug: pa11yLog,
 							error: pa11yLog,
@@ -207,44 +204,32 @@ module.exports = function(app, callback) {
 							log: pa11yLog
 						}
 					};
-					if (task.username && task.password) {
-						pa11yOptions.page = {
-							settings: {
-								userName: task.username,
-								password: task.password
-							}
-						};
-					}
-					if (task.headers && typeof task.headers === 'object' &&
-					Object.keys(task.headers).length > 0) {
-						if (pa11yOptions.page) {
-							pa11yOptions.page.headers = task.headers;
-						} else {
-							pa11yOptions.page = {
-								headers: task.headers
-							};
-						}
 
-						if (task.hideElements) {
-							pa11yOptions.hideElements = task.hideElements;
-						}
+					// eslint-disable-next-line dot-notation
+					if (task.username && task.password && !pa11yOptions.headers['Authorization']) {
+						const encodedCredentials = Buffer.from(`${task.username}:${task.password}`)
+							.toString('base64');
+
+						// eslint-disable-next-line dot-notation
+						pa11yOptions.headers['Authorization'] = `Basic ${encodedCredentials}`;
 					}
 
-					const test = pa11y(pa11yOptions);
-					return test.run(task.url);
+					if (task.hideElements) {
+						pa11yOptions.hideElements = task.hideElements;
+					}
+
+					const pa11yResults = await pa11y(task.url, pa11yOptions);
+
+					const results = app.model.result.convertPa11y2Results(pa11yResults);
+					results.task = new ObjectID(task.id);
+					results.ignore = task.ignore;
+					return app.model.result.create(results);
 				})
-					.then(results => {
-						results = app.model.result.convertPa11y2Results(results);
-						results.task = new ObjectID(options.id);
-						results.ignore = options.ignore;
-						return app.model.result.create(results);
-					})
 					.catch(error => {
 						console.error(`model:task:runById failed, with id: ${id}`);
 						console.error(error.message);
 						return null;
 					});
-
 			},
 
 			// Prepare a task for output
