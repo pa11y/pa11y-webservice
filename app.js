@@ -87,10 +87,16 @@ function initApp(config, callback) {
 			if (config.dbOnly) {
 				return next();
 			}
+
 			require('./route/index')(app);
 			require('./route/tasks')(app);
 			require('./route/task')(app);
-			app.server.start(next);
+
+			app.server.start()
+				.then(
+					() => next(),
+					error => next(error)
+				);
 
 			console.log(`Server running at: ${app.server.info.uri}`);
 		}
