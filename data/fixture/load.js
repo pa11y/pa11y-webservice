@@ -28,19 +28,25 @@ function loadFixtures(env, config, done) {
 	config.dbOnly = true;
 
 	application(config, async function(app) {
-		// Clear existing content
-		await app.model.result.collection.remove();
-		await app.model.task.collection.remove();
 
-		// Insert new content
-		await Promise.all(fixtures.tasks.map(function(task) {
-			return app.model.task.create(task);
-		}));
-		await Promise.all(fixtures.results.map(function(result) {
-			return app.model.result.create(result);
-		}));
+		try {
+			// Clear existing content
+			await app.model.result.collection.remove();
+			await app.model.task.collection.remove();
 
-		await app.db.close();
-		done();
+			// Insert new content
+			await Promise.all(fixtures.tasks.map(function(task) {
+				return app.model.task.create(task);
+			}));
+			await Promise.all(fixtures.results.map(function(result) {
+				return app.model.result.create(result);
+			}));
+
+			await app.db.close();
+			done();
+			// eslint-disable-next-line no-shadow,no-catch-shadow
+		} catch (error) {
+			done(error);
+		}
 	});
 }

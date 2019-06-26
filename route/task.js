@@ -17,7 +17,7 @@
 'use strict';
 
 const chalk = require('chalk');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const validateAction = require('pa11y').isValidAction;
 
 // Routes relating to individual tasks

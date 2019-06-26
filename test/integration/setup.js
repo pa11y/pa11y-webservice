@@ -24,15 +24,15 @@ const request = require('request');
 before(function(done) {
 	const that = this;
 
-	that.baseUrl = 'http://localhost:' + config.port + '/';
-	that.app = null;
-	that.last = {};
-	that.navigate = createNavigator(that.baseUrl, that.last);
+	this.baseUrl = 'http://localhost:' + config.port + '/';
+	this.app = null;
+	this.last = {};
+	this.navigate = createNavigator(that.baseUrl, that.last);
 
-	assertTestAppIsRunning(that.baseUrl, function() {
+	assertTestAppIsRunning(this.baseUrl, function() {
 		config.dbOnly = true;
-		app(config, function(error, app) {
-			that.app = app;
+		app(config, function(error, initialisedApp) {
+			that.app = initialisedApp;
 			loadFixtures('test', config, done);
 		});
 	});
