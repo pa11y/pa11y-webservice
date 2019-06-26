@@ -14,18 +14,40 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
+const http = require('http');
 const assert = require('proclaim');
+
+const responseBody = `
+<!doctype html>
+<html>
+	<head>
+		<title>Integration Test</title>
+	</head>
+	<body>Content</body>
+</html>
+`;
 
 describe('POST /tasks/{id}/run', function() {
 
 	describe('with valid and existing task ID', function() {
+		let server;
 
 		beforeEach(function(done) {
+			server = http.createServer(function(request, response) {
+				response.writeHead(200, {'Content-Type': 'text/html'});
+				response.end(responseBody);
+			});
+			server.listen(8132);
+
 			const request = {
 				method: 'POST',
-				endpoint: 'tasks/abc000000000000000000001/run'
+				endpoint: 'tasks/abc000000000000000000004/run'
 			};
 			this.navigate(request, done);
+		});
+
+		afterEach(function(done) {
+			server.close(done);
 		});
 
 		it('should send a 202 status', function() {
