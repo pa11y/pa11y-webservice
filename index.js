@@ -17,7 +17,7 @@
 const chalk = require('chalk');
 const config = require('./config');
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
 	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
 	process.exit();
 });

@@ -16,49 +16,52 @@
 
 const async = require('async');
 const chalk = require('chalk');
-const CronJob = require('cron').CronJob;
+const {CronJob} = require('cron');
 
 module.exports = initTask;
 exports.runPa11yOnTasks = runPa11yOnTasks;
 
 // Initialise the task
 function initTask(config, app) {
+
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
 	const job = new CronJob(config.cron, run.bind(null, app));
 	job.start();
+
 }
 
 // Run the task
 function run(app) {
+
 	console.log('');
 	console.log(chalk.grey('Starting to run tasks @ %s'), new Date());
+
 	async.waterfall([
 
-		function(next) {
-			app.model.task.getAll(next);
-		},
+		next => app.model.task.getAll(next),
 
-		function(tasks, next) {
-			runPa11yOnTasks(tasks, app, next);
-		}
+		(tasks, next) => runPa11yOnTasks(tasks, app, next)
 
-	], function(error) {
+	], error => {
+
 		if (error) {
 			console.error(chalk.red('Failed to run tasks: %s'), error.message);
 			console.log('');
 			process.exit(1);
 		}
+
 	});
+
 }
 
 // Run Pa11y on an array of tasks
 function runPa11yOnTasks(tasks, app, done) {
 
-	const queue = async.queue(function(task, nextInQueue) {
+	const queue = async.queue((task, nextInQueue) => {
 		console.log('Starting task %s', task.id);
-		app.model.task.runById(task.id, function(error) {
+		app.model.task.runById(task.id, error => {
 			if (error) {
 				console.log(chalk.red('Failed to finish task %s: %s'), task.id, error.message);
 			} else {
@@ -66,9 +69,10 @@ function runPa11yOnTasks(tasks, app, done) {
 			}
 			nextInQueue();
 		});
+
 	}, 2);
 
-	queue.drain = function() {
+	queue.drain = () => {
 		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
 		done();
 	};

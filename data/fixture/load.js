@@ -21,8 +21,8 @@ module.exports = loadFixtures;
 function loadFixtures(env, config, done) {
 	env = (env || 'development');
 	const fixtures = {
-		results: require('./' + env + '/results.js'),
-		tasks: require('./' + env + '/tasks.js')
+		results: require(`./${env}/results.js`),
+		tasks: require(`./${env}/tasks.js`)
 	};
 
 	config.dbOnly = true;

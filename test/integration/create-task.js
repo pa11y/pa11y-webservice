@@ -50,7 +50,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -96,7 +96,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -141,7 +141,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -184,7 +184,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -229,7 +229,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -278,7 +278,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -327,7 +327,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
@@ -370,7 +370,7 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = 'http://' + this.last.request.uri.host + '/tasks/' + this.last.body.id;
+			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
 			assert.strictEqual(this.last.response.headers.location, taskUrl);
 		});
 
