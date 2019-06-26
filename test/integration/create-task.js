@@ -15,7 +15,7 @@
 'use strict';
 
 const assert = require('proclaim');
-const ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
 
 describe('POST /tasks', function() {
 

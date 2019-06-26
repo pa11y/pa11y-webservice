@@ -16,7 +16,7 @@
 
 const async = require('async');
 const Hapi = require('@hapi/hapi');
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb');
 
 module.exports = initApp;
 
@@ -34,11 +34,11 @@ function initApp(config, callback) {
 	};
 
 	async.series([
-		function(next) {
+		next => {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {
 				autoReconnect: true
-			}, function(error, db) {
+			}, (error, db) => {
 				if (error) {
 					console.log('Error connecting to MongoDB:');
 					console.log(JSON.stringify(error));
@@ -62,28 +62,28 @@ function initApp(config, callback) {
 			});
 		},
 
-		function(next) {
-			require('./model/result')(app, function(error, model) {
+		next => {
+			require('./model/result')(app, (error, model) => {
 				app.model.result = model;
 				next(error);
 			});
 		},
 
-		function(next) {
-			require('./model/task')(app, function(error, model) {
+		next => {
+			require('./model/task')(app, (error, model) => {
 				app.model.task = model;
 				next(error);
 			});
 		},
 
-		function(next) {
+		next => {
 			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
 				require('./task/pa11y')(config, app);
 			}
 			next();
 		},
 
-		function(next) {
+		next => {
 			if (config.dbOnly) {
 				return next();
 			}
@@ -101,8 +101,6 @@ function initApp(config, callback) {
 			console.log(`Server running at: ${app.server.info.uri}`);
 		}
 
-	], function(error) {
-		callback(error, app);
-	});
+	], error => callback(error, app));
 
 }

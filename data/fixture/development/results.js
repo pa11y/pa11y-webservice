@@ -14,8 +14,8 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var day = (1000 * 60 * 60 * 24);
-var ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
+const day = (1000 * 60 * 60 * 24);
 
 module.exports = [
 	{

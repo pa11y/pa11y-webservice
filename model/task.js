@@ -19,7 +19,7 @@
 'use strict';
 
 const chalk = require('chalk');
-const ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
 function pa11yLog(message) {
