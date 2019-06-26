@@ -40,5 +40,15 @@ module.exports = [
 		url: 'nature.com/news',
 		timeout: 30000,
 		standard: 'Section508'
+	},
+	{
+		_id: new ObjectID('abc000000000000000000004'),
+		name: 'Z Integration Test',
+		url: 'http://localhost:8132',
+		timeout: 30000,
+		standard: 'WCAG2AA',
+		username: 'user',
+		password: 'access',
+		ignore: ['foo', 'bar']
 	}
 ];

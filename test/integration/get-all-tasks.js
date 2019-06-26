@@ -36,7 +36,7 @@ describe('GET /tasks', function() {
 			const body = this.last.body;
 			const tasks = await this.app.model.task.getAll();
 			assert.isArray(body);
-			assert.strictEqual(body.length, 3);
+			assert.strictEqual(body.length, 4);
 			assert.deepEqual(body, tasks);
 		});
 
@@ -62,15 +62,22 @@ describe('GET /tasks', function() {
 		it('should output a JSON representation of all tasks including their last result', function(done) {
 			const body = this.last.body;
 			assert.isArray(body);
-			assert.strictEqual(body.length, 3);
+			assert.strictEqual(body.length, 4);
+
 			assert.strictEqual(body[0].id, 'abc000000000000000000001');
 			assert.isObject(body[0].last_result);
 			assert.strictEqual(body[0].last_result.id, 'def000000000000000000001');
+
 			assert.strictEqual(body[1].id, 'abc000000000000000000002');
 			assert.isObject(body[1].last_result);
 			assert.strictEqual(body[1].last_result.id, 'def000000000000000000002');
+
 			assert.strictEqual(body[2].id, 'abc000000000000000000003');
 			assert.strictEqual(body[2].last_result, null);
+
+			assert.strictEqual(body[3].id, 'abc000000000000000000004');
+			assert.strictEqual(body[3].last_result, null);
+
 			done();
 		});
 

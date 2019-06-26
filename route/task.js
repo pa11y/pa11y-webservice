@@ -143,24 +143,23 @@ module.exports = function(app) {
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
-			if (process.env.NODE_ENV !== 'test') {
-				console.log('');
-				console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
-				console.log('Starting task %s', task.id);
-				const executed = await model.task.runById(request.params.id);
-				if (executed) {
-					console.log(chalk.green('Finished task %s'), task.id);
-				} else {
-					console.log(
-						chalk.red('Failed to finish task %s'),
-						task.id
-					);
-				}
+			console.log('');
+			console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
+			console.log('Starting task %s', task.id);
+			const executed = await model.task.runById(request.params.id);
+			if (executed) {
+				console.log(chalk.green('Finished task %s'), task.id);
+			} else {
 				console.log(
-					chalk.grey('Finished running one-off task @ %s'),
-					new Date()
+					chalk.red('Failed to finish task %s'),
+					task.id
 				);
+				return reply.response(`Failed to finish task ${task.id}`).code(500);
 			}
+			console.log(
+				chalk.grey('Finished running one-off task @ %s'),
+				new Date()
+			);
 			return reply.response().code(202);
 		},
 		options: {
