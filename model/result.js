@@ -42,7 +42,7 @@ module.exports = function(app, callback) {
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				return collection.insert(newResult)
+				return model.collection.insert(newResult)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
@@ -77,7 +77,7 @@ module.exports = function(app, callback) {
 					filter.task = new ObjectID(opts.task);
 				}
 
-				return collection
+				return model.collection
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
@@ -106,7 +106,7 @@ module.exports = function(app, callback) {
 					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
-				return collection.findOne({_id: id})
+				return model.collection.findOne({_id: id})
 					.then(result => {
 						if (result) {
 							result = prepare(result);
@@ -133,7 +133,7 @@ module.exports = function(app, callback) {
 					console.error('ObjectID generation failed for id: ' + id, error.message);
 					return null;
 				}
-				return collection.deleteMany({task: id})
+				return model.collection.deleteMany({task: id})
 					.catch(error => {
 						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
 						console.error(error.message);
@@ -151,7 +151,7 @@ module.exports = function(app, callback) {
 					return null;
 				}
 
-				return collection.findOne({
+				return model.collection.findOne({
 					_id: id,
 					task: task
 				})

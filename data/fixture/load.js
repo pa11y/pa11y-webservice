@@ -27,7 +27,10 @@ function loadFixtures(env, config, done) {
 
 	config.dbOnly = true;
 
-	application(config, async function(app) {
+	application(config, async function(error, app) {
+		if (error) {
+			return done(error);
+		}
 
 		try {
 			// Clear existing content

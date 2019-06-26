@@ -17,10 +17,12 @@
 const Hapi = require('@hapi/hapi');
 const MongoClient = require('mongodb').MongoClient;
 
-// Initialise the application
-module.exports = async (config, callback) => {
+module.exports = initApp;
 
-	const app = module.exports = {
+// Initialise the application
+async function initApp(config, callback) {
+
+	const app = {
 		server: new Hapi.Server({
 			host: config.host,
 			port: config.port
@@ -50,14 +52,22 @@ module.exports = async (config, callback) => {
 		});
 	}).catch(error => {
 		console.log('Error connecting to MongoDB:');
-		console.log(JSON.stringify(error));
+		callback(error);
 	});
 
-	await require('./model/result')(app, function(error, model) {
+	await require('./model/result')(app, function(errors, model) {
+		if (errors) {
+			console.error('Setting up result model had some errors:');
+			console.error(errors);
+		}
 		app.model.result = model;
 	});
 
-	await require('./model/task')(app, function(error, model) {
+	await require('./model/task')(app, function(errors, model) {
+		if (errors) {
+			console.error('Setting up task model had some errors:');
+			console.error(errors);
+		}
 		app.model.task = model;
 	});
 
@@ -73,6 +83,5 @@ module.exports = async (config, callback) => {
 
 		console.log(`Server running at: ${app.server.info.uri}`);
 	}
-	callback(app);
-
-};
+	callback(null, app);
+}
