@@ -19,11 +19,11 @@
 'use strict';
 
 const chalk = require('chalk');
-const ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
 function pa11yLog(message) {
-	console.log(chalk.grey('  > ' + message));
+	console.log(chalk.grey(`  > ${message}`));
 }
 
 // Task model
@@ -55,7 +55,7 @@ module.exports = function(app, callback) {
 			},
 
 			// Get all tasks
-			getAll: function() {
+			getAll: () => {
 				return collection
 					.find()
 					.sort({

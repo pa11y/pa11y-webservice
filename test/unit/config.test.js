@@ -14,15 +14,16 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var assert = require('proclaim');
+const fs = require('fs');
+const path = require('path');
+const assert = require('proclaim');
 
-describe('config', function() {
-	var mockNodeEnv = 'mock';
-	var originalNodeEnv = 'test';
+describe('config', () => {
 
-	var mockConfig = {
+	const mockNodeEnv = 'mock';
+	let originalNodeEnv = 'test';
+
+	const mockConfig = {
 		database: 'config-file-db',
 		host: 'config-file-host',
 		port: 1000,
@@ -32,32 +33,33 @@ describe('config', function() {
 		}
 	};
 
-	before(function() {
+	before(() => {
 		console.log('NODE_ENV', process.env.NODE_ENV);
 		originalNodeEnv = process.env.NODE_ENV;
 		process.env.NODE_ENV = mockNodeEnv;
 	});
 
-	after(function() {
+	after(() => {
 		process.env.NODE_ENV = originalNodeEnv;
 	});
 
-	describe('with a file', function() {
-		var configFilePath = path.resolve(path.join(__dirname, '../../config/mock.json'));
+	describe('with a file', () => {
 
-		before(function(done) {
+		const configFilePath = path.resolve(path.join(__dirname, '../../config/mock.json'));
+
+		before(done => {
 			fs.writeFile(configFilePath, JSON.stringify(mockConfig), done);
 		});
 
-		after(function(done) {
+		after(done => {
 			fs.unlink(configFilePath, done);
 		});
 
-		describe('and no environment variables', function() {
+		describe('and no environment variables', () => {
 
-			it('provides the config file', function() {
+			it('provides the config file', () => {
 				delete require.cache[require.resolve('../../config')];
-				var config = require('../../config');
+				const config = require('../../config');
 
 				assert.strictEqual(config.database, mockConfig.database);
 				assert.strictEqual(config.host, mockConfig.host);
@@ -65,23 +67,24 @@ describe('config', function() {
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
 			});
+
 		});
 
-		describe('and some environment variables', function() {
+		describe('and some environment variables', () => {
 
-			beforeEach(function() {
+			beforeEach(() => {
 				process.env.DATABASE = 'env-db';
 				process.env.PORT = '2000';
 			});
 
-			afterEach(function() {
+			afterEach(() => {
 				delete process.env.DATABASE;
 				delete process.env.PORT;
 			});
 
-			it('overrides the file with the environment variables', function() {
+			it('overrides the file with the environment variables', () => {
 				delete require.cache[require.resolve('../../config')];
-				var config = require('../../config');
+				const config = require('../../config');
 
 				assert.strictEqual(config.database, 'env-db');
 				assert.strictEqual(config.host, mockConfig.host);
@@ -92,13 +95,13 @@ describe('config', function() {
 		});
 	});
 
-	describe('with no file', function() {
+	describe('with no file', () => {
 
-		describe('and no environment variables', function() {
+		describe('and no environment variables', () => {
 
-			it('provides a default configuration', function() {
+			it('provides a default configuration', () => {
 				delete require.cache[require.resolve('../../config')];
-				var config = require('../../config');
+				const config = require('../../config');
 
 				assert.strictEqual(config.database, 'mongodb://localhost/pa11y-webservice');
 				assert.strictEqual(config.host, '0.0.0.0');
@@ -108,25 +111,25 @@ describe('config', function() {
 			});
 		});
 
-		describe('and environment variables', function() {
+		describe('and environment variables', () => {
 
-			beforeEach(function() {
+			beforeEach(() => {
 				process.env.DATABASE = 'env-db-2';
 				process.env.HOST = 'env-host-2';
 				process.env.PORT = '3000';
 				process.env.CRON = 'env-cron-2';
 			});
 
-			afterEach(function() {
+			afterEach(() => {
 				delete process.env.DATABASE;
 				delete process.env.HOST;
 				delete process.env.PORT;
 				delete process.env.CRON;
 			});
 
-			it('provides a config using those variables', function() {
+			it('provides a config using those variables', () => {
 				delete require.cache[require.resolve('../../config')];
-				var config = require('../../config');
+				const config = require('../../config');
 
 				assert.strictEqual(config.database, 'env-db-2');
 				assert.strictEqual(config.host, 'env-host-2');

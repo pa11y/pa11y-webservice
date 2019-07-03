@@ -21,13 +21,13 @@ module.exports = loadFixtures;
 function loadFixtures(env, config, done) {
 	env = (env || 'development');
 	const fixtures = {
-		results: require('./' + env + '/results.js'),
-		tasks: require('./' + env + '/tasks.js')
+		results: require(`./${env}/results.js`),
+		tasks: require(`./${env}/tasks.js`)
 	};
 
 	config.dbOnly = true;
 
-	application(config, async function(error, app) {
+	application(config, async (error, app) => {
 		if (error) {
 			return done(error);
 		}
@@ -38,12 +38,8 @@ function loadFixtures(env, config, done) {
 			await app.model.task.collection.remove();
 
 			// Insert new content
-			await Promise.all(fixtures.tasks.map(function(task) {
-				return app.model.task.create(task);
-			}));
-			await Promise.all(fixtures.results.map(function(result) {
-				return app.model.result.create(result);
-			}));
+			await Promise.all(fixtures.tasks.map(task => app.model.task.create(task)));
+			await Promise.all(fixtures.results.map(result => app.model.result.create(result)));
 
 			await app.db.close();
 			done();

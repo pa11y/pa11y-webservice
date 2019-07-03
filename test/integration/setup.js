@@ -22,31 +22,28 @@ const request = require('request');
 
 // Run before all tests
 before(function(done) {
-	const that = this;
-
-	this.baseUrl = 'http://localhost:' + config.port + '/';
+	this.baseUrl = `http://localhost:${config.port}/`;
 	this.app = null;
 	this.last = {};
-	this.navigate = createNavigator(that.baseUrl, that.last);
+	this.navigate = createNavigator(this.baseUrl, this.last);
 
-	assertTestAppIsRunning(this.baseUrl, function() {
+	assertTestAppIsRunning(this.baseUrl, () => {
 		config.dbOnly = true;
-		app(config, function(error, initialisedApp) {
-			that.app = initialisedApp;
+		app(config, (error, initialisedApp) => {
+			this.app = initialisedApp;
 			loadFixtures('test', config, done);
 		});
 	});
-
 });
 
 // Run after each test
-afterEach(function(done) {
+afterEach(done => {
 	loadFixtures('test', config, done);
 });
 
 // Check that the test application is running, and exit if not
 function assertTestAppIsRunning(baseUrl, done) {
-	request(baseUrl, function(error) {
+	request(baseUrl, error => {
 		if (error) {
 			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test node index.js\``);
 			process.exit();

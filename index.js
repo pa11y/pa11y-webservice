@@ -17,16 +17,18 @@
 const chalk = require('chalk');
 const config = require('./config');
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
 	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
 	process.exit();
 });
 
-require('./app')(config, function(error, app) {
+const app = require('./app');
+
+app(config, (error, initialisedApp) => {
 	console.log('');
 	console.log(chalk.underline.cyan('Pa11y Webservice started'));
 	console.log(chalk.grey('mode:     %s'), process.env.NODE_ENV);
-	console.log(chalk.grey('uri:      %s'), app.server.info.uri);
+	console.log(chalk.grey('uri:      %s'), initialisedApp.server.info.uri);
 	console.log(chalk.grey('database: %s'), config.database);
 	console.log(chalk.grey('cron:     %s'), config.cron);
 

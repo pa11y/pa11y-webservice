@@ -15,10 +15,10 @@
 'use strict';
 
 const fs = require('fs');
-const jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
+const jsonPath = `./config/${process.env.NODE_ENV || 'development'}.json`;
 
 if (fs.existsSync(jsonPath)) {
-	var jsonConfig = require(jsonPath);
+	const jsonConfig = require(jsonPath);
 
 	module.exports = {
 		database: env('DATABASE', jsonConfig.database),
