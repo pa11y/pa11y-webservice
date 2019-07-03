@@ -34,7 +34,6 @@ function initTask(config, app) {
 
 // Run the task
 function run(app) {
-
 	console.log('');
 	console.log(chalk.grey('Starting to run tasks @ %s'), new Date());
 
@@ -69,8 +68,7 @@ function runPa11yOnTasks(tasks, app, done) {
 			}
 			nextInQueue();
 		});
-
-	}, 2);
+	}, app.config.numWorkers);
 
 	queue.drain = () => {
 		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
