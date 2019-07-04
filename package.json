@@ -23,17 +23,17 @@
   "bugs": "https://github.com/pa11y/webservice/issues",
   "license": "GPL-3.0",
   "dependencies": {
-    "async": "~2.6.2",
+    "async": "~3.1.0",
     "chalk": "~2.4.2",
     "cron": "~1.7.1",
     "@hapi/hapi": "~17.9.0",
     "@hapi/joi": "~15.0.3",
     "mongodb": "~2.2.19",
-    "pa11y": "~5.1.0",
+    "pa11y": "~5.2.0",
     "underscore": "~1.9.1"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.1",
     "mocha": "^6.1.4",
     "pa11y-lint-config": "^1.2.1",
     "proclaim": "^3.6.0",
