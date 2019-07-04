@@ -6,7 +6,7 @@
   * Update pa11y to v5, which replaces Phantomjs with Headless Chrome (thanks @wilco42)
   * Add new index page, useful when running webservice as a standalone process (thanks @rtshilston)
   * Add additional debugging info
-  * Update dependencies (thanks @paazmaya and others)
+  * Update dependencies (thanks @paazmaya, @josebolos  and others)
   * Bump required node version to v8 or greater
   * Lots of bug fixes (thanks @joeyciechanowicz for this, and also for helping reviewing PRs and issues)
   * Minor documentation updates
