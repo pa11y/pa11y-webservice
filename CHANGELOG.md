@@ -1,6 +1,17 @@
 
 # Changelog
 
+## 3.0.0 (2019-07-04)
+
+  * Update pa11y to v5, which replaces Phantomjs with Headless Chrome (thanks @wilco42)
+  * Add new index page, useful when running webservice as a standalone process (thanks @rtshilston)
+  * Add additional debugging info
+  * Update dependencies (thanks @paazmaya, @josebolos  and others)
+  * Bump required node version to v8 or greater
+  * Lots of bug fixes (thanks @joeyciechanowicz for this, and also for helping reviewing PRs and issues)
+  * Documentation updates (thanks to @josebolos for this)
+  * See the [migration guide](https://github.com/pa11y/webservice/blob/master/MIGRATION.md#migrating-from-20-to-30) for details of the breaking changes in this release
+
 ## 2.3.1 (2017-11-28)
 
   * Update tooling
