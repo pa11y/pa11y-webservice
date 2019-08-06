@@ -184,6 +184,6 @@ Copyright &copy; 2013–2019, Team Pa11y and contributors
 [info-npm]: https://www.npmjs.com/package/pa11y-webservice
 [info-build]: https://travis-ci.org/pa11y/pa11y-webservice
 [shield-license]: https://img.shields.io/badge/license-GPL%203.0-blue.svg
-[shield-node]: https://img.shields.io/badge/node.js%20support-4–6-brightgreen.svg
+[shield-node]: https://img.shields.io/node/v/pa11y-webservice
 [shield-npm]: https://img.shields.io/npm/v/pa11y-webservice.svg
 [shield-build]: https://img.shields.io/travis/pa11y/pa11y-webservice/master.svg
