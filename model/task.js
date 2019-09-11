@@ -55,21 +55,19 @@ module.exports = function(app, callback) {
 			},
 
 			// Get all tasks
-			getAll: () => {
-				return collection
+			getAll: callback => {
+				collection
 					.find()
 					.sort({
 						name: 1,
 						standard: 1,
 						url: 1
 					})
-					.toArray()
-					.then(tasks => {
-						return tasks.map(model.prepareForOutput);
-					})
-					.catch(error => {
-						console.error('model:task:getAll failed');
-						console.error(error.message);
+					.toArray(function(error, tasks) {
+						if (error) {
+							return callback(error);
+						}
+						callback(null, tasks.map(model.prepareForOutput));
 					});
 			},
 
