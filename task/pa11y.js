@@ -39,7 +39,7 @@ async function runTask(app) {
 
 	try {
 		const tasks = await app.model.task.getAll();
-		await runPa11yOnTasks(tasks, app);
+		runPa11yOnTasks(tasks, app);
 	} catch (error) {
 		console.error(chalk.red('Failed to run tasks: %s'), error.message);
 		console.log('');
@@ -48,7 +48,7 @@ async function runTask(app) {
 }
 
 // Run Pa11y on an array of tasks
-async function runPa11yOnTasks(tasks, app) {
+function runPa11yOnTasks(tasks, app) {
 
 	if (tasks.length === 0) {
 		console.log('No tasks to run');
@@ -58,7 +58,7 @@ async function runPa11yOnTasks(tasks, app) {
 	const worker = async task => {
 		console.log('Starting task %s', task.id);
 		try {
-			const result = await app.model.task.runById(task.id);
+			await app.model.task.runById(task.id);
 			console.log(chalk.green('Finished task %s'), task.id);
 		} catch (error) {
 			console.log(chalk.red('Failed to finish task %s: %s'), task.id, error.message);
@@ -68,10 +68,7 @@ async function runPa11yOnTasks(tasks, app) {
 	const queue = async.queue(worker, 2);
 	queue.push(tasks);
 
-	await queue.drain(() => {
+	queue.drain(() => {
 		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
 	});
-
-
-
 }
