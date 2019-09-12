@@ -27,27 +27,27 @@ function initTask(config, app) {
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
-	const job = new CronJob(config.cron, runTask.bind(null, app));
+	const job = new CronJob(config.cron, taskRunner.bind(null, app));
 	job.start();
 
 }
 
-// Run the task
-async function runTask(app) {
+// Runs the task
+async function taskRunner(app) {
 	console.log('');
-	console.log(chalk.grey('Starting to run tasks @ %s'), new Date());
+	console.log(chalk.grey('Starting to run task @ %s'), new Date());
 
 	try {
 		const tasks = await app.model.task.getAll();
 		runPa11yOnTasks(tasks, app);
 	} catch (error) {
-		console.error(chalk.red('Failed to run tasks: %s'), error.message);
+		console.error(chalk.red('Failed to run task: %s'), error.message);
 		console.log('');
 		process.exit(1);
 	}
 }
 
-// Run Pa11y on an array of tasks
+// Runs Pa11y on an array of tasks
 function runPa11yOnTasks(tasks, app) {
 
 	if (tasks.length === 0) {
@@ -56,12 +56,12 @@ function runPa11yOnTasks(tasks, app) {
 	}
 
 	const worker = async task => {
-		console.log('Starting task %s', task.id);
+		console.log('Starting pa11y task %s', task.id);
 		try {
 			await app.model.task.runById(task.id);
-			console.log(chalk.green('Finished task %s'), task.id);
+			console.log(chalk.green('Finished pa11y task %s'), task.id);
 		} catch (error) {
-			console.log(chalk.red('Failed to finish task %s: %s'), task.id, error.message);
+			console.log(chalk.red('Failed to finish pa11y task %s: %s'), task.id, error.message);
 		}
 	};
 
