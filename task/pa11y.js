@@ -23,13 +23,11 @@ exports.runPa11yOnTasks = runPa11yOnTasks;
 
 // Initialise the task
 function initTask(config, app) {
-
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
 	const job = new CronJob(config.cron, taskRunner.bind(null, app));
 	job.start();
-
 }
 
 // Runs the task
@@ -49,7 +47,6 @@ async function taskRunner(app) {
 
 // Runs an array of pa11y tasks
 function runPa11yOnTasks(tasks, app) {
-
 	if (tasks.length === 0) {
 		console.log('No pa11y tasks to run');
 		return;

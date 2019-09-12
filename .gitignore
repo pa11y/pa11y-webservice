@@ -7,4 +7,3 @@ config/test.json
 # Generated npm files
 node_modules
 npm-debug.log
-package-lock.json
