@@ -47,11 +47,11 @@ async function taskRunner(app) {
 	}
 }
 
-// Runs Pa11y on an array of tasks
+// Runs an array of pa11y tasks
 function runPa11yOnTasks(tasks, app) {
 
 	if (tasks.length === 0) {
-		console.log('No tasks to run');
+		console.log('No pa11y tasks to run');
 		return;
 	}
 
@@ -69,6 +69,6 @@ function runPa11yOnTasks(tasks, app) {
 	queue.push(tasks);
 
 	queue.drain(() => {
-		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
+		console.log(chalk.grey('Finished running pa11y tasks @ %s'), new Date());
 	});
 }
