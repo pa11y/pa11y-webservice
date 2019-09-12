@@ -72,10 +72,10 @@ function runPa11yOnTasks(tasks, app, done) {
 
 	}, 2);
 
-	queue.drain = () => {
+	queue.drain(() => {
 		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
 		done();
-	};
+	});
 
 	queue.push(tasks);
 
