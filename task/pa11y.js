@@ -27,37 +27,33 @@ function initTask(config, app) {
 	if (!config.cron) {
 		config.cron = '0 30 0 * * *'; // 00:30 daily
 	}
-	const job = new CronJob(config.cron, run.bind(null, app));
+	const job = new CronJob(config.cron, runTask.bind(null, app));
 	job.start();
 
 }
 
 // Run the task
-function run(app) {
-
+async function runTask(app) {
 	console.log('');
 	console.log(chalk.grey('Starting to run tasks @ %s'), new Date());
 
-	async.waterfall([
-
-		next => app.model.task.getAll(next),
-
-		(tasks, next) => runPa11yOnTasks(tasks, app, next)
-
-	], error => {
-
-		if (error) {
-			console.error(chalk.red('Failed to run tasks: %s'), error.message);
-			console.log('');
-			process.exit(1);
-		}
-
-	});
-
+	try {
+		const tasks = await app.model.task.getAll();
+		runPa11yOnTasks(tasks, app);
+	} catch (error) {
+		console.error(chalk.red('Failed to run tasks: %s'), error.message);
+		console.log('');
+		process.exit(1);
+	}
 }
 
 // Run Pa11y on an array of tasks
-function runPa11yOnTasks(tasks, app, done) {
+function runPa11yOnTasks(tasks, app) {
+
+	if (tasks.length === 0) {
+		console.log('No tasks to run');
+		return;
+	}
 
 	const queue = async.queue((task, nextInQueue) => {
 		console.log('Starting task %s', task.id);
@@ -74,7 +70,6 @@ function runPa11yOnTasks(tasks, app, done) {
 
 	queue.drain(() => {
 		console.log(chalk.grey('Finished running tasks @ %s'), new Date());
-		done();
 	});
 
 	queue.push(tasks);

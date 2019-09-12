@@ -55,7 +55,7 @@ module.exports = function(app, callback) {
 			},
 
 			// Get all tasks
-			getAll: cb => {
+			getAll: () => {
 				return collection
 					.find()
 					.sort({
@@ -65,13 +65,11 @@ module.exports = function(app, callback) {
 					})
 					.toArray()
 					.then(tasks => {
-						//return tasks.map(model.prepareForOutput);
-						cb(null, tasks.map(model.prepareForOutput));
+						return tasks.map(model.prepareForOutput);
 					})
 					.catch(error => {
 						console.error('model:task:getAll failed');
 						console.error(error.message);
-						cb(error);
 					});
 			},
 
