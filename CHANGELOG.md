@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 3.0.1 (2019-09-13)
+
+* Fix a critical issue with the pa11y tasks not being launched properly by cron
+* Minor doc improvements
+
 ## 3.0.0 (2019-07-04)
 
 * Update pa11y to v5, which replaces Phantomjs with Headless Chrome (thanks @wilco42)
