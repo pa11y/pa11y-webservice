@@ -35,6 +35,7 @@
   "devDependencies": {
     "eslint": "^6.0.1",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "pa11y-lint-config": "^1.2.1",
     "proclaim": "^3.6.0",
     "request": "^2.88.0"

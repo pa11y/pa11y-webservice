@@ -7,3 +7,7 @@ config/test.json
 # Generated npm files
 node_modules
 npm-debug.log
+
+# Coverage
+.nyc_output
+coverage
