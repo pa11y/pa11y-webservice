@@ -22,10 +22,6 @@ const chalk = require('chalk');
 const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
-function pa11yLog(message) {
-	console.log(chalk.grey(`  > ${message}`));
-}
-
 // Task model
 module.exports = function(app, callback) {
 	app.db.collection('tasks', function(errors, collection) {
@@ -187,6 +183,8 @@ module.exports = function(app, callback) {
 			// Run a task by ID
 			runById: function(id) {
 				return model.getById(id).then(async task => {
+					this.id = task.id;
+
 					const pa11yOptions = {
 						standard: task.standard,
 						includeWarnings: true,
@@ -198,10 +196,10 @@ module.exports = function(app, callback) {
 						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
 						headers: task.headers || {},
 						log: {
-							debug: pa11yLog,
-							error: pa11yLog,
-							info: pa11yLog,
-							log: pa11yLog
+							debug: model.pa11yLog(),
+							error: model.pa11yLog(),
+							info: model.pa11yLog(),
+							log: model.pa11yLog()
 						}
 					};
 
@@ -285,6 +283,20 @@ module.exports = function(app, callback) {
 					}
 				}
 				return headers;
+			},
+
+			pa11yLog: function() {
+				return message => {
+					let messageString;
+
+					if (this.id) {
+						messageString = `[${this.id}]  > ${message}`;
+					} else {
+						messageString = `  > ${message}`;
+					}
+
+					console.log(chalk.grey(messageString));
+				};
 			}
 
 		};
