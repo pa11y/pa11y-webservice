@@ -183,8 +183,6 @@ module.exports = function(app, callback) {
 			// Run a task by ID
 			runById: function(id) {
 				return model.getById(id).then(async task => {
-					this.id = task.id;
-
 					const pa11yOptions = {
 						standard: task.standard,
 						includeWarnings: true,
@@ -196,10 +194,10 @@ module.exports = function(app, callback) {
 						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
 						headers: task.headers || {},
 						log: {
-							debug: model.pa11yLog(),
-							error: model.pa11yLog(),
-							info: model.pa11yLog(),
-							log: model.pa11yLog()
+							debug: model.pa11yLog(task.id),
+							error: model.pa11yLog(task.id),
+							info: model.pa11yLog(task.id),
+							log: model.pa11yLog(task.id)
 						}
 					};
 
@@ -285,7 +283,9 @@ module.exports = function(app, callback) {
 				return headers;
 			},
 
-			pa11yLog: function() {
+			pa11yLog: function(id) {
+				this.id = id;
+
 				return message => {
 					let messageString;
 
