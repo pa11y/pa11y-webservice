@@ -283,14 +283,12 @@ module.exports = function(app, callback) {
 				return headers;
 			},
 
-			pa11yLog: function(id) {
-				this.id = id;
-
+			pa11yLog: function(taskId) {
 				return message => {
 					let messageString;
 
-					if (this.id) {
-						messageString = `[${this.id}]  > ${message}`;
+					if (taskId) {
+						messageString = `[${taskId}]  > ${message}`;
 					} else {
 						messageString = `  > ${message}`;
 					}
