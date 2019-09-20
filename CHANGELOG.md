@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.1.0 (2019-09-20)
+
+* Display the task ID before each line of output, so it's clear to which task a line of output belongs to.
+
 ## 3.0.1 (2019-09-13)
 
 * Fix a critical issue with the pa11y tasks not being launched properly by cron
