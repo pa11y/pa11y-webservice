@@ -46,8 +46,8 @@
   },
   "files": [
     "*.js",
-    "/model",
-    "/route",
-    "/task"
+    "model",
+    "route",
+    "task"
   ]
 }
