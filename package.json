@@ -43,5 +43,11 @@
   "scripts": {
     "start": "node index.js",
     "test": "make ci"
-  }
+  },
+  "files": [
+    "*.js",
+    "model",
+    "route",
+    "task"
+  ]
 }
