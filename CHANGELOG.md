@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.1.2 (2019-09-27)
+
+* Add data fixtures back, which are required by pa11y-dashboard to run its tests.
+
 ## 3.1.1 (2019-09-27)
 
 * Bump pa11y to 5.2.1, which fixes an issue with some sites failing.
