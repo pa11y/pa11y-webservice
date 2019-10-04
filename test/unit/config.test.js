@@ -27,7 +27,8 @@ describe('config', () => {
 		database: 'config-file-db',
 		host: 'config-file-host',
 		port: 1000,
-		cron: 'config-fille-cron',
+		runners: 'config-file-runners',
+		cron: 'config-file-cron',
 		chromeLaunchConfig: {
 			field: 'value'
 		}
@@ -64,6 +65,7 @@ describe('config', () => {
 				assert.strictEqual(config.database, mockConfig.database);
 				assert.strictEqual(config.host, mockConfig.host);
 				assert.strictEqual(config.port, mockConfig.port);
+				assert.deepEqual(config.runners, mockConfig.runners);
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
 			});
@@ -89,6 +91,7 @@ describe('config', () => {
 				assert.strictEqual(config.database, 'env-db');
 				assert.strictEqual(config.host, mockConfig.host);
 				assert.strictEqual(config.port, 2000);
+				assert.deepEqual(config.runners, mockConfig.runners);
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
 			});
@@ -106,6 +109,7 @@ describe('config', () => {
 				assert.strictEqual(config.database, 'mongodb://localhost/pa11y-webservice');
 				assert.strictEqual(config.host, '0.0.0.0');
 				assert.strictEqual(config.port, 3000);
+				assert.deepEqual(config.runners, ['htmlcs', 'axe']);
 				assert.strictEqual(config.cron, false);
 				assert.deepEqual(config.chromeLaunchConfig, {});
 			});
@@ -134,6 +138,7 @@ describe('config', () => {
 				assert.strictEqual(config.database, 'env-db-2');
 				assert.strictEqual(config.host, 'env-host-2');
 				assert.strictEqual(config.port, 3000);
+				assert.deepEqual(config.runners, ['htmlcs', 'axe']);
 				assert.strictEqual(config.cron, 'env-cron-2');
 				assert.deepEqual(config.chromeLaunchConfig, {});
 			});

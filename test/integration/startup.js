@@ -24,7 +24,8 @@ describe('pa11y-service startup', function() {
 		const modifiedConfig = {
 			database: config.database,
 			host: config.host,
-			port: config.port + 10
+			port: config.port + 10,
+			runners: config.runners
 		};
 
 		app(modifiedConfig, (error, webservice) => {

@@ -30,6 +30,7 @@ app(config, (error, initialisedApp) => {
 	console.log(chalk.grey('mode:     %s'), process.env.NODE_ENV);
 	console.log(chalk.grey('uri:      %s'), initialisedApp.server.info.uri);
 	console.log(chalk.grey('database: %s'), config.database);
+	console.log(chalk.grey('runners:  %s'), config.runners);
 	console.log(chalk.grey('cron:     %s'), config.cron);
 
 	if (error) {
