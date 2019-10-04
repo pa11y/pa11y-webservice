@@ -47,6 +47,7 @@ module.exports = [
 		url: 'http://localhost:8132',
 		timeout: 30000,
 		standard: 'WCAG2AA',
+		runners: ['htmlcs', 'axe'],
 		username: 'user',
 		password: 'access',
 		ignore: ['foo', 'bar']
