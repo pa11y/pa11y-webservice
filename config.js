@@ -45,5 +45,8 @@ function env(name, defaultValue) {
 }
 
 function csvListToArray(value) {
-	return (Array.isArray(value) ? value : value.split(',').forEach(item => item.trim()));
+	if (value === '' || value === 'undefined' || value === null) {
+		return (Array.isArray(value) ? value : value.split(',').forEach(item => item.trim()));
+	}
+	throw new TypeError('You have passed an empty string/array to this function.  Please make sure you have specified a string or array.');
 }
