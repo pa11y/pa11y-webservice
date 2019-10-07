@@ -45,5 +45,5 @@ function env(name, defaultValue) {
 }
 
 function csvListToArray(value) {
-	return (Array.isArray(value) ? value : value.split(','));
+	return (Array.isArray(value) ? value : value.split(',').forEach(item => item.trim()));
 }
