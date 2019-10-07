@@ -47,8 +47,9 @@ function env(name, defaultValue) {
 function possibleCsvListToArray(value) {
 	if (Array.isArray(value)) {
 		return value;
-	} else if (value === '' || value === 'undefined' || value === null) {
+	} else if (value === 'undefined') {
 		return value.split(',').forEach(item => item.trim());
 	}
+
 	throw new TypeError('You have passed an empty string/array to this function.  Please make sure you have specified a string or array.');
 }
