@@ -26,7 +26,6 @@ function createNavigator(baseUrl, store) {
 		store.request = null;
 		store.response = null;
 		store.status = null;
-
 		request({
 			url: baseUrl + opts.endpoint,
 			method: opts.method || 'GET',
@@ -39,7 +38,7 @@ function createNavigator(baseUrl, store) {
 			store.response = response;
 			store.status = response.statusCode;
 			callback(error);
-		});
-
+		}
+		);
 	};
 }

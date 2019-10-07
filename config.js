@@ -24,7 +24,7 @@ if (fs.existsSync(jsonPath)) {
 		database: env('DATABASE', jsonConfig.database),
 		host: env('HOST', jsonConfig.host),
 		port: Number(env('PORT', jsonConfig.port)),
-		runners: env('RUNNERS', jsonConfig.runners),
+		runners: csvListToArray(env('RUNNERS', jsonConfig.runners)),
 		cron: env('CRON', jsonConfig.cron),
 		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {}
 	};
@@ -33,7 +33,7 @@ if (fs.existsSync(jsonPath)) {
 		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
-		runners: env('RUNNERS', ['htmlcs', 'axe']),
+		runners: csvListToArray(env('RUNNERS', ['htmlcs', 'axe'])),
 		cron: env('CRON', false),
 		chromeLaunchConfig: {}
 	};
@@ -42,4 +42,8 @@ if (fs.existsSync(jsonPath)) {
 function env(name, defaultValue) {
 	const value = process.env[name];
 	return (typeof value === 'string' ? value : defaultValue);
+}
+
+function csvListToArray(value) {
+	return (Array.isArray(value) ? value : value.split(','));
 }

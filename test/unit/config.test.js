@@ -27,7 +27,7 @@ describe('config', () => {
 		database: 'config-file-db',
 		host: 'config-file-host',
 		port: 1000,
-		runners: 'config-file-runners',
+		runners: ['config-file-runners'],
 		cron: 'config-file-cron',
 		chromeLaunchConfig: {
 			field: 'value'
