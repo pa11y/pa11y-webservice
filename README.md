@@ -2,7 +2,7 @@
 
 Pa11y Webservice is a Node.js app that provides scheduled accessibility reports for multiple URLs. It runs [Pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
 
-Pa11y Webservice doesn't have a UI. In most scenarios, you may find easier to configure and run accessibility tests from [Pa11y Dashboard](pa11y-dashboard) than from Pa11y Webservice itself, so we recommend to have a look at it first.
+Pa11y Webservice doesn't have a UI. In most scenarios, you may find easier to configure and run accessibility tests from [Pa11y Dashboard][pa11y-dashboard] than from Pa11y Webservice itself, so we recommend to have a look at it first.
 
 If you're trying to run accessibility tests as part of a CI/CD system, you may want to use [Pa11y][pa11y] or [Pa11y CI][pa11y-ci] instead, as they better suited to these tasks.
 
