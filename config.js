@@ -33,7 +33,7 @@ if (fs.existsSync(jsonPath)) {
 		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
-		runners: possibleCsvListToArray(env('RUNNERS', ['htmlcs', 'axe'])),
+		runners: env('RUNNERS', ['htmlcs', 'axe']),
 		cron: env('CRON', false),
 		chromeLaunchConfig: {}
 	};
@@ -47,9 +47,8 @@ function env(name, defaultValue) {
 function possibleCsvListToArray(value) {
 	if (Array.isArray(value)) {
 		return value;
-	} else if (value === 'undefined') {
+	} else if (typeof value === 'string') {
 		return value.split(',').forEach(item => item.trim());
 	}
-
-	throw new TypeError('You have passed an empty string/array to this function.  Please make sure you have specified a string or array.');
+	throw new TypeError('You have passed an empty string/array or invalid type to this function.  Please make sure you have specified a string or array.');
 }
