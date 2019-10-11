@@ -24,7 +24,7 @@ if (fs.existsSync(jsonPath)) {
 		database: env('DATABASE', jsonConfig.database),
 		host: env('HOST', jsonConfig.host),
 		port: Number(env('PORT', jsonConfig.port)),
-		runners: possibleCsvListToArray(env('RUNNERS', jsonConfig.runners)),
+		runners: possibleCsvListToArray(env('RUNNERS', jsonConfig.runners)) || ['htmlcs', 'axe'],
 		cron: env('CRON', jsonConfig.cron),
 		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {}
 	};
@@ -50,5 +50,4 @@ function possibleCsvListToArray(value) {
 	} else if (typeof value === 'string') {
 		return value.split(',').forEach(item => item.trim());
 	}
-	throw new TypeError('You have passed an empty string/array or invalid type to this function.  Please make sure you have specified a string or array.');
 }
