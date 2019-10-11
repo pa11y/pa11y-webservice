@@ -2,6 +2,7 @@
 	"database": "mongodb://localhost/pa11y-webservice",
 	"host": "0.0.0.0",
 	"port": 3000,
+	"runners": ["htmlcs","axe"],
 	"cron": "0 30 0 * * *",
 	"chromeLaunchConfig": {}
 }

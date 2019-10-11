@@ -191,6 +191,7 @@ module.exports = function(app, callback) {
 						wait: (task.wait || 0),
 						ignore: task.ignore,
 						actions: task.actions || [],
+						runners: possibleCsvListToArray(app.config.runners),
 						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
 						headers: task.headers || {},
 						log: {
@@ -301,3 +302,12 @@ module.exports = function(app, callback) {
 		callback(errors, model);
 	});
 };
+
+function possibleCsvListToArray(value) {
+	if (Array.isArray(value)) {
+		return value;
+	} else if (typeof value === 'string') {
+		return value.split(',').forEach(item => item.trim());
+	}
+	throw new TypeError('You have passed an empty string/array to this function.  Please make sure you have specified a string or array.');
+}
