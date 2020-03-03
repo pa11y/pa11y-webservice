@@ -62,7 +62,7 @@ function runPa11yOnTasks(tasks, app) {
 		}
 	};
 
-	const queue = async.queue(worker, 2);
+	const queue = async.queue(worker, app.config.numWorkers);
 	queue.push(tasks);
 
 	queue.drain(() => {

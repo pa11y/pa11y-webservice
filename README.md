@@ -118,7 +118,11 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 
 This configuration option isn't available when you're using environment variables. [Use a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files) if you need to pass these parameters.
 
-## Contributing
+### numWorkers
+*(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
+
+Contributing
+------------
 
 There are many ways to contribute to Pa11y Webservice, we cover these in the [contributing guide](CONTRIBUTING.md) for this repo.
 
