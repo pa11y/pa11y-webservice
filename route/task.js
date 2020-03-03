@@ -54,9 +54,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					lastres: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
@@ -90,7 +90,7 @@ module.exports = function(app) {
 		options: {
 			validate: {
 				query: {},
-				payload: {
+				payload: Joi.object({
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
@@ -104,7 +104,7 @@ module.exports = function(app) {
 						Joi.string().allow(''),
 						Joi.object().pattern(/.*/, Joi.string().allow(''))
 					]
-				}
+				})
 			}
 		}
 	});
@@ -186,11 +186,11 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					from: Joi.string().isoDate(),
 					to: Joi.string().isoDate(),
 					full: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
@@ -212,9 +212,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					full: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
