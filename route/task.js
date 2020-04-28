@@ -16,7 +16,7 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-const chalk = require('chalk');
+const {green, grey, red} = require('kleur');
 const Joi = require('@hapi/joi');
 const {isValidAction} = require('pa11y');
 
@@ -143,20 +143,20 @@ module.exports = function(app) {
 				return reply.response('Not Found').code(404);
 			}
 			console.log('');
-			console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
+			console.log(grey('Starting to run one-off task @ %s'), new Date());
 			console.log('Starting task %s', task.id);
 			const executed = await model.task.runById(request.params.id);
 			if (executed) {
-				console.log(chalk.green('Finished task %s'), task.id);
+				console.log(green('Finished task %s'), task.id);
 			} else {
 				console.log(
-					chalk.red('Failed to finish task %s'),
+					red('Failed to finish task %s'),
 					task.id
 				);
 				return reply.response(`Failed to finish task ${task.id}`).code(500);
 			}
 			console.log(
-				chalk.grey('Finished running one-off task @ %s'),
+				grey('Finished running one-off task @ %s'),
 				new Date()
 			);
 			return reply.response().code(202);

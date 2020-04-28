@@ -18,7 +18,7 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-const chalk = require('chalk');
+const {grey} = require('kleur');
 const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
@@ -293,7 +293,7 @@ module.exports = function(app, callback) {
 						messageString = `  > ${message}`;
 					}
 
-					console.log(chalk.grey(messageString));
+					console.log(grey(messageString));
 				};
 			}
 
