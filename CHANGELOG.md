@@ -1,5 +1,11 @@
-
 # Changelog
+
+## 3.2.0 (2020-10-05)
+
+* Update pa11y to version 5.3.0, which means better compatibility with sites using AMD modules
+* Add the ability to configure the number of workers running pa11y tests (thanks @carlochess)
+* Update several dependencies
+* Replace chalk with kleur
 
 ## 3.1.2 (2019-09-27)
 
