@@ -16,9 +16,9 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-const chalk = require('chalk');
+const {green, grey, red} = require('kleur');
 const Joi = require('@hapi/joi');
-const validateAction = require('pa11y').isValidAction;
+const {isValidAction} = require('pa11y');
 
 // Routes relating to individual tasks
 module.exports = function(app) {
@@ -29,8 +29,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{id}',
-		handler: async function(request, reply) {
-
+		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 
 			if (!task) {
@@ -55,9 +54,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					lastres: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
@@ -67,7 +66,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'PATCH',
 		path: '/tasks/{id}',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 
 			if (!task) {
@@ -76,8 +75,8 @@ module.exports = function(app) {
 
 			if (request.payload.actions && request.payload.actions.length) {
 				for (let action of request.payload.actions) {
-					if (!validateAction(action)) {
-						return reply.response('Invalid action: "' + action + '"').code(400);
+					if (!isValidAction(action)) {
+						return reply.response(`Invalid action: "${action}"`).code(400);
 					}
 				}
 			}
@@ -91,7 +90,7 @@ module.exports = function(app) {
 		options: {
 			validate: {
 				query: {},
-				payload: {
+				payload: Joi.object({
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
@@ -105,7 +104,7 @@ module.exports = function(app) {
 						Joi.string().allow(''),
 						Joi.object().pattern(/.*/, Joi.string().allow(''))
 					]
-				}
+				})
 			}
 		}
 	});
@@ -114,7 +113,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'DELETE',
 		path: '/tasks/{id}',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const task = await model.task.deleteById(request.params.id);
 			if (!task) {
 				return reply.response('Not Found').code(404);
@@ -138,29 +137,28 @@ module.exports = function(app) {
 	server.route({
 		method: 'POST',
 		path: '/tasks/{id}/run',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
-			if (process.env.NODE_ENV !== 'test') {
-				console.log('');
-				console.log(chalk.grey('Starting to run one-off task @ %s'), new Date());
-				console.log('Starting task %s', task.id);
-				const executed = await model.task.runById(request.params.id);
-				if (executed) {
-					console.log(chalk.green('Finished task %s'), task.id);
-				} else {
-					console.log(
-						chalk.red('Failed to finish task %s'),
-						task.id
-					);
-				}
+			console.log('');
+			console.log(grey('Starting to run one-off task @ %s'), new Date());
+			console.log('Starting task %s', task.id);
+			const executed = await model.task.runById(request.params.id);
+			if (executed) {
+				console.log(green('Finished task %s'), task.id);
+			} else {
 				console.log(
-					chalk.grey('Finished running one-off task @ %s'),
-					new Date()
+					red('Failed to finish task %s'),
+					task.id
 				);
+				return reply.response(`Failed to finish task ${task.id}`).code(500);
 			}
+			console.log(
+				grey('Finished running one-off task @ %s'),
+				new Date()
+			);
 			return reply.response().code(202);
 		},
 		options: {
@@ -174,7 +172,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{id}/results',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 			if (!task) {
 				return reply.response('Not Found').code(404);
@@ -182,17 +180,17 @@ module.exports = function(app) {
 
 			const results = await model.result.getByTaskId(request.params.id, request.query);
 			if (!results) {
-				return reply.response().code(500);
+				return reply.response('No results found for task').code(500);
 			}
 			return reply.response(results).code(200);
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					from: Joi.string().isoDate(),
 					to: Joi.string().isoDate(),
 					full: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
@@ -202,7 +200,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/{tid}/results/{rid}',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const rid = request.params.rid;
 			const tid = request.params.tid;
 			const result = await model.result.getByIdAndTaskId(rid, tid, request.query);
@@ -214,9 +212,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					full: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}

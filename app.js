@@ -15,7 +15,7 @@
 'use strict';
 
 const Hapi = require('@hapi/hapi');
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb');
 
 module.exports = initApp;
 
@@ -32,28 +32,70 @@ async function initApp(config, callback) {
 		config: config
 	};
 
-	/* eslint camelcase: 'off' */
-	await MongoClient.connect(config.database, {
-		autoReconnect: false,
-		useNewUrlParser: true
-	}).then(client => {
-		app.db = client.db();
+	async.series([
+		next => {
+			/* eslint camelcase: 'off' */
+			MongoClient.connect(config.database, {
+				autoReconnect: true
+			}, (error, db) => {
+				if (error) {
+					console.log('Error connecting to MongoDB:');
+					console.log(JSON.stringify(error));
+					return next(error);
+				}
 
-		app.db.on('timeout', () => {
-			console.log('Mongo connection timeout');
-		});
+				db.on('timeout', () => {
+					console.log('Mongo connection timeout');
+				});
 
-		app.db.on('close', () => {
-			console.log('Mongo connection closed');
-		});
+				db.on('close', () => {
+					console.log('Mongo connection closed');
+				});
 
-		app.db.on('reconnect', () => {
-			console.log('Mongo reconnected');
-		});
-	}).catch(error => {
-		console.log('Error connecting to MongoDB:');
-		callback(error);
-	});
+				db.on('reconnect', () => {
+					console.log('Mongo reconnected');
+				});
+
+				app.db = db;
+				next(error);
+			});
+		},
+
+		next => {
+			require('./model/result')(app, (error, model) => {
+				app.model.result = model;
+				next(error);
+			});
+		},
+
+		next => {
+			require('./model/task')(app, (error, model) => {
+				app.model.task = model;
+				next(error);
+			});
+		},
+
+		next => {
+			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
+				require('./task/pa11y')(config, app);
+			}
+			next();
+		},
+
+		next => {
+			if (config.dbOnly) {
+				return next();
+			}
+
+			require('./route/index')(app);
+			require('./route/tasks')(app);
+			require('./route/task')(app);
+
+			app.server.start()
+				.then(
+					() => next(),
+					error => next(error)
+				);
 
 	await require('./model/result')(app, function(errors, model) {
 		if (errors) {
@@ -63,13 +105,7 @@ async function initApp(config, callback) {
 		app.model.result = model;
 	});
 
-	await require('./model/task')(app, function(errors, model) {
-		if (errors) {
-			console.error('Setting up task model had some errors:');
-			console.error(errors);
-		}
-		app.model.task = model;
-	});
+	], error => callback(error, app));
 
 	if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
 		await require('./task/pa11y')(config, app);

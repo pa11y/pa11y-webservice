@@ -18,7 +18,7 @@
 
 const _ = require('underscore');
 const Joi = require('@hapi/joi');
-const validateAction = require('pa11y').isValidAction;
+const {isValidAction} = require('pa11y');
 
 // Routes relating to all tasks
 module.exports = function(app) {
@@ -29,8 +29,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks',
-		handler: async function(request, reply) {
-
+		handler: async (request, reply) => {
 			let tasks = await model.task.getAll();
 
 			if (!tasks) {
@@ -42,7 +41,7 @@ module.exports = function(app) {
 					return reply.response().code(500);
 				}
 				const resultsByTask = _.groupBy(results, 'task');
-				tasks = tasks.map(function(task) {
+				tasks = tasks.map(task => {
 					if (resultsByTask[task.id] && resultsByTask[task.id].length) {
 						task.last_result = resultsByTask[task.id][0];
 					} else {
@@ -56,9 +55,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					lastres: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}
@@ -68,13 +67,11 @@ module.exports = function(app) {
 	server.route({
 		method: 'POST',
 		path: '/tasks',
-		handler: async function(request, reply) {
-
+		handler: async (request, reply) => {
 			if (request.payload.actions && request.payload.actions.length) {
 				for (let action of request.payload.actions) {
-					if (!validateAction(action)) {
-
-						return reply.response('Invalid action: "' + action + '"').code(400);
+					if (!isValidAction(action)) {
+						return reply.response(`Invalid action: "${action}"`).code(400);
 					}
 				}
 			}
@@ -84,26 +81,27 @@ module.exports = function(app) {
 			if (!task) {
 				return reply.response().code(500);
 			}
+
 			return reply.response(task)
-				.header('Location', 'http://' + request.info.host + '/tasks/' + task.id)
+				.header('Location', `http://${request.info.host}/tasks/${task.id}`)
 				.code(201);
 		},
 		options: {
 			validate: {
 				query: {},
-				payload: {
+				payload: Joi.object({
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
 					wait: Joi.number().integer(),
 					url: Joi.string().required(),
 					username: Joi.string().allow(''),
 					password: Joi.string().allow(''),
-					standard: Joi.string().required().valid([
+					standard: Joi.string().required().valid(
 						'Section508',
 						'WCAG2A',
 						'WCAG2AA',
 						'WCAG2AAA'
-					]),
+					),
 					ignore: Joi.array(),
 					actions: Joi.array().items(Joi.string()),
 					hideElements: Joi.string().allow(''),
@@ -111,7 +109,7 @@ module.exports = function(app) {
 						Joi.string().allow(''),
 						Joi.object().pattern(/.*/, Joi.string().allow(''))
 					]
-				}
+				})
 			}
 		}
 	});
@@ -120,17 +118,17 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/tasks/results',
-		handler: async function(request, reply) {
+		handler: async (request, reply) => {
 			const results = await model.result.getAll(request.query);
 			return reply.response(results).code(200);
 		},
 		options: {
 			validate: {
-				query: {
+				query: Joi.object({
 					from: Joi.string().isoDate(),
 					to: Joi.string().isoDate(),
 					full: Joi.boolean()
-				},
+				}),
 				payload: false
 			}
 		}

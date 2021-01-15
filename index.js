@@ -14,25 +14,27 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const chalk = require('chalk');
+const {cyan, grey, red, underline} = require('kleur');
 const config = require('./config');
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
 	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
 	process.exit();
 });
 
-require('./app')(config, function(error, app) {
+const app = require('./app');
+
+app(config, (error, initialisedApp) => {
 	console.log('');
-	console.log(chalk.underline.cyan('Pa11y Webservice started'));
-	console.log(chalk.grey('mode:     %s'), process.env.NODE_ENV);
-	console.log(chalk.grey('uri:      %s'), app.server.info.uri);
-	console.log(chalk.grey('database: %s'), config.database);
-	console.log(chalk.grey('cron:     %s'), config.cron);
+	console.log(underline(cyan('Pa11y Webservice started')));
+	console.log(grey('mode:     %s'), process.env.NODE_ENV);
+	console.log(grey('uri:      %s'), initialisedApp.server.info.uri);
+	console.log(grey('database: %s'), config.database);
+	console.log(grey('cron:     %s'), config.cron);
 
 	if (error) {
 		console.error('');
-		console.error(chalk.red('Error starting Pa11y Webservice:'));
+		console.error(red('Error starting Pa11y Webservice:'));
 		console.error(error.message);
 	}
 });

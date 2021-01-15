@@ -14,10 +14,10 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var environment = process.env.NODE_ENV || 'development';
-var loadFixtures = require('../data/fixture/load');
+const environment = process.env.NODE_ENV || 'development';
+const loadFixtures = require('../data/fixture/load');
 
-loadFixtures(environment, require('../config/' + environment + '.json'), function(error) {
+loadFixtures(environment, require(`../config/${environment}.json`), error => {
 	if (error) {
 		console.error(error.stack);
 		return process.exit(1);

@@ -18,42 +18,37 @@
 /* eslint no-underscore-dangle: 'off' */
 'use strict';
 
-const ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', async function(errors, collection) {
-
-		await collection.createIndex({
+	app.db.collection('results', (errors, collection) => {
+		collection.ensureIndex({
 			date: 1
 		}, {
 			w: -1
 		});
 
 		const model = {
-
 			collection: collection,
 
 			// Create a result
-			create: function(newResult) {
+			create(newResult) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				return model.collection.insert(newResult)
-					.then(result => {
-						return model.prepareForOutput(result.ops[0]);
-					})
+				return collection.insert(newResult)
+					.then(result => model.prepareForOutput(result.ops[0]))
 					.catch(error => {
-						console.error('model:result:create failed');
-						console.error(error.message);
+						console.error('model:result:create failed', error.message);
 					});
 			},
 
 			// Default filter options
-			_defaultFilterOpts: function(opts) {
+			_defaultFilterOpts(opts) {
 				const now = Date.now();
 				const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
 				return {
@@ -65,7 +60,7 @@ module.exports = function(app, callback) {
 			},
 
 			// Get results
-			_getFiltered: function(opts) {
+			_getFiltered(opts) {
 				opts = model._defaultFilterOpts(opts);
 				const filter = {
 					date: {
@@ -77,14 +72,14 @@ module.exports = function(app, callback) {
 					filter.task = new ObjectID(opts.task);
 				}
 
-				return model.collection
+				const prepare = opts.full ? model.prepareForFullOutput : model.prepareForOutput;
+
+				return collection
 					.find(filter)
 					.sort({date: -1})
 					.limit(opts.limit || 0)
 					.toArray()
-					.then(results => {
-						return results.map(opts.full ? model.prepareForFullOutput : model.prepareForOutput);
-					})
+					.then(results => results.map(prepare))
 					.catch(error => {
 						console.error('model:result:_getFiltered failed');
 						console.error(error.message);
@@ -92,13 +87,13 @@ module.exports = function(app, callback) {
 			},
 
 			// Get results for all tasks
-			getAll: function(opts) {
+			getAll(opts) {
 				delete opts.task;
 				return model._getFiltered(opts);
 			},
 
 			// Get a result by ID
-			getById: function(id, full) {
+			getById(id, full) {
 				const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
 					id = new ObjectID(id);
@@ -114,19 +109,19 @@ module.exports = function(app, callback) {
 						return result;
 					})
 					.catch(error => {
-						console.error(`model:result:getById failed, with id: ${id}`);
-						console.error(error.message);
+						console.error(`model:result:getById failed, with id: ${id}`, error.message);
+						return null;
 					});
 			},
 
 			// Get results for a single task
-			getByTaskId: function(id, opts) {
+			getByTaskId(id, opts) {
 				opts.task = id;
 				return model._getFiltered(opts);
 			},
 
 			// Delete results for a single task
-			deleteByTaskId: function(id) {
+			deleteByTaskId(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
@@ -141,8 +136,9 @@ module.exports = function(app, callback) {
 			},
 
 			// Get a result by ID and task ID
-			getByIdAndTaskId: function(id, task, opts) {
+			getByIdAndTaskId(id, task, opts) {
 				const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+
 				try {
 					id = new ObjectID(id);
 					task = new ObjectID(task);
@@ -168,12 +164,12 @@ module.exports = function(app, callback) {
 			},
 
 			// Prepare a result for output
-			prepareForOutput: function(result) {
+			prepareForOutput(result) {
 				result = model.prepareForFullOutput(result);
 				delete result.results;
 				return result;
 			},
-			prepareForFullOutput: function(result) {
+			prepareForFullOutput(result) {
 				return {
 					id: result._id.toString(),
 					task: result.task.toString(),
@@ -183,23 +179,16 @@ module.exports = function(app, callback) {
 					results: result.results || []
 				};
 			},
-			convertPa11y2Results: function(results) {
-				const resultObject = {
+			convertPa11y2Results(results) {
+				return {
 					count: {
 						total: results.issues.length,
-						error: results.issues.filter(function(result) {
-							return (result.type === 'error');
-						}).length,
-						warning: results.issues.filter(function(result) {
-							return (result.type === 'warning');
-						}).length,
-						notice: results.issues.filter(function(result) {
-							return (result.type === 'notice');
-						}).length
+						error: results.issues.filter(result => result.type === 'error').length,
+						warning: results.issues.filter(result => result.type === 'warning').length,
+						notice: results.issues.filter(result => result.type === 'notice').length
 					},
 					results: results.issues
 				};
-				return resultObject;
 			}
 
 		};

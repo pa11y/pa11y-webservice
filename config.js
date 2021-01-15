@@ -15,17 +15,18 @@
 'use strict';
 
 const fs = require('fs');
-const jsonPath = './config/' + (process.env.NODE_ENV || 'development') + '.json';
+const jsonPath = `./config/${process.env.NODE_ENV || 'development'}.json`;
 
 if (fs.existsSync(jsonPath)) {
-	var jsonConfig = require(jsonPath);
+	const jsonConfig = require(jsonPath);
 
 	module.exports = {
 		database: env('DATABASE', jsonConfig.database),
 		host: env('HOST', jsonConfig.host),
 		port: Number(env('PORT', jsonConfig.port)),
 		cron: env('CRON', jsonConfig.cron),
-		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {}
+		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {},
+		numWorkers: jsonConfig.numWorkers || 2
 	};
 } else {
 	module.exports = {
@@ -33,7 +34,8 @@ if (fs.existsSync(jsonPath)) {
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
 		cron: env('CRON', false),
-		chromeLaunchConfig: {}
+		chromeLaunchConfig: {},
+		numWorkers: Number(env('NUM_WORKERS', '2'))
 	};
 }
 

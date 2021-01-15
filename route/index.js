@@ -24,7 +24,7 @@ module.exports = function(app) {
 	server.route({
 		method: 'GET',
 		path: '/',
-		handler: function(request, reply) {
+		handler: (request, reply) => {
 			return reply.response('Pa11y-webservice is running.  Documentation at https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints').code(200);
 		}
 	});

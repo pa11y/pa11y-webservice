@@ -14,7 +14,7 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-var ObjectID = require('mongodb').ObjectID;
+const {ObjectID} = require('mongodb');
 
 module.exports = [
 	{
