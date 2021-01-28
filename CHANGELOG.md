@@ -1,6 +1,6 @@
 # Changelog
 
-* Hapi upgraded to v19, which also supports Node.js v12 and above
+* Hapi upgraded to v20, which also supports Node.js v12 and above
 * Mocha v8.0.0 now requires Node.js v10.12.0 or newer
 * `@hapi/joi` --> `joi`
 
