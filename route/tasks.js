@@ -17,7 +17,7 @@
 'use strict';
 
 const _ = require('underscore');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
 // Routes relating to all tasks

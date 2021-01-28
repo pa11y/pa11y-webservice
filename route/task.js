@@ -17,7 +17,7 @@
 'use strict';
 
 const {green, grey, red} = require('kleur');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
 // Routes relating to individual tasks

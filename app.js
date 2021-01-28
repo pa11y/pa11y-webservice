@@ -16,6 +16,7 @@
 
 const async = require('async');
 const Hapi = require('@hapi/hapi');
+const Joi = require('joi');
 const {MongoClient} = require('mongodb');
 
 module.exports = initApp;
@@ -32,6 +33,8 @@ function initApp(config, callback) {
 		model: {},
 		config: config
 	};
+
+	app.server.validator(Joi);
 
 	async.series([
 		next => {
