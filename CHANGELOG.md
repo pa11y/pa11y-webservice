@@ -3,6 +3,7 @@
 * Hapi upgraded to v20, which also supports Node.js v12 and above
 * Mocha v8.0.0 now requires Node.js v10.12.0 or newer
 * `@hapi/joi` --> `joi`
+* Start testing against Node.js v14 and drop testing versions below v12
 
 ## 3.2.0 (2020-10-05)
 
