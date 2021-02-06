@@ -14,13 +14,14 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
+const async = require('async');
 const Hapi = require('@hapi/hapi');
 const {MongoClient} = require('mongodb');
 
 module.exports = initApp;
 
 // Initialise the application
-async function initApp(config, callback) {
+function initApp(config, callback) {
 
 	const app = {
 		server: new Hapi.Server({
@@ -37,7 +38,9 @@ async function initApp(config, callback) {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {
 				autoReconnect: true
-			}, (error, db) => {
+			}, (error, client) => {
+				const db = client.db();
+
 				if (error) {
 					console.log('Error connecting to MongoDB:');
 					console.log(JSON.stringify(error));
@@ -96,28 +99,9 @@ async function initApp(config, callback) {
 					() => next(),
 					error => next(error)
 				);
-
-	await require('./model/result')(app, function(errors, model) {
-		if (errors) {
-			console.error('Setting up result model had some errors:');
-			console.error(errors);
+			console.log(`Server running at: ${app.server.info.uri}`);
 		}
-		app.model.result = model;
-	});
 
 	], error => callback(error, app));
 
-	if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
-		await require('./task/pa11y')(config, app);
-	}
-
-	if (!config.dbOnly) {
-		await require('./route/index')(app);
-		await require('./route/tasks')(app);
-		await require('./route/task')(app);
-		await app.server.start();
-
-		console.log(`Server running at: ${app.server.info.uri}`);
-	}
-	callback(null, app);
 }
