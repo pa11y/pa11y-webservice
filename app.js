@@ -40,10 +40,11 @@ function initApp(config, callback) {
 				autoReconnect: true
 			}, (error, client) => {
 				const db = client.db();
+				app.client = client;
 
 				if (error) {
-					console.log('Error connecting to MongoDB:');
-					console.log(JSON.stringify(error));
+					console.error('Error connecting to MongoDB:');
+					console.error(JSON.stringify(error));
 					return next(error);
 				}
 

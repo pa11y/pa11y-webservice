@@ -29,9 +29,8 @@ module.exports = function(app, callback) {
 			name: 1,
 			url: 1,
 			standard: 1
-		}, {
-			w: -1
 		});
+
 		const model = {
 
 			collection: collection,
