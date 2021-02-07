@@ -38,7 +38,7 @@ module.exports = function(app, callback) {
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
 					newResult.task = new ObjectID(newResult.task);
 				}
-				return collection.insert(newResult)
+				return collection.insertOne(newResult)
 					.then(result => model.prepareForOutput(result.ops[0]))
 					.catch(error => {
 						console.error('model:result:create failed', error.message);

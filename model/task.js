@@ -39,7 +39,7 @@ module.exports = function(app, callback) {
 			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
-				return model.collection.insert(newTask)
+				return model.collection.insertOne(newTask)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
