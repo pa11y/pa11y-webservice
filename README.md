@@ -18,8 +18,9 @@ If you're trying to run accessibility tests as part of a CI/CD system, you may w
 Pa11y Webservice is a [Node.js][node] application and requires a stable or LTS version of Node, currently version 8 or greater.
 
 Pa11y Webservice also requires a [MongoDB][mongo] database to be available so it can store the results of the tests. The database doesn't have to be in the same server or computer where Pa11y Webservice is running from.
+Please see [the compatibility chart between MongoDB server version and the driver version](https://docs.mongodb.com/drivers/node/compatibility). Pa11y Webservice currently uses version 3.6 of the MongoDB driver.
 
-Since version 3, Pa11y Webservice uses Headless Chrome in order to run the tests. This means that additional dependencies maybe be required.
+Since version 3, Pa11y Webservice uses Headless Chrome in order to run the tests. This means that additional dependencies may be required.
 
 In [Unix-like](https://en.wikipedia.org/wiki/Unix-like) systems you may need to install the `libnss3` and `libgconf-2-4` libraries in order to be able to run Chrome. If you're trying to run the app in a headless environment (e.g. the cloud, or a headless server), you may also need to configure Xvfb before. Please refer to the documentation from your provider for details on how to do this.
 
