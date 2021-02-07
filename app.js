@@ -37,8 +37,9 @@ function initApp(config, callback) {
 		next => {
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, {
-				autoReconnect: true
+				useUnifiedTopology: true
 			}, (error, client) => {
+				// http://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html
 				const db = client.db();
 				app.client = client;
 

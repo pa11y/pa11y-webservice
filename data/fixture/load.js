@@ -34,8 +34,8 @@ function loadFixtures(env, config, done) {
 
 		try {
 			// Clear existing content
-			await app.model.result.collection.remove();
-			await app.model.task.collection.remove();
+			await app.model.result.collection.deleteMany();
+			await app.model.task.collection.deleteMany();
 
 			// Insert new content
 			await Promise.all(fixtures.tasks.map(task => app.model.task.create(task)));
