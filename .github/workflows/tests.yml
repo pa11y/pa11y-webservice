@@ -29,10 +29,22 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: MongoDB in GitHub Actions
+        uses: supercharge/mongodb-github-action@1.3.0
+        with:
+          mongodb-version: 3.4
       - name: Install dependencies
         run: npm i
       - name: Run linter
         if: ${{ matrix.lint }}
-        run: make verify
+        run: make lint
+      - name: Create test config
+        run: cp config/test.sample.json config/test.json
+      - name: Start test app
+        run: NODE_ENV=test node index.js &
+      - name: Wait / Sleep
+        uses: jakejarvis/wait-action@v0.1.0
+        with:
+          time: '10s'
       - name: Run tests
         run: make test
