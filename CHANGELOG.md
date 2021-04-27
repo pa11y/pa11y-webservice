@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.1 (2021-04-27)
+
+* Update pa11y to version 5.3.1
+* Fixes a potential security issue where MongoDB username and password could be shown in logs (#124).
+
 ## 3.2.0 (2020-10-05)
 
 * Update pa11y to version 5.3.0, which means better compatibility with sites using AMD modules
