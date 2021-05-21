@@ -49,6 +49,7 @@
     "data",
     "model",
     "route",
-    "task"
+    "task",
+    "utils"
   ]
 }
