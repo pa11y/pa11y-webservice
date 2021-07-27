@@ -21,26 +21,30 @@
 const {grey} = require('kleur');
 const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
+const csvToArray = require('../utils/csvToArray');
 
 // Task model
 module.exports = function(app, callback) {
 	app.db.collection('tasks', function(errors, collection) {
-		collection.ensureIndex({
-			name: 1,
-			url: 1,
-			standard: 1
-		}, {
-			w: -1
-		});
+		collection.ensureIndex(
+			{
+				name: 1,
+				url: 1,
+				standard: 1
+			},
+			{
+				w: -1
+			}
+		);
 		const model = {
-
 			collection: collection,
 
 			// Create a task
 			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
-				return collection.insert(newTask)
+				return collection
+					.insert(newTask)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
@@ -79,7 +83,8 @@ module.exports = function(app, callback) {
 				}
 
 				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
-				return collection.findOne({_id: id})
+				return collection
+					.findOne({_id: id})
 					.then(task => {
 						return model.prepareForOutput(task);
 					})
@@ -118,7 +123,8 @@ module.exports = function(app, callback) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
 
-				return collection.update({_id: id}, {$set: taskEdits})
+				return collection
+					.update({_id: id}, {$set: taskEdits})
 					.then(updateCount => {
 						if (updateCount < 1) {
 							return 0;
@@ -128,10 +134,9 @@ module.exports = function(app, callback) {
 							date: now,
 							comment: edits.comment || 'Edited task'
 						};
-						return model.addAnnotationById(idString, annotation)
-							.then(() => {
-								return updateCount;
-							});
+						return model.addAnnotationById(idString, annotation).then(() => {
+							return updateCount;
+						});
 					})
 					.catch(error => {
 						console.error(`model:task:editById failed, with id: ${id}`);
@@ -142,20 +147,28 @@ module.exports = function(app, callback) {
 
 			// Add an annotation to a task
 			addAnnotationById: function(id, annotation) {
-				return model.getById(id)
+				return model
+					.getById(id)
 					.then(task => {
 						if (!task) {
 							return 0;
 						}
 						id = new ObjectID(id);
 						if (Array.isArray(task.annotations)) {
-							return collection.update({_id: id}, {$push: {annotations: annotation}});
+							return collection.update(
+								{_id: id},
+								{$push: {annotations: annotation}}
+							);
 						}
-						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
-
+						return collection.update(
+							{_id: id},
+							{$set: {annotations: [annotation]}}
+						);
 					})
 					.catch(error => {
-						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
+						console.error(
+							`model:task:addAnnotationById failed, with id: ${id}`
+						);
 						console.error(error.message);
 						return null;
 					});
@@ -169,7 +182,8 @@ module.exports = function(app, callback) {
 					console.error('ObjectID generation failed.', error.message);
 					return null;
 				}
-				return collection.deleteOne({_id: id})
+				return collection
+					.deleteOne({_id: id})
 					.then(result => {
 						return result ? result.deletedCount : null;
 					})
@@ -182,45 +196,53 @@ module.exports = function(app, callback) {
 
 			// Run a task by ID
 			runById: function(id) {
-				return model.getById(id).then(async task => {
-					const pa11yOptions = {
-						standard: task.standard,
-						includeWarnings: true,
-						includeNotices: true,
-						timeout: (task.timeout || 30000),
-						wait: (task.wait || 0),
-						ignore: task.ignore,
-						actions: task.actions || [],
-						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
-						headers: task.headers || {},
-						log: {
-							debug: model.pa11yLog(task.id),
-							error: model.pa11yLog(task.id),
-							info: model.pa11yLog(task.id),
-							log: model.pa11yLog(task.id)
-						}
-					};
-
-					// eslint-disable-next-line dot-notation
-					if (task.username && task.password && !pa11yOptions.headers['Authorization']) {
-						const encodedCredentials = Buffer.from(`${task.username}:${task.password}`)
-							.toString('base64');
+				return model
+					.getById(id)
+					.then(async task => {
+						const pa11yOptions = {
+							standard: task.standard,
+							includeWarnings: true,
+							includeNotices: true,
+							timeout: task.timeout || 30000,
+							wait: task.wait || 0,
+							ignore: task.ignore,
+							actions: task.actions || [],
+							runners: csvToArray(app.config.runners),
+							chromeLaunchConfig: app.config.chromeLaunchConfig || {},
+							headers: task.headers || {},
+							log: {
+								debug: model.pa11yLog(task.id),
+								error: model.pa11yLog(task.id),
+								info: model.pa11yLog(task.id),
+								log: model.pa11yLog(task.id)
+							}
+						};
 
 						// eslint-disable-next-line dot-notation
-						pa11yOptions.headers['Authorization'] = `Basic ${encodedCredentials}`;
-					}
+						if (
+							task.username &&
+              task.password &&
+              !pa11yOptions.headers.Authorization
+						) {
+							const encodedCredentials = Buffer.from(
+								`${task.username}:${task.password}`
+							).toString('base64');
 
-					if (task.hideElements) {
-						pa11yOptions.hideElements = task.hideElements;
-					}
+							// eslint-disable-next-line dot-notation
+							pa11yOptions.headers.Authorization = `Basic ${encodedCredentials}`;
+						}
 
-					const pa11yResults = await pa11y(task.url, pa11yOptions);
+						if (task.hideElements) {
+							pa11yOptions.hideElements = task.hideElements;
+						}
 
-					const results = app.model.result.convertPa11y2Results(pa11yResults);
-					results.task = new ObjectID(task.id);
-					results.ignore = task.ignore;
-					return app.model.result.create(results);
-				})
+						const pa11yResults = await pa11y(task.url, pa11yOptions);
+
+						const results = app.model.result.convertPa11y2Results(pa11yResults);
+						results.task = new ObjectID(task.id);
+						results.ignore = task.ignore;
+						return app.model.result.create(results);
+					})
 					.catch(error => {
 						console.error(`model:task:runById failed, with id: ${id}`);
 						console.error(error.message);
@@ -237,8 +259,8 @@ module.exports = function(app, callback) {
 					id: task._id.toString(),
 					name: task.name,
 					url: task.url,
-					timeout: (task.timeout ? parseInt(task.timeout, 10) : 30000),
-					wait: (task.wait ? parseInt(task.wait, 10) : 0),
+					timeout: task.timeout ? parseInt(task.timeout, 10) : 30000,
+					wait: task.wait ? parseInt(task.wait, 10) : 0,
 					standard: task.standard,
 					ignore: task.ignore || [],
 					actions: task.actions || []
@@ -260,7 +282,10 @@ module.exports = function(app, callback) {
 						try {
 							output.headers = JSON.parse(task.headers);
 						} catch (error) {
-							console.error('Header input contains invalid JSON:', task.headers);
+							console.error(
+								'Header input contains invalid JSON:',
+								task.headers
+							);
 							console.error(error.message);
 						}
 					} else {
@@ -296,7 +321,6 @@ module.exports = function(app, callback) {
 					console.log(grey(messageString));
 				};
 			}
-
 		};
 		callback(errors, model);
 	});

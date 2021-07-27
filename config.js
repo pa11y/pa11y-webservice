@@ -15,15 +15,20 @@
 'use strict';
 
 const fs = require('fs');
+const csvToArray = require('./utils/csvToArray');
 const jsonPath = `./config/${process.env.NODE_ENV || 'development'}.json`;
+
+const DEFAULT_RUNNER = 'htmlcs';
 
 if (fs.existsSync(jsonPath)) {
 	const jsonConfig = require(jsonPath);
+	const runners = csvToArray(env('RUNNERS', jsonConfig.runners));
 
 	module.exports = {
 		database: env('DATABASE', jsonConfig.database),
 		host: env('HOST', jsonConfig.host),
 		port: Number(env('PORT', jsonConfig.port)),
+		runners: runners.length ? runners : [DEFAULT_RUNNER],
 		cron: env('CRON', jsonConfig.cron),
 		chromeLaunchConfig: jsonConfig.chromeLaunchConfig || {},
 		numWorkers: jsonConfig.numWorkers || 2
@@ -33,6 +38,7 @@ if (fs.existsSync(jsonPath)) {
 		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
+		runners: csvToArray(env('RUNNERS', DEFAULT_RUNNER)),
 		cron: env('CRON', false),
 		chromeLaunchConfig: {},
 		numWorkers: Number(env('NUM_WORKERS', '2'))
@@ -41,5 +47,5 @@ if (fs.existsSync(jsonPath)) {
 
 function env(name, defaultValue) {
 	const value = process.env[name];
-	return (typeof value === 'string' ? value : defaultValue);
+	return typeof value === 'string' ? value : defaultValue;
 }

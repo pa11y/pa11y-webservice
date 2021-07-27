@@ -17,9 +17,9 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('proclaim');
+const csvToArray = require('../../utils/csvToArray');
 
 describe('config', () => {
-
 	const mockNodeEnv = 'mock';
 	let originalNodeEnv = 'test';
 
@@ -27,7 +27,8 @@ describe('config', () => {
 		database: 'config-file-db',
 		host: 'config-file-host',
 		port: 1000,
-		cron: 'config-fille-cron',
+		runners: 'config-file-runners',
+		cron: 'config-file-cron',
 		numWorkers: 2,
 		chromeLaunchConfig: {
 			field: 'value'
@@ -45,8 +46,9 @@ describe('config', () => {
 	});
 
 	describe('with a file', () => {
-
-		const configFilePath = path.resolve(path.join(__dirname, '../../config/mock.json'));
+		const configFilePath = path.resolve(
+			path.join(__dirname, '../../config/mock.json')
+		);
 
 		before(done => {
 			fs.writeFile(configFilePath, JSON.stringify(mockConfig), done);
@@ -57,7 +59,6 @@ describe('config', () => {
 		});
 
 		describe('and no environment variables', () => {
-
 			it('provides the config file', () => {
 				delete require.cache[require.resolve('../../config')];
 				const config = require('../../config');
@@ -65,15 +66,17 @@ describe('config', () => {
 				assert.strictEqual(config.database, mockConfig.database);
 				assert.strictEqual(config.host, mockConfig.host);
 				assert.strictEqual(config.port, mockConfig.port);
+				assert.deepEqual(config.runners, csvToArray(mockConfig.runners));
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.strictEqual(config.numWorkers, mockConfig.numWorkers);
-				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
+				assert.deepEqual(
+					config.chromeLaunchConfig,
+					mockConfig.chromeLaunchConfig
+				);
 			});
-
 		});
 
 		describe('and some environment variables', () => {
-
 			beforeEach(() => {
 				process.env.DATABASE = 'env-db';
 				process.env.PORT = '2000';
@@ -91,31 +94,36 @@ describe('config', () => {
 				assert.strictEqual(config.database, 'env-db');
 				assert.strictEqual(config.host, mockConfig.host);
 				assert.strictEqual(config.port, 2000);
+				assert.deepEqual(config.runners, csvToArray(mockConfig.runners));
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.strictEqual(config.numWorkers, mockConfig.numWorkers);
-				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
+				assert.deepEqual(
+					config.chromeLaunchConfig,
+					mockConfig.chromeLaunchConfig
+				);
 			});
 		});
 	});
 
 	describe('with no file', () => {
-
 		describe('and no environment variables', () => {
-
 			it('provides a default configuration', () => {
 				delete require.cache[require.resolve('../../config')];
 				const config = require('../../config');
 
-				assert.strictEqual(config.database, 'mongodb://localhost/pa11y-webservice');
+				assert.strictEqual(
+					config.database,
+					'mongodb://localhost/pa11y-webservice'
+				);
 				assert.strictEqual(config.host, '0.0.0.0');
 				assert.strictEqual(config.port, 3000);
+				assert.deepEqual(config.runners, ['htmlcs']);
 				assert.strictEqual(config.cron, false);
 				assert.deepEqual(config.chromeLaunchConfig, {});
 			});
 		});
 
 		describe('and environment variables', () => {
-
 			beforeEach(() => {
 				process.env.DATABASE = 'env-db-2';
 				process.env.HOST = 'env-host-2';
@@ -138,6 +146,7 @@ describe('config', () => {
 				assert.strictEqual(config.database, 'env-db-2');
 				assert.strictEqual(config.host, 'env-host-2');
 				assert.strictEqual(config.port, 3000);
+				assert.deepEqual(config.runners, ['htmlcs']);
 				assert.strictEqual(config.cron, 'env-cron-2');
 				assert.strictEqual(config.numWorkers, 4);
 				assert.deepEqual(config.chromeLaunchConfig, {});

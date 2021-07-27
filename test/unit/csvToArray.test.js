@@ -15,25 +15,17 @@
 'use strict';
 
 const assert = require('proclaim');
-const config = require('../../config/test.json');
-const app = require('../../app');
+const csvToArray = require('../../utils/csvToArray');
 
-describe('pa11y-service startup', function() {
-	it('should start the service and call the callback', done => {
-		const modifiedConfig = {
-			database: config.database,
-			host: config.host,
-			port: config.port + 10,
-			runners: config.runners
-		};
+describe('csvToArray', () => {
+	it('returns empty array when no value passed', () => {
+		assert.deepEqual(csvToArray(), []);
+	});
 
-		app(modifiedConfig, (error, webservice) => {
-			assert.isNull(error);
-			assert.notStrictEqual(webservice, undefined);
-
-			webservice.server.stop();
-
-			done();
-		});
+	it('returns array for comma separate values', () => {
+		assert.deepEqual(csvToArray('foo'), ['foo']);
+		assert.deepEqual(csvToArray('foo, bar'), ['foo', 'bar']);
+		assert.deepEqual(csvToArray('foo,bar'), ['foo', 'bar']);
+		assert.deepEqual(csvToArray('foo, bar, baz'), ['foo', 'bar', 'baz']);
 	});
 });
