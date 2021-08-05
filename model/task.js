@@ -16,6 +16,7 @@
 /* eslint id-length: 'off' */
 /* eslint no-catch-shadow: 'off' */
 /* eslint no-underscore-dangle: 'off' */
+/* eslint new-cap: 'off' */
 'use strict';
 
 const {grey} = require('kleur');
@@ -24,13 +25,11 @@ const pa11y = require('pa11y');
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', function(errors, collection) {
-		collection.ensureIndex({
+	app.db.collection('tasks', async function(errors, collection) {
+		await collection.createIndex({
 			name: 1,
 			url: 1,
 			standard: 1
-		}, {
-			w: -1
 		});
 		const model = {
 
@@ -40,7 +39,7 @@ module.exports = function(app, callback) {
 			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
-				return collection.insert(newTask)
+				return model.collection.insertOne(newTask)
 					.then(result => {
 						return model.prepareForOutput(result.ops[0]);
 					})
@@ -78,8 +77,7 @@ module.exports = function(app, callback) {
 					return null;
 				}
 
-				// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOne
-				return collection.findOne({_id: id})
+				return collection.findOne({_id: ObjectID(id)})
 					.then(task => {
 						return model.prepareForOutput(task);
 					})
@@ -118,7 +116,7 @@ module.exports = function(app, callback) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
 
-				return collection.update({_id: id}, {$set: taskEdits})
+				return collection.updateOne({_id: ObjectID(id)}, {$set: taskEdits})
 					.then(updateCount => {
 						if (updateCount < 1) {
 							return 0;
@@ -147,11 +145,10 @@ module.exports = function(app, callback) {
 						if (!task) {
 							return 0;
 						}
-						id = new ObjectID(id);
 						if (Array.isArray(task.annotations)) {
-							return collection.update({_id: id}, {$push: {annotations: annotation}});
+							return model.collection.updateMany({_id: ObjectID(id)}, {$push: {annotations: annotation}});
 						}
-						return collection.update({_id: id}, {$set: {annotations: [annotation]}});
+						return model.collection.updateMany({_id: ObjectID(id)}, {$set: {annotations: [annotation]}});
 
 					})
 					.catch(error => {
@@ -169,7 +166,7 @@ module.exports = function(app, callback) {
 					console.error('ObjectID generation failed.', error.message);
 					return null;
 				}
-				return collection.deleteOne({_id: id})
+				return collection.deleteOne({_id: ObjectID(id)})
 					.then(result => {
 						return result ? result.deletedCount : null;
 					})
@@ -213,13 +210,13 @@ module.exports = function(app, callback) {
 					if (task.hideElements) {
 						pa11yOptions.hideElements = task.hideElements;
 					}
-
 					const pa11yResults = await pa11y(task.url, pa11yOptions);
 
 					const results = app.model.result.convertPa11y2Results(pa11yResults);
-					results.task = new ObjectID(task.id);
+					results.task = task.id;
 					results.ignore = task.ignore;
-					return app.model.result.create(results);
+					const response = await app.model.result.create(results);
+					return response;
 				})
 					.catch(error => {
 						console.error(`model:task:runById failed, with id: ${id}`);

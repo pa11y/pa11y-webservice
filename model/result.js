@@ -16,32 +16,32 @@
 /* eslint id-length: 'off' */
 /* eslint no-catch-shadow: 'off' */
 /* eslint no-underscore-dangle: 'off' */
+/* eslint new-cap: 'off' */
 'use strict';
 
 const {ObjectID} = require('mongodb');
 
 // Result model
 module.exports = function(app, callback) {
-	app.db.collection('results', (errors, collection) => {
-		collection.ensureIndex({
+	app.db.collection('results', async (errors, collection) => {
+		await collection.createIndex({
 			date: 1
-		}, {
-			w: -1
 		});
 
 		const model = {
 			collection: collection,
-
 			// Create a result
 			create(newResult) {
 				if (!newResult.date) {
 					newResult.date = Date.now();
 				}
 				if (newResult.task && !(newResult.task instanceof ObjectID)) {
-					newResult.task = new ObjectID(newResult.task);
+					newResult.task = ObjectID(newResult.task);
 				}
-				return collection.insert(newResult)
-					.then(result => model.prepareForOutput(result.ops[0]))
+				return collection.insertOne(newResult)
+					.then(result => {
+						return model.prepareForOutput(result.ops[0]);
+					})
 					.catch(error => {
 						console.error('model:result:create failed', error.message);
 					});
@@ -69,7 +69,7 @@ module.exports = function(app, callback) {
 					}
 				};
 				if (opts.task) {
-					filter.task = new ObjectID(opts.task);
+					filter.task = ObjectID(opts.task);
 				}
 
 				const prepare = opts.full ? model.prepareForFullOutput : model.prepareForOutput;
@@ -128,7 +128,8 @@ module.exports = function(app, callback) {
 					console.error('ObjectID generation failed.', error.message);
 					return null;
 				}
-				return collection.deleteMany({task: id})
+
+				return collection.deleteMany({task: ObjectID(id)})
 					.catch(error => {
 						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
 						console.error(error.message);
@@ -148,8 +149,8 @@ module.exports = function(app, callback) {
 				}
 
 				return collection.findOne({
-					_id: id,
-					task: task
+					_id: ObjectID(id),
+					task: ObjectID(task)
 				})
 					.then(result => {
 						if (result) {

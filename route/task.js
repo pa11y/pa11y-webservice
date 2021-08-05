@@ -138,16 +138,18 @@ module.exports = function(app) {
 		method: 'POST',
 		path: '/tasks/{id}/run',
 		handler: async (request, reply) => {
+
 			const task = await model.task.getById(request.params.id);
+
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
-			console.log('');
-			console.log(grey('Starting to run one-off task @ %s'), new Date());
-			console.log('Starting task %s', task.id);
+
+			console.log(grey('Starting NEW to run one-off task @ %s'), new Date());
 			const executed = await model.task.runById(request.params.id);
+
 			if (executed) {
-				console.log(green('Finished task %s'), task.id);
+				console.log(green('Finished NEW task %s'), task.id);
 			} else {
 				console.log(
 					red('Failed to finish task %s'),
