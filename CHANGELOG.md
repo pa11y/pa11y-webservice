@@ -1,9 +1,5 @@
 # Changelog
 
-## 3.2.2 (2021-07-27)
-
-* Update pa11y to version 6.0.1
-
 ## 3.2.1 (2021-04-27)
 
 * Update pa11y to version 5.3.1
