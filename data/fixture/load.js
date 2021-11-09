@@ -31,17 +31,15 @@ function loadFixtures(env, config, done) {
 		if (error) {
 			return done(error);
 		}
-
 		try {
 			// Clear existing content
-			await app.model.result.collection.remove();
-			await app.model.task.collection.remove();
+			await app.model.result.collection.deleteMany();
+			await app.model.task.collection.deleteMany();
 
 			// Insert new content
 			await Promise.all(fixtures.tasks.map(task => app.model.task.create(task)));
 			await Promise.all(fixtures.results.map(result => app.model.result.create(result)));
-
-			await app.db.close();
+			await app.client.close();
 			done();
 			// eslint-disable-next-line no-shadow,no-catch-shadow
 		} catch (error) {

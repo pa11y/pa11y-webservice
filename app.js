@@ -23,27 +23,32 @@ module.exports = initApp;
 // Initialise the application
 function initApp(config, callback) {
 
-	const app = module.exports = {
+	const app = {
 		server: new Hapi.Server({
 			host: config.host,
 			port: config.port
 		}),
-		database: null,
+		db: null,
+		client: null,
 		model: {},
 		config: config
 	};
 
+	const url = config.database;
+	const client = new MongoClient(url, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	});
+
 	async.series([
 		next => {
 			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {
-				autoReconnect: true
-			}, (error, db) => {
-				if (error) {
-					console.log('Error connecting to MongoDB:');
-					console.log(JSON.stringify(error));
-					return next(error);
-				}
+
+			client.connect(error => {
+				console.log('Connected successfully to server');
+				const db = client.db();
+				app.client = client;
+				app.db = db;
 
 				db.on('timeout', () => {
 					console.log('Mongo connection timeout');
