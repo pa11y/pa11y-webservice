@@ -15,7 +15,9 @@ If you're trying to run accessibility tests as part of a CI/CD system, you may w
 
 ## Requirements
 
-Pa11y Webservice is a [Node.js][node] application and requires a stable or LTS version of Node, currently version 8 or greater.
+Pa11y Webservice is a [Node.js][node] application and requires a stable or LTS version of Node, currently version 12 or 14.
+
+⚠️ At the moment, Pa11y Webservice won't work with Node.js v16. Please use Node.js 12 or 14. ⚠️
 
 Pa11y Webservice also requires a [MongoDB][mongo] database to be available so it can store the results of the tests. The database doesn't have to be in the same server or computer where Pa11y Webservice is running from.
 
@@ -119,10 +121,10 @@ The boot configurations for Pa11y Webservice are as follows. Look at the sample 
 This configuration option isn't available when you're using environment variables. [Use a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files) if you need to pass these parameters.
 
 ### numWorkers
+
 *(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
 
-Contributing
-------------
+## Contributing
 
 There are many ways to contribute to Pa11y Webservice, we cover these in the [contributing guide](CONTRIBUTING.md) for this repo.
 
@@ -157,8 +159,9 @@ We also maintain a [migration guide](MIGRATION.md) to help you migrate.
 
 | :grey_question: | Major Version | Last Minor Release | Node.js Versions | Support End Date |
 | :-------------- | :------------ | :----------------- | :--------------- | :--------------- |
-| :heart:         | 3             | N/A                | 8+               | N/A              |
-| :hourglass:       | 2             | 2.3.1              | 4+               | 2020-01-04       |
+| :heart:         | 4             | N/A                | 12+              | N/A              |
+| :hourglass:     | 3             | 3.2.1              | 8+               | 2022-05-26       |
+| :skull:         | 2             | 2.3.1              | 4+               | 2020-01-04       |
 | :skull:         | 1             | 1.11               | 0.10–6           | 2016-12-05       |
 
 If you're opening issues related to these, please mention the version that the issue relates to.
