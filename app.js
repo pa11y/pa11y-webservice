@@ -40,6 +40,20 @@ function initApp(config, callback) {
 		useUnifiedTopology: true
 	});
 
+	// Mongo documentation states that events need to be defined before
+	//  connect() so we can be sure that we're capturing all the events
+	client.on('timeout', () => {
+		console.log('Mongo connection timeout');
+	});
+
+	client.on('close', () => {
+		console.log('Mongo connection closed');
+	});
+
+	client.on('reconnect', () => {
+		console.log('Mongo connection reestablished');
+	});
+
 	async.series([
 		next => {
 			/* eslint camelcase: 'off' */
@@ -50,19 +64,6 @@ function initApp(config, callback) {
 				app.client = client;
 				app.db = db;
 
-				db.on('timeout', () => {
-					console.log('Mongo connection timeout');
-				});
-
-				db.on('close', () => {
-					console.log('Mongo connection closed');
-				});
-
-				db.on('reconnect', () => {
-					console.log('Mongo reconnected');
-				});
-
-				app.db = db;
 				next(error);
 			});
 		},
