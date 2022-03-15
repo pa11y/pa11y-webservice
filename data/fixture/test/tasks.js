@@ -14,11 +14,11 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const {ObjectID} = require('mongodb');
+const {ObjectId} = require('mongodb');
 
 module.exports = [
 	{
-		_id: new ObjectID('abc000000000000000000001'),
+		_id: new ObjectId('abc000000000000000000001'),
 		name: 'NPG Home',
 		url: 'nature.com',
 		timeout: 30000,
@@ -28,21 +28,21 @@ module.exports = [
 		ignore: ['foo', 'bar']
 	},
 	{
-		_id: new ObjectID('abc000000000000000000002'),
+		_id: new ObjectId('abc000000000000000000002'),
 		name: 'NPG Home',
 		url: 'nature.com',
 		timeout: 30000,
 		standard: 'WCAG2AAA'
 	},
 	{
-		_id: new ObjectID('abc000000000000000000003'),
+		_id: new ObjectId('abc000000000000000000003'),
 		name: 'Nature News',
 		url: 'nature.com/news',
 		timeout: 30000,
 		standard: 'Section508'
 	},
 	{
-		_id: new ObjectID('abc000000000000000000004'),
+		_id: new ObjectId('abc000000000000000000004'),
 		name: 'Z Integration Test',
 		url: 'http://localhost:8132',
 		timeout: 30000,

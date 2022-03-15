@@ -14,13 +14,13 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const {ObjectID} = require('mongodb');
+const {ObjectId} = require('mongodb');
 const day = (1000 * 60 * 60 * 24);
 
 module.exports = [
 	{
-		_id: new ObjectID('5238358b06c141d74b000018'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('5238358b06c141d74b000018'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now(),
 		count: {
 			total: 124,
@@ -653,8 +653,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238358b06c141d74b000017'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('5238358b06c141d74b000017'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now(),
 		count: {
 			total: 114,
@@ -1237,8 +1237,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238358706c141d74b000016'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('5238358706c141d74b000016'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now(),
 		count: {
 			total: 81,
@@ -1656,8 +1656,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238358606c141d74b000015'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('5238358606c141d74b000015'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now(),
 		count: {
 			total: 329,
@@ -3315,8 +3315,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238358206c141d74b000014'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('5238358206c141d74b000014'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now(),
 		count: {
 			total: 321,
@@ -4934,8 +4934,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238358006c141d74b000013'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('5238358006c141d74b000013'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now(),
 		count: {
 			total: 5,
@@ -4973,8 +4973,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238355206c141d74b000012'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('5238355206c141d74b000012'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now() - day,
 		count: {
 			total: 114,
@@ -5557,8 +5557,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238355106c141d74b000011'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('5238355106c141d74b000011'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now() - day,
 		count: {
 			total: 124,
@@ -6191,8 +6191,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238354d06c141d74b000010'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('5238354d06c141d74b000010'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now() - day,
 		count: {
 			total: 81,
@@ -6610,8 +6610,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238354c06c141d74b00000f'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('5238354c06c141d74b00000f'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now() - day,
 		count: {
 			total: 329,
@@ -8269,8 +8269,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238354606c141d74b00000e'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('5238354606c141d74b00000e'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now() - day,
 		count: {
 			total: 321,
@@ -9888,8 +9888,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238354506c141d74b00000d'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('5238354506c141d74b00000d'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now() - day,
 		count: {
 			total: 5,
@@ -9927,8 +9927,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238351406c141d74b00000c'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('5238351406c141d74b00000c'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 114,
@@ -10511,8 +10511,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238351406c141d74b00000b'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('5238351406c141d74b00000b'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 124,
@@ -11145,8 +11145,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238351006c141d74b00000a'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('5238351006c141d74b00000a'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 81,
@@ -11564,8 +11564,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238351006c141d74b000009'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('5238351006c141d74b000009'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 329,
@@ -13223,8 +13223,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238350a06c141d74b000008'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('5238350a06c141d74b000008'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 321,
@@ -14842,8 +14842,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('5238350906c141d74b000007'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('5238350906c141d74b000007'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now() - (day * 2),
 		count: {
 			total: 5,
@@ -14881,8 +14881,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834d906c141d74b000006'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('523834d906c141d74b000006'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 114,
@@ -15465,8 +15465,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834d906c141d74b000005'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('523834d906c141d74b000005'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 124,
@@ -16099,8 +16099,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834d406c141d74b000004'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('523834d406c141d74b000004'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 81,
@@ -16518,8 +16518,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834d306c141d74b000003'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('523834d306c141d74b000003'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 329,
@@ -18177,8 +18177,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834cf06c141d74b000002'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('523834cf06c141d74b000002'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 321,
@@ -19796,8 +19796,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523834cd06c141d74b000001'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('523834cd06c141d74b000001'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now() - (day * 3),
 		count: {
 			total: 5,
@@ -19835,8 +19835,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830dd867caa844a000006'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('523830dd867caa844a000006'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 124,
@@ -20469,8 +20469,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830dc867caa844a000005'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('523830dc867caa844a000005'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 114,
@@ -21053,8 +21053,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830d8867caa844a000004'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('523830d8867caa844a000004'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 81,
@@ -21472,8 +21472,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830d7867caa844a000003'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('523830d7867caa844a000003'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 329,
@@ -23131,8 +23131,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830d3867caa844a000002'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('523830d3867caa844a000002'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 321,
@@ -24750,8 +24750,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('523830d1867caa844a000001'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('523830d1867caa844a000001'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now() - (day * 4),
 		count: {
 			total: 5,
@@ -24789,8 +24789,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382fb3de8550e749000006'),
-		task: new ObjectID('52382f08c0d6c9ac49000003'),
+		_id: new ObjectId('52382fb3de8550e749000006'),
+		task: new ObjectId('52382f08c0d6c9ac49000003'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 114,
@@ -25373,8 +25373,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382fb1de8550e749000005'),
-		task: new ObjectID('52382f23c0d6c9ac49000004'),
+		_id: new ObjectId('52382fb1de8550e749000005'),
+		task: new ObjectId('52382f23c0d6c9ac49000004'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 124,
@@ -26007,8 +26007,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382faede8550e749000004'),
-		task: new ObjectID('52382ef5c0d6c9ac49000002'),
+		_id: new ObjectId('52382faede8550e749000004'),
+		task: new ObjectId('52382ef5c0d6c9ac49000002'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 329,
@@ -27666,8 +27666,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382facde8550e749000003'),
-		task: new ObjectID('52382f31c0d6c9ac49000005'),
+		_id: new ObjectId('52382facde8550e749000003'),
+		task: new ObjectId('52382f31c0d6c9ac49000005'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 81,
@@ -28085,8 +28085,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382fa7de8550e749000002'),
-		task: new ObjectID('52382f4ac0d6c9ac49000006'),
+		_id: new ObjectId('52382fa7de8550e749000002'),
+		task: new ObjectId('52382f4ac0d6c9ac49000006'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 5,
@@ -28124,8 +28124,8 @@ module.exports = [
 		]
 	},
 	{
-		_id: new ObjectID('52382fa6de8550e749000001'),
-		task: new ObjectID('52382ec8c0d6c9ac49000001'),
+		_id: new ObjectId('52382fa6de8550e749000001'),
+		task: new ObjectId('52382ec8c0d6c9ac49000001'),
 		date: Date.now() - (day * 5),
 		count: {
 			total: 321,
@@ -29743,8 +29743,8 @@ module.exports = [
 		]
 	},
 	{
-		id: new ObjectID('52457f470dcedad0b6000006'),
-		task: new ObjectID('52457e2b135a4b51b4000001'),
+		id: new ObjectId('52457f470dcedad0b6000006'),
+		task: new ObjectId('52457e2b135a4b51b4000001'),
 		date: Date.now(),
 		count: {
 			total: 165,
