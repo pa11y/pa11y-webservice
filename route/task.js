@@ -54,6 +54,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: Joi.object({
 					lastres: Joi.boolean()
 				}),
@@ -89,6 +92,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: {},
 				payload: Joi.object({
 					name: Joi.string().required(),
@@ -127,6 +133,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: {},
 				payload: false
 			}
@@ -165,6 +174,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: {}
 			}
 		}
@@ -188,6 +200,9 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: Joi.object({
 					from: Joi.string().isoDate(),
 					to: Joi.string().isoDate(),
@@ -214,6 +229,10 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
+				params: Joi.object({
+					tid: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+					rid: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+				}),
 				query: Joi.object({
 					full: Joi.boolean()
 				}),
