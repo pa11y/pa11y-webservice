@@ -20,7 +20,7 @@
 'use strict';
 
 const {grey} = require('kleur');
-const {ObjectID} = require('mongodb');
+const {ObjectId} = require('mongodb');
 const pa11y = require('pa11y');
 
 // Task model
@@ -71,13 +71,13 @@ module.exports = function(app, callback) {
 			// Get a task by ID
 			getById: function(id) {
 				try {
-					id = new ObjectID(id);
+					id = new ObjectId(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectId generation failed.', error.message);
 					return null;
 				}
 
-				return collection.findOne({_id: ObjectID(id)})
+				return collection.findOne({_id: ObjectId(id)})
 					.then(task => {
 						return model.prepareForOutput(task);
 					})
@@ -92,9 +92,9 @@ module.exports = function(app, callback) {
 			editById: function(id, edits) {
 				const idString = id;
 				try {
-					id = new ObjectID(id);
+					id = new ObjectId(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectId generation failed.', error.message);
 					return null;
 				}
 				const now = Date.now();
@@ -116,7 +116,7 @@ module.exports = function(app, callback) {
 					taskEdits.headers = model.sanitizeHeaderInput(edits.headers);
 				}
 
-				return collection.updateOne({_id: ObjectID(id)}, {$set: taskEdits})
+				return collection.updateOne({_id: ObjectId(id)}, {$set: taskEdits})
 					.then(updateCount => {
 						if (updateCount < 1) {
 							return 0;
@@ -146,9 +146,9 @@ module.exports = function(app, callback) {
 							return 0;
 						}
 						if (Array.isArray(task.annotations)) {
-							return model.collection.updateMany({_id: ObjectID(id)}, {$push: {annotations: annotation}});
+							return model.collection.updateMany({_id: ObjectId(id)}, {$push: {annotations: annotation}});
 						}
-						return model.collection.updateMany({_id: ObjectID(id)}, {$set: {annotations: [annotation]}});
+						return model.collection.updateMany({_id: ObjectId(id)}, {$set: {annotations: [annotation]}});
 
 					})
 					.catch(error => {
@@ -161,12 +161,12 @@ module.exports = function(app, callback) {
 			// Delete a task by ID
 			deleteById: function(id) {
 				try {
-					id = new ObjectID(id);
+					id = new ObjectId(id);
 				} catch (error) {
-					console.error('ObjectID generation failed.', error.message);
+					console.error('ObjectId generation failed.', error.message);
 					return null;
 				}
-				return collection.deleteOne({_id: ObjectID(id)})
+				return collection.deleteOne({_id: ObjectId(id)})
 					.then(result => {
 						return result ? result.deletedCount : null;
 					})
