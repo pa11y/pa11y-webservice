@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.1 (2022-03-15)
+
+* Address warnings related to mongodb event listening
+
 ## 4.0.0 (2021-11-26)
 
 * Update pa11y to version 6.
