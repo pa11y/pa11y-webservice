@@ -120,8 +120,8 @@ describe('GET /tasks/{id}/results/{id}', function() {
 				this.navigate(request, done);
 			});
 
-			it('should send a 404 status', function() {
-				assert.strictEqual(this.last.status, 404);
+			it('should send a 400 status', function() {
+				assert.strictEqual(this.last.status, 400);
 			});
 
 		});
@@ -170,8 +170,8 @@ describe('GET /tasks/{id}/results/{id}', function() {
 			this.navigate(request, done);
 		});
 
-		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
 		});
 
 	});
