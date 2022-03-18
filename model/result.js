@@ -22,177 +22,191 @@
 const {ObjectId} = require('mongodb');
 
 // Result model
-module.exports = function(app, callback) {
-	app.db.collection('results', async (errors, collection) => {
+module.exports = async function(app, callback) {
+	let collection;
+	let returnedError;
+
+	try {
+		collection = await app.db.collection('results');
+
 		await collection.createIndex({
 			date: 1
 		});
+	} catch (error) {
+		// Capture error if a callback is provided, otherwise reject with error
+		if (callback) {
+			returnedError = error;
+		} else {
+			throw error;
+		}
+	}
 
-		const model = {
-			collection: collection,
-			// Create a result
-			create(newResult) {
-				if (!newResult.date) {
-					newResult.date = Date.now();
-				}
-				if (newResult.task && !(newResult.task instanceof ObjectId)) {
-					newResult.task = ObjectId(newResult.task);
-				}
-				return collection.insertOne(newResult)
-					.then(result => {
-						return model.prepareForOutput(result.ops[0]);
-					})
-					.catch(error => {
-						console.error('model:result:create failed', error.message);
-					});
-			},
+	const model = {
+		collection: collection,
 
-			// Default filter options
-			_defaultFilterOpts(opts) {
-				const now = Date.now();
-				const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
-				return {
-					from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
-					to: (new Date(opts.to || now)).getTime(),
-					full: Boolean(opts.full),
-					task: opts.task
-				};
-			},
-
-			// Get results
-			_getFiltered(opts) {
-				opts = model._defaultFilterOpts(opts);
-				const filter = {
-					date: {
-						$lt: opts.to,
-						$gt: opts.from
-					}
-				};
-				if (opts.task) {
-					filter.task = ObjectId(opts.task);
-				}
-
-				const prepare = opts.full ? model.prepareForFullOutput : model.prepareForOutput;
-
-				return collection
-					.find(filter)
-					.sort({date: -1})
-					.limit(opts.limit || 0)
-					.toArray()
-					.then(results => results.map(prepare))
-					.catch(error => {
-						console.error('model:result:_getFiltered failed');
-						console.error(error.message);
-					});
-			},
-
-			// Get results for all tasks
-			getAll(opts) {
-				delete opts.task;
-				return model._getFiltered(opts);
-			},
-
-			// Get a result by ID
-			getById(id, full) {
-				const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
-				try {
-					id = new ObjectId(id);
-				} catch (error) {
-					console.error('ObjectId generation failed.', error.message);
-					return null;
-				}
-				return collection.findOne({_id: id})
-					.then(result => {
-						if (result) {
-							result = prepare(result);
-						}
-						return result;
-					})
-					.catch(error => {
-						console.error(`model:result:getById failed, with id: ${id}`, error.message);
-						return null;
-					});
-			},
-
-			// Get results for a single task
-			getByTaskId(id, opts) {
-				opts.task = id;
-				return model._getFiltered(opts);
-			},
-
-			// Delete results for a single task
-			deleteByTaskId(id) {
-				try {
-					id = new ObjectId(id);
-				} catch (error) {
-					console.error('ObjectId generation failed.', error.message);
-					return null;
-				}
-
-				return collection.deleteMany({task: ObjectId(id)})
-					.catch(error => {
-						console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
-						console.error(error.message);
-					});
-			},
-
-			// Get a result by ID and task ID
-			getByIdAndTaskId(id, task, opts) {
-				const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
-
-				try {
-					id = new ObjectId(id);
-					task = new ObjectId(task);
-				} catch (error) {
-					console.error('ObjectId generation failed.', error.message);
-					return null;
-				}
-
-				return collection.findOne({
-					_id: ObjectId(id),
-					task: ObjectId(task)
+		// Create a result
+		create(newResult) {
+			if (!newResult.date) {
+				newResult.date = Date.now();
+			}
+			if (newResult.task && !(newResult.task instanceof ObjectId)) {
+				newResult.task = ObjectId(newResult.task);
+			}
+			return collection.insertOne(newResult)
+				.then(result => {
+					return model.getById(result.insertedId);
 				})
-					.then(result => {
-						if (result) {
-							result = prepare(result);
-						}
-						return result;
-					})
-					.catch(error => {
-						console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
-						console.error(error.message);
-					});
-			},
+				.catch(error => {
+					console.error('model:result:create failed', error.message);
+				});
+		},
 
-			// Prepare a result for output
-			prepareForOutput(result) {
-				result = model.prepareForFullOutput(result);
-				delete result.results;
-				return result;
-			},
-			prepareForFullOutput(result) {
-				return {
-					id: result._id.toString(),
-					task: result.task.toString(),
-					date: new Date(result.date).toISOString(),
-					count: result.count,
-					ignore: result.ignore || [],
-					results: result.results || []
-				};
-			},
-			convertPa11y2Results(results) {
-				return {
-					count: {
-						total: results.issues.length,
-						error: results.issues.filter(result => result.type === 'error').length,
-						warning: results.issues.filter(result => result.type === 'warning').length,
-						notice: results.issues.filter(result => result.type === 'notice').length
-					},
-					results: results.issues
-				};
+		// Default filter options
+		_defaultFilterOpts(opts) {
+			const now = Date.now();
+			const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
+			return {
+				from: (new Date(opts.from || thirtyDaysAgo)).getTime(),
+				to: (new Date(opts.to || now)).getTime(),
+				full: Boolean(opts.full),
+				task: opts.task
+			};
+		},
+
+		// Get results
+		_getFiltered(opts) {
+			opts = model._defaultFilterOpts(opts);
+			const filter = {
+				date: {
+					$lt: opts.to,
+					$gt: opts.from
+				}
+			};
+			if (opts.task) {
+				filter.task = ObjectId(opts.task);
 			}
 
-		};
-		callback(errors, model);
-	});
+			const prepare = opts.full ? model.prepareForFullOutput : model.prepareForOutput;
+
+			return collection
+				.find(filter)
+				.sort({date: -1})
+				.limit(opts.limit || 0)
+				.toArray()
+				.then(results => results.map(prepare))
+				.catch(error => {
+					console.error('model:result:_getFiltered failed');
+					console.error(error.message);
+				});
+		},
+
+		// Get results for all tasks
+		getAll(opts) {
+			delete opts.task;
+			return model._getFiltered(opts);
+		},
+
+		// Get a result by ID
+		getById(id, full) {
+			const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
+			try {
+				id = new ObjectId(id);
+			} catch (error) {
+				console.error('ObjectId generation failed.', error.message);
+				return null;
+			}
+			return collection.findOne({_id: id})
+				.then(result => {
+					if (result) {
+						result = prepare(result);
+					}
+					return result;
+				})
+				.catch(error => {
+					console.error(`model:result:getById failed, with id: ${id}`, error.message);
+					return null;
+				});
+		},
+
+		// Get results for a single task
+		getByTaskId(id, opts) {
+			opts.task = id;
+			return model._getFiltered(opts);
+		},
+
+		// Delete results for a single task
+		deleteByTaskId(id) {
+			try {
+				id = new ObjectId(id);
+			} catch (error) {
+				console.error('ObjectId generation failed.', error.message);
+				return null;
+			}
+
+			return collection.deleteMany({task: ObjectId(id)})
+				.catch(error => {
+					console.error(`model:result:deleteByTaskId failed, with id: ${id}`);
+					console.error(error.message);
+				});
+		},
+
+		// Get a result by ID and task ID
+		getByIdAndTaskId(id, task, opts) {
+			const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
+
+			try {
+				id = new ObjectId(id);
+				task = new ObjectId(task);
+			} catch (error) {
+				console.error('ObjectId generation failed.', error.message);
+				return null;
+			}
+
+			return collection.findOne({
+				_id: ObjectId(id),
+				task: ObjectId(task)
+			})
+				.then(result => {
+					if (result) {
+						result = prepare(result);
+					}
+					return result;
+				})
+				.catch(error => {
+					console.error(`model:result:getByIdAndTaskId failed, with id: ${id}`);
+					console.error(error.message);
+				});
+		},
+
+		// Prepare a result for output
+		prepareForOutput(result) {
+			result = model.prepareForFullOutput(result);
+			delete result.results;
+			return result;
+		},
+		prepareForFullOutput(result) {
+			return {
+				id: result._id.toString(),
+				task: result.task.toString(),
+				date: new Date(result.date).toISOString(),
+				count: result.count,
+				ignore: result.ignore || [],
+				results: result.results || []
+			};
+		},
+		convertPa11y2Results(results) {
+			return {
+				count: {
+					total: results.issues.length,
+					error: results.issues.filter(result => result.type === 'error').length,
+					warning: results.issues.filter(result => result.type === 'warning').length,
+					notice: results.issues.filter(result => result.type === 'notice').length
+				},
+				results: results.issues
+			};
+		}
+
+	};
+
+	return callback ? callback(returnedError, model) : model;
 };

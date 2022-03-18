@@ -35,10 +35,7 @@ function initApp(config, callback) {
 	};
 
 	const url = config.database;
-	const client = new MongoClient(url, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	});
+	const client = new MongoClient(url);
 
 	// Mongo documentation states that events need to be defined before
 	//  connect() so we can be sure that we're capturing all the events
