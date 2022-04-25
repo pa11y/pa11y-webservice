@@ -17,7 +17,7 @@
 'use strict';
 
 const {green, grey, red} = require('kleur');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
 // Routes relating to individual tasks
@@ -89,7 +89,7 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {},
+				query: Joi.object({}),
 				payload: Joi.object({
 					name: Joi.string().required(),
 					timeout: Joi.number().integer(),
@@ -127,7 +127,7 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {},
+				query: Joi.object({}),
 				payload: false
 			}
 		}
@@ -165,7 +165,7 @@ module.exports = function(app) {
 		},
 		options: {
 			validate: {
-				query: {}
+				query: Joi.object({})
 			}
 		}
 	});
