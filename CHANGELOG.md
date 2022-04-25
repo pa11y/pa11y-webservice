@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.0 (2022-04-25)
+
+* Add support for Node v16 via upgrading Hapi to the latest version
+* Log the number of workers configured when starting the app
+
 ## 4.0.1 (2022-03-15)
 
 * Address warnings related to mongodb event listening
