@@ -38,6 +38,7 @@ describe('PATCH /tasks/{id}', function() {
 					actions: [
 						'click element body'
 					],
+					runners: ['run', 'sprint'],
 					comment: 'Just changing some stuff, you know'
 				};
 				const request = {
@@ -86,6 +87,11 @@ describe('PATCH /tasks/{id}', function() {
 			it('should update the task\'s actions in the database', async function() {
 				const task = await this.app.model.task.getById('abc000000000000000000001');
 				assert.deepEqual(task.actions, taskEdits.actions);
+			});
+
+			it('should update the task\'s associated runners in the database', async function() {
+				const task = await this.app.model.task.getById('abc000000000000000000001');
+				assert.deepEqual(task.runners, taskEdits.runners);
 			});
 
 			it('should add an annotation for the edit to the task', async function() {
@@ -232,6 +238,38 @@ describe('PATCH /tasks/{id}', function() {
 			assert.notDeepEqual(task.actions, taskEdits.actions);
 		});
 
+	});
+
+	describe('with invalid runners during edit', function() {
+		let taskEdits;
+
+		const defaultRunners = ['htmlcs'];
+
+		beforeEach(function(done) {
+			// Runners need to be strings
+			taskEdits = {
+				runners: [
+					1,
+					2
+				]
+			};
+			const request = {
+				method: 'PATCH',
+				endpoint: 'tasks/abc000000000000000000001',
+				body: taskEdits
+			};
+			this.navigate(request, done);
+		});
+
+		it('should send a 400 status', function() {
+			assert.strictEqual(this.last.status, 400);
+		});
+
+		it('should not update the task in the database and continue to be default', async function() {
+			const task = await this.app.model.task.getById('abc000000000000000000001');
+			assert.notDeepEqual(task.runners, taskEdits.runners);
+			assert.deepEqual(task.runners, defaultRunners);
+		});
 	});
 
 	describe('with valid but non-existent task ID', function() {

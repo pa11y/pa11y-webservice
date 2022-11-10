@@ -104,7 +104,8 @@ module.exports = function(app, callback) {
 					wait: parseInt(edits.wait, 10),
 					actions: edits.actions,
 					username: edits.username,
-					password: edits.password
+					password: edits.password,
+					runners: edits.runners
 				};
 				if (edits.ignore) {
 					taskEdits.ignore = edits.ignore;
@@ -190,6 +191,7 @@ module.exports = function(app, callback) {
 						actions: task.actions || [],
 						chromeLaunchConfig: app.config.chromeLaunchConfig || {},
 						headers: task.headers || {},
+						runners: task.runners || app.config.runners,
 						log: {
 							debug: model.pa11yLog(task.id),
 							error: model.pa11yLog(task.id),
@@ -238,7 +240,8 @@ module.exports = function(app, callback) {
 					wait: (task.wait ? parseInt(task.wait, 10) : 0),
 					standard: task.standard,
 					ignore: task.ignore || [],
-					actions: task.actions || []
+					actions: task.actions || [],
+					runners: task.runners || app.config.runners
 				};
 				if (task.annotations) {
 					output.annotations = task.annotations;

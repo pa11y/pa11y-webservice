@@ -40,6 +40,7 @@ app(config, (error, initialisedApp) => {
 	console.log(grey('database: %s'), dbConnectionString);
 	console.log(grey('cron:     %s'), config.cron);
 	console.log(grey('workers:  %s'), config.numWorkers);
+	console.log(grey('runners:  %s'), config.runners);
 
 	if (error) {
 		console.error('');

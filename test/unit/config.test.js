@@ -31,7 +31,8 @@ describe('config', () => {
 		numWorkers: 2,
 		chromeLaunchConfig: {
 			field: 'value'
-		}
+		},
+		runners: ['htmlcs']
 	};
 
 	before(() => {
@@ -67,6 +68,7 @@ describe('config', () => {
 				assert.strictEqual(config.port, mockConfig.port);
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.strictEqual(config.numWorkers, mockConfig.numWorkers);
+				assert.deepEqual(config.runners, mockConfig.runners);
 				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
 			});
 
@@ -93,6 +95,7 @@ describe('config', () => {
 				assert.strictEqual(config.port, 2000);
 				assert.strictEqual(config.cron, mockConfig.cron);
 				assert.strictEqual(config.numWorkers, mockConfig.numWorkers);
+				assert.deepEqual(config.runners, mockConfig.runners);
 				assert.deepEqual(config.chromeLaunchConfig, mockConfig.chromeLaunchConfig);
 			});
 		});
