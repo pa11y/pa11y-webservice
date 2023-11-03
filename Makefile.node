@@ -1,14 +1,3 @@
-#
-# Node.js Makefile
-# ================
-#
-# Do not update this file manually – it's maintained separately on GitHub:
-# https://github.com/rowanmanning/makefiles/blob/master/Makefile.node
-#
-# To update to the latest version, run `make update-makefile`.
-#
-
-
 # Meta tasks
 # ----------
 
@@ -57,28 +46,11 @@ node_modules: package.json
 # Verify tasks
 # ------------
 
-verify: verify-javascript verify-dust verify-spaces
+verify: verify-eslint
 	@$(TASK_DONE)
-
-verify-javascript: verify-eslint verify-jshint verify-jscs
-	@$(TASK_DONE)
-
-verify-dust:
-	@if [ -e .dustmiterc* ]; then dustmite --path ./view && $(TASK_DONE); fi
 
 verify-eslint:
 	@if [ -e .eslintrc* ]; then eslint . && $(TASK_DONE); fi
-
-verify-jshint:
-	@if [ -e .jshintrc* ]; then jshint . && $(TASK_DONE); fi
-
-verify-jscs:
-	@if [ -e .jscsrc* ]; then jscs . && $(TASK_DONE); fi
-
-verify-spaces:
-	@if [ -e .editorconfig* ] && [ -x $(NPM_BIN)/lintspaces ]; then \
-		git ls-files | xargs lintspaces -e .editorconfig && $(TASK_DONE); \
-	fi
 
 verify-coverage:
 	@if [ -d coverage ]; then \
@@ -115,11 +87,3 @@ test-unit-coverage:
 
 test-integration:
 	@if [ -d test/integration ]; then mocha test/integration --exit --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE); fi
-
-
-# Tooling tasks
-# -------------
-
-update-makefile:
-	@curl -s https://raw.githubusercontent.com/rowanmanning/makefiles/master/Makefile.node > Makefile.node
-	@$(TASK_DONE)
