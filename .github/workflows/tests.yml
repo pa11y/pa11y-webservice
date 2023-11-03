@@ -40,9 +40,6 @@ jobs:
         run: cp config/test.sample.json config/test.json
       - name: Start test app
         run: NODE_ENV=test node index.js &
-      - name: Wait / Sleep
-        uses: jakejarvis/wait-action@v0.1.0
-        with:
-          time: '10s'
+      - run: sleep 10s
       - name: Run tests
         run: make test
