@@ -17,24 +17,24 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pa11y/webservice.git"
+    "url": "https://github.com/pa11y/pa11y-webservice.git"
   },
-  "homepage": "https://github.com/pa11y/webservice",
-  "bugs": "https://github.com/pa11y/webservice/issues",
+  "homepage": "https://github.com/pa11y/pa11y-webservice",
+  "bugs": "https://github.com/pa11y/pa11y-webservice/issues",
   "license": "GPL-3.0",
   "dependencies": {
-    "@hapi/hapi": "~20.2.2",
-    "async": "~3.2.2",
-    "cron": "~1.8.2",
-    "joi": "~17.4.2",
-    "kleur": "~4.1.2",
-    "mongodb": "~3.6.10",
-    "pa11y": "~6.1.0",
-    "underscore": "~1.13.1"
+    "@hapi/hapi": "~20.3.0",
+    "async": "~3.2.4",
+    "cron": "~2.1.0",
+    "joi": "~17.7.0",
+    "kleur": "~4.1.5",
+    "mongodb": "~3.7.3",
+    "pa11y": "~6.2.3",
+    "underscore": "~1.13.6"
   },
   "devDependencies": {
     "eslint": "^7.27.0",
-    "mocha": "^8.4.0",
+    "mocha": "^10.1.0",
     "pa11y-lint-config": "^2.0.0",
     "proclaim": "^3.6.0",
     "request": "^2.88.2"

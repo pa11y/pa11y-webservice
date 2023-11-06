@@ -5,15 +5,13 @@ name: Build and lint
 
 on:
   push:
-    branches: # Run actions when code is committed to these branches
-      - master
+    branches:
+      - main
   pull_request:
-    branches: # Run actions when a PR is pushed based on one of these branches
-      - master
 
 jobs:
   checkout_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         include:
@@ -24,9 +22,9 @@ jobs:
 
     steps:
       - name: Checkout code from ${{ github.repository }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: MongoDB in GitHub Actions
@@ -34,7 +32,7 @@ jobs:
         with:
           mongodb-version: 3.4
       - name: Install dependencies
-        run: npm i
+        run: npm ci
       - name: Run linter
         if: ${{ matrix.lint }}
         run: make lint
@@ -42,9 +40,6 @@ jobs:
         run: cp config/test.sample.json config/test.json
       - name: Start test app
         run: NODE_ENV=test node index.js &
-      - name: Wait / Sleep
-        uses: jakejarvis/wait-action@v0.1.0
-        with:
-          time: '10s'
+      - run: sleep 10s
       - name: Run tests
         run: make test
