@@ -1,17 +1,6 @@
 include Makefile.node
 
-
-# Verify tasks
-# ------------
-
-# Lint alias for backwards compatibility
-lint: verify
-
-
-# Database tasks
-# --------------
-
-# Add fixtures
+# Add fixtures to database
 fixtures:
 	@node ./script/fixtures.js
 	@$(TASK_DONE)
