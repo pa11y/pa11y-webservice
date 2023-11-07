@@ -40,9 +40,9 @@ We're nearly ready to run the service, but first we must provide some configurat
 
 ## Configuration
 
-The service can be configured using either runtime environment variables or a configuration file. When both are present, the configuration file will override the environment. We provide sample versions of the [configuration file](config). 
+The service can be configured using either runtime environment variables or a configuration file. When both are present, the file's contents will override the environment variables. We provide sample versions of the [configuration file](config). 
 
-Each option which can be configured is documented [here](#configurations), listed by its JSON-file property name - the environment variable equivalent is identical, but upper-snake-cased.
+Each configurable option is documented [here](#configurations), listed by its JSON-file property name. The environment variable equivalent for each option is identical, but upper-snake-cased.
 
 ### Configuration using environment variables
 
@@ -98,19 +98,19 @@ Env equivalent: `PORT`.
 
 #### `cron`
 
-*(string)* A crontab which describes when to generate reports for each task in the application.
+*(string)* A crontab which describes when to generate reports for each task.
 
 Env equivalent: `CRON`.
 
 #### `numWorkers`
 
-*(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
+*(number)* The number of workers that will be running concurrently on each cron execution.
 
 Env equivalent: `NUM_WORKERS`.
 
 #### `chromeLaunchConfig` (config file only)
 
-*(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
+*(object)* Options to be supplied to the instance of Headless Chrome that Pa11y will create. See [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object)'s documentation for more information.
 
 Env equivalent: none. This option can only be defined by a file.
 
