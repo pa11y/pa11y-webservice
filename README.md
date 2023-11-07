@@ -152,7 +152,7 @@ The integration tests require the service to be running in the background, since
 
 ## Fixtures
 
-For demoing Pa11y Webservice, you can insert some example tasks and results by running one of the following commands, depending on your environment:
+If you'd like to preview Pa11y Webservice or present it to someone else, we've provided some [sample tasks and results](data/fixture), which can be embedded by running one of the following commands:
 
 ```sh
 NODE_ENV=development make fixtures
