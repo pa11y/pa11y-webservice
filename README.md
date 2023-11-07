@@ -1,11 +1,5 @@
 # Pa11y Webservice
 
-Pa11y Webservice is a Node.js app that provides scheduled accessibility reports for multiple URLs. It runs [Pa11y][pa11y] on a list of URLs, which you can update and query the results of via a JSON web-service.
-
-Pa11y Webservice doesn't have a UI. In most scenarios, you may find easier to configure and run accessibility tests from [Pa11y Dashboard][pa11y-dashboard] than from Pa11y Webservice itself, so we recommend to have a look at it first.
-
-If you're trying to run accessibility tests as part of a CI/CD system, you may want to use [Pa11y][pa11y] or [Pa11y CI][pa11y-ci] instead, as they better suited to these tasks.
-
 [![NPM version][shield-npm]][info-npm]
 [![Node.js version support][shield-node]][info-node]
 [![Build status][shield-build]][info-build]
@@ -13,15 +7,20 @@ If you're trying to run accessibility tests as part of a CI/CD system, you may w
 
 ---
 
+Pa11y Webservice is a Node.js service that can schedule accessibility testing, using [Pa11y][pa11y], for multiple URLs.
+
+Use this service if you're ready to interact with a restful API to coordinate your testing. For other scenarios, another Pa11y tool may be more appropriate:
+
+- [Pa11y Dashboard][pa11y-dashboard] provides a visual interface
+- [Pa11y CI][pa11y-ci], and [Pa11y][pa11y] itself, can be executed from the command line, which is likely to be more useful for accessibility testing as part of a CI/CD workflow
+
 ## Requirements
 
-Pa11y Webservice is a [Node.js][node] application and is designed to support a stable/LTS version of Node. Pa11y 4 supports Node.js versions 12, 14 and 16.
+Pa11y Webservice is a [Node.js][node] application designed to support a stable/LTS version of Node. Pa11y 4 requires Node.js version 12, 14 or 16.
 
-Pa11y Webservice also requires a [MongoDB][mongo] database to be available so it can store the results of the tests. The database doesn't have to be in the same server or computer where Pa11y Webservice is running from.
+The service stores test results in a [MongoDB][mongo] database, and expects one to be available and running.
 
-Since version 3, Pa11y Webservice uses Headless Chrome in order to run the tests. This means that additional dependencies maybe be required.
-
-In [Unix-like](https://en.wikipedia.org/wiki/Unix-like) systems you may need to install the `libnss3` and `libgconf-2-4` libraries to be able to run Chrome. If you're trying to run the app in a headless environment (e.g. the cloud, or a headless server), you may also need to configure Xvfb first. Please refer to the documentation from your provider for details on how to do this.
+Pa11y (and therefore this service) uses Headless Chrome to perform accessibility testing, the installation of which sometimes requires additional dependencies to be required on Linux and other Unix-like systems. Your distribution's documentation should describe how to install these.
 
 ## Setup
 
