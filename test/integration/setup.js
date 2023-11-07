@@ -47,7 +47,7 @@ afterEach(done => {
 function assertServiceIsAvailable(baseUrl, done) {
 	request(baseUrl, error => {
 		if (error) {
-			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test node index.js\``);
+			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test npm start\``);
 			process.exit();
 		}
 		done();
