@@ -17,7 +17,6 @@ jobs:
 
   test:
     name: test (node ${{ matrix.node }}, mongodb ${{ matrix.mongo }})
-    runs-on: ubuntu-20.04
     strategy:
       matrix:
         node: [12, 14, 16, 18, 20]
