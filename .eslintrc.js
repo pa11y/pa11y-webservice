@@ -1,6 +1,6 @@
 'use strict';
 
-const config = module.exports = require('pa11y-lint-config/eslint/es2017');
+const config = require('pa11y-lint-config/eslint/es2017');
 
 // NOTE: we have to override here because we're using
 // a `for of` loop somewhere. Once this repo moves to
@@ -14,3 +14,5 @@ config.rules['prefer-const'] = 'off';
 config.rules['prefer-rest-params'] = 'off';
 config.rules['prefer-spread'] = 'off';
 config.rules['prefer-template'] = 'off';
+
+module.exports = config;
