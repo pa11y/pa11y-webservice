@@ -126,26 +126,36 @@ This option can only be provided by [a JSON configuration file](https://github.c
 
 There are many ways to contribute to Pa11y Webservice, we cover these in the [contributing guide](CONTRIBUTING.md) for this repo.
 
-If you're ready to contribute some code, you'll need to clone the repo and get set up as outlined in the [setup guide](#setup). To run the test suite, remember to copy its config file with `cp config/test.sample.json config/test.json` if you haven't done so already! Manually start the application in test mode with:
+If you're ready to contribute some code, follow the [setup guide](#setup). The project can be linted and unit tested immediately:
 
 ```sh
-NODE_ENV=test npm start
+make lint           # Lint the code
+make test-unit      # Run the unit tests
 ```
 
-You'll now be able to run the following commands, either in a separate terminal session or by putting the server process into the background (`ctrl+z` then `bg`):
+The integration tests require the service to be running in the background, since they'll be checking its behaviour.
 
-```sh
-make verify              # Verify all of the code (ESLint)
-make test                # Run all tests
-make test-integration    # Run the integration tests
-```
+1. Create a configuration file for the `test` mode; one can be created quickly with `cp config/test.sample.json config/test.json`
+1. Start the service in test mode with:
+   ```sh
+   NODE_ENV=test npm start &
+   ```
+
+   The `&` places the service into the background. An alternative approach is to run `NODE_ENV=test npm start`, suspend the process with `CTRL+z`, and finally run `bg` to place it into the background.
+1. ```sh
+   make test-integration    # Run the integration tests
+   make test                # Run both the integration tests and the unit tests mentioned above
+   ```
 
 ## Fixtures
 
-For demoing Pa11y Webservice, you can insert some example tasks and results by running one of the following commands (depending on your environment):
+For demoing Pa11y Webservice, you can insert some example tasks and results by running one of the following commands, depending on your environment:
 
 ```sh
 NODE_ENV=development make fixtures
+```
+
+```sh
 NODE_ENV=test make fixtures
 ```
 
