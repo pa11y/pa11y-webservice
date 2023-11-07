@@ -7,7 +7,7 @@
 
 ---
 
-Pa11y Webservice is a Node.js service that can schedule accessibility testing, using [Pa11y][pa11y], for multiple URLs.
+Pa11y Webservice is a Node.js service that can schedule accessibility testing for multiple URLs, using [Pa11y][pa11y].
 
 Use this service if you'd like to coordinate your testing by interacting with a restful API. For other scenarios, another Pa11y tool may be more appropriate:
 
