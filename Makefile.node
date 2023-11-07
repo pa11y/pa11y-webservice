@@ -16,12 +16,6 @@ export PATH := ./node_modules/.bin:$(PATH)
 TASK_DONE = echo "✓ $@ done"
 
 
-# Group tasks
-# -----------
-
-all: install ci
-
-
 # Install tasks
 # -------------
 
