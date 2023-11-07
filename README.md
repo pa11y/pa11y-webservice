@@ -56,27 +56,24 @@ PORT=8080 npm start
 
 Configuration can also be provided by a JSON file, allowing separate configurations to be maintained for multiple contexts. This method is also the only way to configure the instance of Headless Chrome that Pa11y will use.
 
-The mode is set by the `NODE_ENV` environment variable, and defaults to `development` when it's absent. Pa11y Webservice will use the config file with the name `{mode}.json`. For example, providing `NODE_ENV=production` would lead to the service looking for `production.json`.
+We label each of these contexts a 'mode'. The mode is set by the `NODE_ENV` environment variable, and defaults to `development`. Pa11y Webservice will look for the mode's configuration file at `config/{mode}.json`. Providing `NODE_ENV=production` would lead to the service looking for `config/production.json`:
 
 ```sh
 NODE_ENV=production npm start
-# Will use the production.json config file
 ```
 
-The `config/` directory contains three example config files. You can use these as a base to create your own configuration.
+The [`config`](config) directory here contains three examples. You could use one as a base to create your own configuration.
 
 ```sh
 cp config/development.sample.json config/development.json
-cp config/production.sample.json config/production.json
-cp config/test.sample.json config/test.json
 ```
 
-The [available configurations are documented here](#configurations).
-
-Once the configuration has been created, the app can be run in the desired mode by changing the `NODE_ENV` environment variable:
+```sh
+cp config/production.sample.json config/production.json
+```
 
 ```sh
-NODE_ENV=development npm start
+cp config/test.sample.json config/test.json
 ```
 
 ### List of configuration options
