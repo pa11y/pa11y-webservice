@@ -136,8 +136,8 @@ There are many ways to contribute to Pa11y Webservice, we cover these in the [co
 If you're ready to contribute some code, follow the [setup guide](#setup). The project can be linted and unit tested immediately:
 
 ```sh
-make lint           # Lint the code
-make test-unit      # Run the unit tests
+npm run lint           # Lint the code
+npm run test:unit      # Run the unit tests
 ```
 
 The integration tests require the service to be running in the background, since they'll be checking its behaviour.
@@ -150,8 +150,8 @@ The integration tests require the service to be running in the background, since
 
    The `&` places the service into the background. An alternative approach is to run `NODE_ENV=test npm start`, suspend the process with `CTRL+z`, and finally run `bg` to place it into the background.
 1. ```sh
-   make test-integration    # Run the integration tests
-   make test                # Run both the integration tests and the unit tests mentioned above
+   npm run test:integration   # Run the integration tests
+   npm test                   # Run both the integration tests and the unit tests mentioned above
    ```
 
 ## Fixtures
@@ -159,11 +159,11 @@ The integration tests require the service to be running in the background, since
 If you'd like to preview Pa11y Webservice or present it to someone else, we've provided some [sample tasks and results](data/fixture), which can be embedded by running one of the following commands:
 
 ```sh
-NODE_ENV=development make fixtures
+NODE_ENV=development npm run load-fixtures
 ```
 
 ```sh
-NODE_ENV=test make fixtures
+NODE_ENV=test npm run load-fixtures
 ```
 
 ## Support and migration

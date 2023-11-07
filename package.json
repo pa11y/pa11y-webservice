@@ -43,8 +43,11 @@
   "main": "./app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "make test",
-    "lint": "make lint"
+    "test": "npm run test:unit && npm run test:integration",
+    "lint": "eslint .",
+    "load-fixtures": "node script/fixtures.js",
+    "test:unit": "mocha test/unit --exit --recursive",
+    "test:integration": "mocha test/integration --exit --timeout 20000 --slow 4000"
   },
   "files": [
     "*.js",
