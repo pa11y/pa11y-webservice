@@ -33,9 +33,9 @@
     "underscore": "~1.13.6"
   },
   "devDependencies": {
-    "eslint": "^7.27.0",
+    "eslint": "^8.52.0",
     "mocha": "^10.1.0",
-    "pa11y-lint-config": "^2.0.0",
+    "pa11y-lint-config": "^3.0.0",
     "proclaim": "^3.6.0",
     "request": "^2.88.2"
   },
