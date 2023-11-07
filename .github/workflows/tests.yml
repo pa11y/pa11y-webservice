@@ -15,17 +15,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Supply MongoDB 3.4
-        uses: supercharge/mongodb-github-action@1.3.0
-        with:
-          mongodb-version: 3.4
       - run: npm ci
       - run: make lint
       - run: make test-unit
-      - name: Supply integration test configuration
+
+      - name: Supply MongoDB 3.4
+        uses: supercharge/mongodb-github-action@1.3.0
+        with:
+          mongodb-version: 3.4      
+      - name: Supply integration test configuration file
         run: cp config/test.sample.json config/test.json
       - name: Make webservice available to be integration-tested
         run: NODE_ENV=test node index.js &
       - run: sleep 10s
-      - run: make test-integration
 
+      - run: make test-integration
