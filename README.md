@@ -151,18 +151,20 @@ NODE_ENV=test make fixtures
 
 ## Support and migration
 
-Pa11y Webservice major versions are normally supported for 6 months after their last minor release. This means that patch-level changes will be added and bugs will be fixed. The table below outlines the end-of-support dates for major versions, and the last minor release for that version.
+> [!NOTE]
+> We maintain a [migration guide](MIGRATION.md) to help you migrate between major versions.
 
-We also maintain a [migration guide](MIGRATION.md) to help you migrate.
+When we release a new major version we will continue to support the previous major version for 6 months. This support will be limited to fixes for critical bugs and security issues. If you're opening an issue related to this project, please mention the specific version that the issue affects.
 
-| :grey_question: | Major Version | Last Minor Release | Node.js Versions | Support End Date |
-| :-------------- | :------------ | :----------------- | :--------------- | :--------------- |
-| :heart:         | 4             | N/A                | 12+              | N/A              |
-| :hourglass:     | 3             | 3.2.1              | 8+               | 2022-05-26       |
-| :skull:         | 2             | 2.3.1              | 4+               | 2020-01-04       |
-| :skull:         | 1             | 1.11               | 0.10–6           | 2016-12-05       |
+The following table lists the major versions available and, for each previous major version, its end-of-support date, and its final minor version released.
 
-If you're opening issues related to these, please mention the version that the issue relates to.
+| Major version | Final minor version | Node.js support  | Support end date |
+| :------------ | :-----------------  | :--------------- | :--------------- |
+| 4             | N/A                 | 12, 14, 16       | N/A              |
+| 3             | 3.2.1               | 8, 10            | 2022-05-26       |
+| 2             | 2.3.1               | 4, 6             | 2020-01-04       |
+| 1             | 1.11                | 0.10, 0.12, 4, 6 | 2016-12-05       |
+
 
 ## License
 
