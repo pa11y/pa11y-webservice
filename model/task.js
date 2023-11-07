@@ -25,7 +25,7 @@ const pa11y = require('pa11y');
 
 // Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', async function(errors, collection) {
+	app.db.collection('tasks', async (errors, collection) => {
 		await collection.createIndex({
 			name: 1,
 			url: 1,
@@ -69,7 +69,7 @@ module.exports = function(app, callback) {
 			},
 
 			// Get a task by ID
-			getById: function(id) {
+			getById: id => {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
