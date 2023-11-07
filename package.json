@@ -24,7 +24,7 @@
   "bugs": "https://github.com/pa11y/pa11y-webservice/issues",
   "license": "GPL-3.0",
   "dependencies": {
-    "@hapi/hapi": "~20.3.0",
+    "@hapi/hapi": "~21.3.2",
     "async": "~3.2.4",
     "cron": "~2.4.4",
     "joi": "~17.11.0",
@@ -43,9 +43,9 @@
   "main": "./app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "npm run test:unit && npm run test:integration",
     "lint": "eslint .",
     "load-fixtures": "node script/fixtures.js",
+    "test": "npm run test:unit && npm run test:integration",    
     "test:unit": "mocha test/unit --exit --recursive",
     "test:integration": "mocha test/integration --exit --timeout 20000 --slow 4000"
   },
