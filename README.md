@@ -177,7 +177,7 @@ The following table lists the major versions available and, for each previous ma
 
 | Major version | Final minor version | Node.js support  | Support end date |
 | :------------ | :-----------------  | :--------------- | :--------------- |
-| 4             | N/A                 | 12, 14, 16       | N/A              |
+| 4             |                     | 12, 14, 16       | ✅ Current major version |
 | 3             | 3.2.1               | 8, 10            | 2022-05-26       |
 | 2             | 2.3.1               | 4, 6             | 2020-01-04       |
 | 1             | 1.11                | 0.10, 0.12, 4, 6 | 2016-12-05       |
@@ -195,11 +195,7 @@ Copyright &copy; 2013–2023, Team Pa11y and contributors
 [pa11y]: https://github.com/pa11y/pa11y
 [pa11y-ci]: https://github.com/pa11y/pa11y-ci
 [pa11y-dashboard]: https://github.com/pa11y/pa11y-dashboard
-[pa11y-docs]: https://github.com/pa11y/pa11y#installing
 [pa11y-webservice-client-node]: https://github.com/pa11y/pa11y-webservice-client-node
-[phantom]: http://phantomjs.org/
-[travis]: https://travis-ci.org/pa11y/pa11y-webservice
-[travis-img]: https://travis-ci.org/pa11y/pa11y-webservice.png?branch=master
 [wiki-web-service]: https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints
 [wiki-resources]: https://github.com/pa11y/pa11y-webservice/wiki/Resource-Types
 
