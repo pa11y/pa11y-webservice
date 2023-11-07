@@ -21,7 +21,7 @@ Pa11y Webservice also requires a [MongoDB][mongo] database to be available so it
 
 Since version 3, Pa11y Webservice uses Headless Chrome in order to run the tests. This means that additional dependencies maybe be required.
 
-In [Unix-like](https://en.wikipedia.org/wiki/Unix-like) systems you may need to install the `libnss3` and `libgconf-2-4` libraries in order to be able to run Chrome. If you're trying to run the app in a headless environment (e.g. the cloud, or a headless server), you may also need to configure Xvfb before. Please refer to the documentation from your provider for details on how to do this.
+In [Unix-like](https://en.wikipedia.org/wiki/Unix-like) systems you may need to install the `libnss3` and `libgconf-2-4` libraries to be able to run Chrome. If you're trying to run the app in a headless environment (e.g. the cloud, or a headless server), you may also need to configure Xvfb first. Please refer to the documentation from your provider for details on how to do this.
 
 ## Setup
 
@@ -166,8 +166,8 @@ If you're opening issues related to these, please mention the version that the i
 
 ## License
 
-Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].<br/>
-Copyright &copy; 2013–2019, Team Pa11y and contributors
+Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].
+Copyright &copy; 2013–2023, Team Pa11y and contributors
 
 [gpl]: http://www.gnu.org/licenses/gpl-3.0.html
 [mongo]: http://www.mongodb.org/
