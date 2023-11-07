@@ -10,11 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        include:
-          - node-version: 12.x
-          - node-version: 14.x
-          - node-version: 16.x
-
+        node-version: [12, 14, 16]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
