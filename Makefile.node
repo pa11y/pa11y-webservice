@@ -1,17 +1,13 @@
-
-# Meta tasks
-# ----------
+# Ignore presence of folder `test`
+# --------------------------------
 
 .PHONY: test
 
 
-# Useful variables
-# ----------------
+# Make deps available
+# -------------------
 
-NPM_BIN = ./node_modules/.bin
-export PATH := $(NPM_BIN):$(PATH)
-export INTEGRATION_TIMEOUT := 20000
-export INTEGRATION_SLOW := 4000
+export PATH := ./node_modules/.bin:$(PATH)
 
 
 # Output helpers
@@ -55,4 +51,4 @@ test-unit:
 	@mocha test/unit --exit --recursive && $(TASK_DONE)
 
 test-integration:
-	@mocha test/integration --exit --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE)
+	@mocha test/integration --exit --timeout 20000 --slow 4000 && $(TASK_DONE)
