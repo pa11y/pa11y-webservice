@@ -15,9 +15,7 @@ If you're trying to run accessibility tests as part of a CI/CD system, you may w
 
 ## Requirements
 
-Pa11y Webservice is a [Node.js][node] application and requires a stable or LTS version of Node, currently version 12 or 14.
-
-⚠️ At the moment, Pa11y Webservice won't work with Node.js v16. Please use Node.js 12 or 14. ⚠️
+Pa11y Webservice is a [Node.js][node] application and is designed to support a stable/LTS version of Node. Pa11y 4 supports Node.js versions 12, 14 and 16.
 
 Pa11y Webservice also requires a [MongoDB][mongo] database to be available so it can store the results of the tests. The database doesn't have to be in the same server or computer where Pa11y Webservice is running from.
 
