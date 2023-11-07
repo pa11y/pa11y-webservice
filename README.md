@@ -24,38 +24,40 @@ Pa11y (and therefore this service) uses Headless Chrome to perform accessibility
 
 ## Setup
 
-In order to run Pa11y Webservice, we recommend cloning this repository locally:
+Clone this repository:
 
 ```sh
 git clone https://github.com/pa11y/pa11y-webservice.git
 ```
 
-Then installing the dependencies:
+Now install its dependencies:
 
 ```sh
 cd pa11y-webservice
 npm install
 ```
 
-The last step before being able to run the application is to define a configuration for it. This can be done in two ways:
+We're nearly ready to run the service, but first we must provide some configuration.
 
-### Option 1: Using Environment Variables
+## Configuration
 
-Each configuration can be set with an environment variable rather than a config file. For example to run the application on port `8080` you can use the following:
+The service can be configured using either runtime environment variables or a configuration file. When both are present, the configuration file will override the environment. We provide sample versions of the [configuration file](config). 
+
+Each option which can be configured is documented [here](#configurations), listed by its JSON-file property name - the environment variable equivalent is identical, but upper-snake-cased.
+
+### Configuration using environment variables
+
+To configure a port for the service, say, `8080`, the relevant environment variable is `PORT`:
 
 ```sh
 PORT=8080 npm start
 ```
 
-The [available configurations are documented here](#configurations).
+### Configuration using a JSON file
 
-### Option 2: Using Config Files
+Configuration in a JSON file. You could, for example, define a separate JSON file for each of several contexts. We label each of these a 'mode'. 
 
-The alternative to environment variables is to set the configuration in one or more JSON files. You can define as many config files as environments you're planning to run the app from. Each config file will contain the configuration for one of these environments or modes.
-
-The mode that the app will run on can be set using the `NODE_ENV` environment variable. If no environment is defined, Pa11y Webservice will run in `development` mode. Common values for the `NODE_ENV` variable are `production`, `development` or `test`.
-
-Pa11y Webservice will use the config file that matches the environment name. For example, if `NODE_ENV` equals `production`, the `production.json` config file will be used.
+The mode is set by the `NODE_ENV` environment variable, and defaults to `development` when it's absent. Pa11y Webservice will use the config file with the name `{mode}.json`. For example, providing `NODE_ENV=production` would lead to the service looking for `production.json`.
 
 ```sh
 NODE_ENV=production npm start
@@ -78,9 +80,47 @@ Once the configuration has been created, the app can be run in the desired mode 
 NODE_ENV=development npm start
 ```
 
+### List of configuration options
+
+#### `database`
+
+*(string)* The MongoDB [connection string][mongo-connection-string] for your database.
+
+Env equivalent: `DATABASE`.
+
+#### `host`
+
+*(string)* The host to run the application on. This is normally best left as `"0.0.0.0"`, which means the application will run on any incoming connections.
+
+Env equivalent: `HOST`.
+
+#### `port`
+
+*(number)* The port to run the application on.
+
+Env equivalent: `PORT`.
+
+#### `cron`
+
+*(string)* A crontab which describes when to generate reports for each task in the application.
+
+Env equivalent: `CRON`.
+
+#### `numWorkers`
+
+*(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
+
+Env equivalent: `NUM_WORKERS`.
+
+#### `chromeLaunchConfig` (config file only)
+
+*(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
+
+Env equivalent: none. This option can only be defined by a file.
+
 ## API documentation
 
-The webservice which Pa11y Webservice exposes is documented in the wiki:
+Our wiki documents the interface presented by this webservice:
 
 - [Webservice endpoints][wiki-web-service]
 - [Resource types][wiki-resources]
@@ -88,38 +128,6 @@ The webservice which Pa11y Webservice exposes is documented in the wiki:
 ## Client libraries
 
 - [Pa11y Webservice Node.js Client][pa11y-webservice-client-node]
-
-## Configurations
-
-If both environment variables _and_ a configuration file are present, the settings in the configuration file will override the environment variables.
-
-The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
-
-### `database`
-
-*(string)* The mongodb [connection string][mongo-connection-string] for your database. Set via a config file or the `DATABASE` environment variable.
-
-### `host`
-
-*(string)* The host to run the application on. This is normally best left as `"0.0.0.0"` – which means the application will run on any incoming connections. Set via a config file or the `HOST` environment variable.
-
-### `port`
-
-*(number)* The port to run the application on. Set via a config file or the `PORT` environment variable.
-
-### `cron`
-
-*(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
-
-### `chromeLaunchConfig` (config file only)
-
-*(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
-
-This option can only be provided by [a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files). It can't be set with an environment variable.
-
-### `numWorkers`
-
-*(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
 
 ## Contributing
 
