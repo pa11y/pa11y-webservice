@@ -54,7 +54,7 @@ PORT=8080 npm start
 
 ### Configuration using a JSON file
 
-Configuration in a JSON file. You could, for example, define a separate JSON file for each of several contexts. We label each of these a 'mode'. 
+Configuration can also be provided by a JSON file, allowing separate configurations to be maintained for multiple contexts. This method is also the only way to configure the instance of Headless Chrome that Pa11y will use.
 
 The mode is set by the `NODE_ENV` environment variable, and defaults to `development` when it's absent. Pa11y Webservice will use the config file with the name `{mode}.json`. For example, providing `NODE_ENV=production` would lead to the service looking for `production.json`.
 
