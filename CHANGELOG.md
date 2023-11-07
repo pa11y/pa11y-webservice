@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0 (pending)
+
+* Pending
+
 ## 4.1.0 (2022-04-25)
 
 * Add support for Node v16 via upgrading Hapi to the latest version
