@@ -46,7 +46,7 @@ Each option which can be configured is documented [here](#configurations), liste
 
 ### Configuration using environment variables
 
-To configure a port for the service, say, `8080`, the relevant environment variable is `PORT`:
+Supply each option to the service's environment. For example, to supply a port inline at the time of execution, the relevant environment variable would be `PORT`:
 
 ```sh
 PORT=8080 npm start
