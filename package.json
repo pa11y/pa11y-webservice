@@ -42,7 +42,8 @@
   "main": "./app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "make ci"
+    "test": "make test",
+    "lint": "make lint"
   },
   "files": [
     "*.js",

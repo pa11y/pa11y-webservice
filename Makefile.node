@@ -10,7 +10,6 @@
 
 NPM_BIN = ./node_modules/.bin
 export PATH := $(NPM_BIN):$(PATH)
-export EXPECTED_COVERAGE := 90
 export INTEGRATION_TIMEOUT := 20000
 export INTEGRATION_SLOW := 4000
 
@@ -25,7 +24,6 @@ TASK_DONE = echo "✓ $@ done"
 # -----------
 
 all: install ci
-ci: verify test
 
 
 # Install tasks
@@ -44,14 +42,11 @@ node_modules: package.json
 	@$(TASK_DONE)
 
 
-# Verify tasks
-# ------------
+# Linting and testing
+# -------------------
 
-verify:
+lint:
 	@eslint . && $(TASK_DONE)
-
-# Test tasks
-# ----------
 
 test: test-unit test-integration
 	@$(TASK_DONE)
