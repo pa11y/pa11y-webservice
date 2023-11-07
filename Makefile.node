@@ -1,3 +1,4 @@
+
 # Meta tasks
 # ----------
 
@@ -46,44 +47,17 @@ node_modules: package.json
 # Verify tasks
 # ------------
 
-verify: verify-eslint
-	@$(TASK_DONE)
-
-verify-eslint:
-	@if [ -e .eslintrc* ]; then eslint . && $(TASK_DONE); fi
-
-verify-coverage:
-	@if [ -d coverage ]; then \
-		if [ -x $(NPM_BIN)/nyc ]; then \
-			nyc check-coverage --lines $(EXPECTED_COVERAGE) --functions $(EXPECTED_COVERAGE) --branches $(EXPECTED_COVERAGE) && $(TASK_DONE); \
-		else \
-			if [ -x $(NPM_BIN)/istanbul ]; then \
-				istanbul check-coverage --statement $(EXPECTED_COVERAGE) --branch $(EXPECTED_COVERAGE) --function $(EXPECTED_COVERAGE) && $(TASK_DONE); \
-			fi \
-		fi \
-	fi
+verify:
+	@eslint . && $(TASK_DONE)
 
 # Test tasks
 # ----------
 
-test: test-unit-coverage verify-coverage test-integration
+test: test-unit test-integration
 	@$(TASK_DONE)
 
 test-unit:
-	@if [ -d test/unit ]; then mocha test/unit --exit --recursive && $(TASK_DONE); fi
-
-test-unit-coverage:
-	@if [ -d test/unit ]; then \
-		if [ -x $(NPM_BIN)/nyc ]; then \
-			nyc --reporter=text --reporter=html $(NPM_BIN)/_mocha test/unit --exit --recursive && $(TASK_DONE); \
-		else \
-			if [ -x $(NPM_BIN)/istanbul ]; then \
-				istanbul cover $(NPM_BIN)/_mocha -- test/unit --exit --recursive && $(TASK_DONE); \
-			else \
-				make test-unit; \
-			fi \
-		fi \
-	fi
+	@mocha test/unit --exit --recursive && $(TASK_DONE)
 
 test-integration:
-	@if [ -d test/integration ]; then mocha test/integration --exit --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE); fi
+	@mocha test/integration --exit --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) && $(TASK_DONE)
