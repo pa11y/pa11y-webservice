@@ -185,7 +185,7 @@ The following table lists the major versions available and, for each previous ma
 
 ## License
 
-Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].
+Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
 Copyright &copy; 2013–2023, Team Pa11y and contributors
 
 [gpl]: http://www.gnu.org/licenses/gpl-3.0.html
