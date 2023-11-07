@@ -79,14 +79,14 @@ Once the configuration has been created, the app can be run in the desired mode 
 NODE_ENV=development npm start
 ```
 
-## API Documentation
+## API documentation
 
 The webservice which Pa11y Webservice exposes is documented in the wiki:
 
 - [Webservice endpoints][wiki-web-service]
 - [Resource types][wiki-resources]
 
-## Client Libraries
+## Client libraries
 
 - [Pa11y Webservice Node.js Client][pa11y-webservice-client-node]
 
@@ -96,29 +96,29 @@ If both environment variables _and_ a configuration file are present, the settin
 
 The boot configurations for Pa11y Webservice are as follows. Look at the sample JSON files in the repo for example usage.
 
-### database
+### `database`
 
 *(string)* The mongodb [connection string][mongo-connection-string] for your database. Set via a config file or the `DATABASE` environment variable.
 
-### host
+### `host`
 
 *(string)* The host to run the application on. This is normally best left as `"0.0.0.0"` – which means the application will run on any incoming connections. Set via a config file or the `HOST` environment variable.
 
-### port
+### `port`
 
 *(number)* The port to run the application on. Set via a config file or the `PORT` environment variable.
 
-### cron
+### `cron`
 
 *(string)* A crontab which describes when to generate reports for each task in the application. Set via a config file or the `CRON` environment variable.
 
-### chromeLaunchConfig (config file only)
+### `chromeLaunchConfig` (config file only)
 
 *(object)* Launch options for the Headless Chrome instance. See the [`chromeLaunchConfig`](https://github.com/pa11y/pa11y#chromelaunchconfig-object) documentation for configuration options.
 
-This configuration option isn't available when you're using environment variables. [Use a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files) if you need to pass these parameters.
+This option can only be provided by [a JSON configuration file](https://github.com/pa11y/pa11y-webservice#option-2-using-config-files). It can't be set with an environment variable.
 
-### numWorkers
+### `numWorkers`
 
 *(number)* The concurrency limit or number of workers that will be running concurrently on each cron execution. Set via a config file or the `NUM_WORKERS` environment variable.
 
@@ -149,7 +149,7 @@ NODE_ENV=development make fixtures
 NODE_ENV=test make fixtures
 ```
 
-## Support and Migration
+## Support and migration
 
 Pa11y Webservice major versions are normally supported for 6 months after their last minor release. This means that patch-level changes will be added and bugs will be fixed. The table below outlines the end-of-support dates for major versions, and the last minor release for that version.
 
