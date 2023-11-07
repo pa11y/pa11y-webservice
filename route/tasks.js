@@ -69,7 +69,7 @@ module.exports = function(app) {
 		path: '/tasks',
 		handler: async (request, reply) => {
 			if (request.payload.actions && request.payload.actions.length) {
-				for (let action of request.payload.actions) {
+				for (const action of request.payload.actions) {
 					if (!isValidAction(action)) {
 						return reply.response(`Invalid action: "${action}"`).code(400);
 					}
