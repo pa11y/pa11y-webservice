@@ -21,7 +21,6 @@ const {grey} = require('kleur');
 const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
-// Task model
 module.exports = function(app, callback) {
 	app.db.collection('tasks', async (errors, collection) => {
 		await collection.createIndex({
@@ -33,7 +32,6 @@ module.exports = function(app, callback) {
 
 			collection,
 
-			// Create a task
 			create: function(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
@@ -47,7 +45,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get all tasks
 			getAll: () => {
 				return collection
 					.find()
@@ -66,7 +63,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get a task by ID
 			getById: id => {
 				try {
 					id = new ObjectID(id);
@@ -86,7 +82,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Edit a task by ID
 			editById: function(id, edits) {
 				const idString = id;
 				try {
@@ -136,7 +131,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Add an annotation to a task
 			addAnnotationById: function(id, annotation) {
 				return model.getById(id)
 					.then(task => {
@@ -156,7 +150,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Delete a task by ID
 			deleteById: function(id) {
 				try {
 					id = new ObjectID(id);
@@ -175,7 +168,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Run a task by ID
 			runById: function(id) {
 				return model.getById(id).then(async task => {
 					const pa11yOptions = {
@@ -223,7 +215,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Prepare a task for output
 			prepareForOutput: function(task) {
 				if (!task) {
 					return null;

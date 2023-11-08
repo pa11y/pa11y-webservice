@@ -18,7 +18,6 @@ const request = require('request');
 
 module.exports = createNavigator;
 
-// Create a navigate function
 function createNavigator(baseUrl, store) {
 	return function(opts, callback) {
 

@@ -20,7 +20,6 @@ const {MongoClient} = require('mongodb');
 
 module.exports = initApp;
 
-// Initialise the application
 function initApp(config, callback) {
 
 	const app = {

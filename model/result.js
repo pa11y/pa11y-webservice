@@ -45,7 +45,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Default filter options
+
 			_defaultFilterOpts(opts) {
 				const now = Date.now();
 				const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
@@ -57,7 +57,7 @@ module.exports = function(app, callback) {
 				};
 			},
 
-			// Get results
+
 			_getFiltered(opts) {
 				opts = model._defaultFilterOpts(opts);
 				const filter = {
@@ -84,13 +84,11 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get results for all tasks
 			getAll(opts) {
 				delete opts.task;
 				return model._getFiltered(opts);
 			},
 
-			// Get a result by ID
 			getById(id, full) {
 				const prepare = (full ? model.prepareForFullOutput : model.prepareForOutput);
 				try {
@@ -112,13 +110,11 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get results for a single task
 			getByTaskId(id, opts) {
 				opts.task = id;
 				return model._getFiltered(opts);
 			},
 
-			// Delete results for a single task
 			deleteByTaskId(id) {
 				try {
 					id = new ObjectID(id);
@@ -134,7 +130,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get a result by ID and task ID
 			getByIdAndTaskId(id, task, opts) {
 				const prepare = (opts.full ? model.prepareForFullOutput : model.prepareForOutput);
 
@@ -162,7 +157,6 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Prepare a result for output
 			prepareForOutput(result) {
 				result = model.prepareForFullOutput(result);
 				delete result.results;
