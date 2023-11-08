@@ -33,7 +33,7 @@ module.exports = function(app, callback) {
 		});
 		const model = {
 
-			collection: collection,
+			collection,
 
 			// Create a task
 			create: function(newTask) {

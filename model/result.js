@@ -29,8 +29,8 @@ module.exports = function(app, callback) {
 		});
 
 		const model = {
-			collection: collection,
-			// Create a result
+			collection,
+
 			create(newResult) {
 				if (!newResult.date) {
 					newResult.date = Date.now();

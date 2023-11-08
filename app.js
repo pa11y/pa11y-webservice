@@ -31,7 +31,7 @@ function initApp(config, callback) {
 		db: null,
 		client: null,
 		model: {},
-		config: config
+		config
 	};
 
 	const url = config.database;
