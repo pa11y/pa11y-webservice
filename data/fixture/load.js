@@ -41,9 +41,8 @@ function loadFixtures(env, config, done) {
 			await Promise.all(fixtures.results.map(result => app.model.result.create(result)));
 			await app.client.close();
 			done();
-			// eslint-disable-next-line no-shadow,no-catch-shadow
-		} catch (error) {
-			done(error);
+		} catch (modelError) {
+			done(modelError);
 		}
 	});
 }
