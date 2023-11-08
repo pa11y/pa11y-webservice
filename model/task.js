@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 
-/* eslint id-length: 'off' */
 /* eslint no-catch-shadow: 'off' */
 /* eslint no-underscore-dangle: 'off' */
 /* eslint new-cap: 'off' */
