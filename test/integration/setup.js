@@ -20,8 +20,6 @@ const createNavigator = require('./helper/navigate');
 const loadFixtures = require('../../data/fixture/load');
 const request = require('request');
 
-const errorCodeForNoService = 2;
-
 // Run before all tests
 before(function(done) {
 	this.baseUrl = `http://localhost:${config.port}/`;
@@ -48,7 +46,7 @@ function assertTestAppIsRunning(baseUrl, done) {
 	request(baseUrl, error => {
 		if (error) {
 			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test node index.js\``);
-			process.exit(errorCodeForNoService);
+			process.exit();
 		}
 		done();
 	});
