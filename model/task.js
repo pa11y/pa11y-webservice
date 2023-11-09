@@ -32,7 +32,7 @@ module.exports = function(app, callback) {
 
 			collection,
 
-			create: function(newTask) {
+			create(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
 				return model.collection.insertOne(newTask)
@@ -45,7 +45,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			getAll: () => {
+			getAll() {
 				return collection
 					.find()
 					.sort({
@@ -63,7 +63,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			getById: id => {
+			getById(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
@@ -82,7 +82,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			editById: function(id, edits) {
+			editById(id, edits) {
 				const idString = id;
 				try {
 					id = new ObjectID(id);
@@ -131,7 +131,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			addAnnotationById: function(id, annotation) {
+			addAnnotationById(id, annotation) {
 				return model.getById(id)
 					.then(task => {
 						if (!task) {
@@ -150,7 +150,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			deleteById: function(id) {
+			deleteById(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
@@ -215,7 +215,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			prepareForOutput: function(task) {
+			prepareForOutput(task) {
 				if (!task) {
 					return null;
 				}
@@ -256,7 +256,7 @@ module.exports = function(app, callback) {
 				return output;
 			},
 
-			sanitizeHeaderInput: function(headers) {
+			sanitizeHeaderInput(headers) {
 				if (typeof headers === 'string') {
 					try {
 						return JSON.parse(headers);
@@ -269,7 +269,7 @@ module.exports = function(app, callback) {
 				return headers;
 			},
 
-			pa11yLog: function(taskId) {
+			pa11yLog(taskId) {
 				return message => {
 					let messageString;
 
