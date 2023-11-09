@@ -22,7 +22,7 @@ const request = require('request');
 const config = {
 	database: process.env.DATABASE || 'mongodb://127.0.0.1/pa11y-webservice-test',
 	host: process.env.HOST || '0.0.0.0',
-	port: process.env.PORT || 3000
+	port: Number(process.env.PORT) || 3000
 };
 
 before(function(done) {

@@ -21,7 +21,7 @@ const app = require('../../app');
 const config = {
 	database: process.env.DATABASE || 'mongodb://127.0.0.1/pa11y-webservice-test',
 	host: process.env.HOST || '0.0.0.0',
-	port: process.env.PORT_FOR_SPINUP_TEST || 3010
+	port: Number(process.env.PORT_FOR_SPINUP_TEST) || 3010
 };
 
 describe('pa11y-webservice lifecycle', function() {
