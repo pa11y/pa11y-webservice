@@ -18,15 +18,14 @@ const Joi = require('joi');
 const groupBy = require('lodash.groupby');
 const {isValidAction} = require('pa11y');
 
-// Routes relating to all tasks
 module.exports = function(app) {
-	const model = app.model;
-	const server = app.server;
+	const {model, server} = app;
 
 	// Get all tasks
 	server.route({
-		method: 'GET',
 		path: '/tasks',
+		method: 'GET',
+
 		handler: async (request, reply) => {
 			let tasks = await model.task.getAll();
 
@@ -62,12 +61,12 @@ module.exports = function(app) {
 		}
 	});
 
-	// Create a task
 	server.route({
-		method: 'POST',
 		path: '/tasks',
+		method: 'POST',
+
 		handler: async (request, reply) => {
-			if (request.payload.actions && request.payload.actions.length) {
+			if (request.payload.actions?.length) {
 				for (const action of request.payload.actions) {
 					if (!isValidAction(action)) {
 						return reply.response(`Invalid action: "${action}"`).code(400);
@@ -113,10 +112,10 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get results for all tasks
 	server.route({
-		method: 'GET',
 		path: '/tasks/results',
+		method: 'GET',
+
 		handler: async (request, reply) => {
 			const results = await model.result.getAll(request.query);
 			return reply.response(results).code(200);

@@ -18,15 +18,13 @@ const {green, grey, red} = require('kleur');
 const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
-// Routes relating to individual tasks
 module.exports = function(app) {
-	const model = app.model;
-	const server = app.server;
+	const {model, server} = app;
 
-	// Get a task
 	server.route({
-		method: 'GET',
 		path: '/tasks/{id}',
+		method: 'GET',
+
 		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 
@@ -58,10 +56,10 @@ module.exports = function(app) {
 		}
 	});
 
-	// Edit a task
 	server.route({
-		method: 'PATCH',
 		path: '/tasks/{id}',
+		method: 'PATCH',
+
 		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 
@@ -69,7 +67,7 @@ module.exports = function(app) {
 				return reply.response('Not Found').code(404);
 			}
 
-			if (request.payload.actions && request.payload.actions.length) {
+			if (request.payload.actions?.length) {
 				for (const action of request.payload.actions) {
 					if (!isValidAction(action)) {
 						return reply.response(`Invalid action: "${action}"`).code(400);
@@ -105,10 +103,10 @@ module.exports = function(app) {
 		}
 	});
 
-	// Delete a task
 	server.route({
-		method: 'DELETE',
 		path: '/tasks/{id}',
+		method: 'DELETE',
+
 		handler: async (request, reply) => {
 			const task = await model.task.deleteById(request.params.id);
 			if (!task) {
@@ -129,10 +127,10 @@ module.exports = function(app) {
 		}
 	});
 
-	// Run a task
 	server.route({
-		method: 'POST',
 		path: '/tasks/{id}/run',
+		method: 'POST',
+
 		handler: async (request, reply) => {
 
 			const task = await model.task.getById(request.params.id);
@@ -166,10 +164,10 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get results for a task
 	server.route({
-		method: 'GET',
 		path: '/tasks/{id}/results',
+		method: 'GET',
+
 		handler: async (request, reply) => {
 			const task = await model.task.getById(request.params.id);
 			if (!task) {
@@ -194,14 +192,13 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get a result for a task
 	server.route({
+		path: '/tasks/{taskId}/results/{resultId}',
 		method: 'GET',
-		path: '/tasks/{tid}/results/{rid}',
+
 		handler: async (request, reply) => {
-			const rid = request.params.rid;
-			const tid = request.params.tid;
-			const result = await model.result.getByIdAndTaskId(rid, tid, request.query);
+			const {taskId, resultId} = request.params;
+			const result = await model.result.getByIdAndTaskId(resultId, taskId, request.query);
 
 			if (!result) {
 				return reply.response('Not Found').code(404);
@@ -217,5 +214,4 @@ module.exports = function(app) {
 			}
 		}
 	});
-
 };
