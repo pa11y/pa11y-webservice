@@ -16,8 +16,8 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-const groupBy = require('lodash.groupby');
 const Joi = require('joi');
+const groupBy = require('lodash.groupby');
 const {isValidAction} = require('pa11y');
 
 // Routes relating to all tasks
