@@ -16,7 +16,7 @@
 
 const assert = require('proclaim');
 
-describe('PATCH /tasks/{id}', function() {
+describe('PATCH /tasks/{taskId}}', function() {
 
 	describe('with valid and existing task ID', function() {
 

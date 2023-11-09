@@ -26,13 +26,13 @@ module.exports = function(app) {
 		path: '/tasks',
 		method: 'GET',
 
-		handler: async (request, reply) => {
+		handler: async ({query}, reply) => {
 			let tasks = await model.task.getAll();
 
 			if (!tasks) {
 				return reply.response().code(500);
 			}
-			if (request.query.lastres) {
+			if (query.lastres) {
 				const results = await model.result.getAll({});
 				if (!results) {
 					return reply.response().code(500);
@@ -65,20 +65,20 @@ module.exports = function(app) {
 		path: '/tasks',
 		method: 'POST',
 
-		handler: async (request, reply) => {
-			const invalidAction = request.payload.actions?.find(action => !isValidAction(action));
+		handler: async ({payload, info}, reply) => {
+			const invalidAction = payload.actions?.find(action => !isValidAction(action));
 			if (invalidAction) {
 				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
 
-			const task = await model.task.create(request.payload);
+			const task = await model.task.create(payload);
 
 			if (!task) {
 				return reply.response().code(500);
 			}
 
 			return reply.response(task)
-				.header('Location', `http://${request.info.host}/tasks/${task.id}`)
+				.header('Location', `http://${info.host}/tasks/${task.id}`)
 				.code(201);
 		},
 		options: {
@@ -113,8 +113,8 @@ module.exports = function(app) {
 		path: '/tasks/results',
 		method: 'GET',
 
-		handler: async (request, reply) => {
-			const results = await model.result.getAll(request.query);
+		handler: async ({query}, reply) => {
+			const results = await model.result.getAll(query);
 			return reply.response(results).code(200);
 		},
 		options: {

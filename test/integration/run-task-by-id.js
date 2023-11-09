@@ -27,7 +27,7 @@ const responseBody = `
 </html>
 `;
 
-describe('POST /tasks/{id}/run', function() {
+describe('POST /tasks/{taskId}}/run', function() {
 
 	describe('with valid and existing task ID', function() {
 		let server;

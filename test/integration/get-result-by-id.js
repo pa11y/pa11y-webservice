@@ -16,7 +16,7 @@
 
 const assert = require('proclaim');
 
-describe('GET /tasks/{id}/results/{id}', function() {
+describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 	describe('with valid and existing task ID', function() {
 

@@ -16,7 +16,7 @@
 
 const assert = require('proclaim');
 
-describe('DELETE /tasks/{id}', function() {
+describe('DELETE /tasks/{taskId}}', function() {
 
 	describe('with valid and existing task ID', function() {
 

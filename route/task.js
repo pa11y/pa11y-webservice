@@ -22,17 +22,17 @@ module.exports = function(app) {
 	const {model, server} = app;
 
 	server.route({
-		path: '/tasks/{id}',
+		path: '/tasks/{taskId}',
 		method: 'GET',
 
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+		handler: async ({params, query}, reply) => {
+			const task = await model.task.getById(params.taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			if (request.query.lastres) {
+			if (query.lastres) {
 				const results = await model.result.getByTaskId(task.id, {
 					limit: 1,
 					full: true
@@ -57,22 +57,22 @@ module.exports = function(app) {
 	});
 
 	server.route({
-		path: '/tasks/{id}',
+		path: '/tasks/{taskId}',
 		method: 'PATCH',
 
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+		handler: async ({params, payload}, reply) => {
+			const task = await model.task.getById(params.taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			const invalidAction = request.payload.actions?.find(action => !isValidAction(action));
+			const invalidAction = payload.actions?.find(action => !isValidAction(action));
 			if (invalidAction) {
 				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
 
-			const updateCount = await model.task.editById(task.id, request.payload);
+			const updateCount = await model.task.editById(task.id, payload);
 			if (updateCount < 1) {
 				return reply.response().code(500);
 			}
@@ -102,16 +102,17 @@ module.exports = function(app) {
 	});
 
 	server.route({
-		path: '/tasks/{id}',
+		path: '/tasks/{taskId}',
 		method: 'DELETE',
 
-		handler: async (request, reply) => {
-			const task = await model.task.deleteById(request.params.id);
+		handler: async ({params}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.deleteById(taskId);
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			const removed = await model.result.deleteByTaskId(request.params.id);
+			const removed = await model.result.deleteByTaskId(taskId);
 			if (!removed) {
 				return reply.response().code(500);
 			}
@@ -126,19 +127,19 @@ module.exports = function(app) {
 	});
 
 	server.route({
-		path: '/tasks/{id}/run',
+		path: '/tasks/{taskId}/run',
 		method: 'POST',
 
-		handler: async (request, reply) => {
-
-			const task = await model.task.getById(request.params.id);
+		handler: async ({params}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.getById(taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
 			console.log(grey('Starting NEW to run one-off task @ %s'), new Date());
-			const executed = await model.task.runById(request.params.id);
+			const executed = await model.task.runById(taskId);
 
 			if (executed) {
 				console.log(green('Finished NEW task %s'), task.id);
@@ -163,16 +164,17 @@ module.exports = function(app) {
 	});
 
 	server.route({
-		path: '/tasks/{id}/results',
+		path: '/tasks/{taskId}/results',
 		method: 'GET',
 
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+		handler: async ({params, query}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.getById(taskId);
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			const results = await model.result.getByTaskId(request.params.id, request.query);
+			const results = await model.result.getByTaskId(taskId, query);
 			if (!results) {
 				return reply.response('No results found for task').code(500);
 			}
@@ -194,9 +196,9 @@ module.exports = function(app) {
 		path: '/tasks/{taskId}/results/{resultId}',
 		method: 'GET',
 
-		handler: async (request, reply) => {
-			const {taskId, resultId} = request.params;
-			const result = await model.result.getByIdAndTaskId(resultId, taskId, request.query);
+		handler: async ({params, query}, reply) => {
+			const {taskId, resultId} = params;
+			const result = await model.result.getByIdAndTaskId(resultId, taskId, query);
 
 			if (!result) {
 				return reply.response('Not Found').code(404);
