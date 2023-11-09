@@ -15,7 +15,7 @@
 'use strict';
 
 const {cyan, grey, red, underline} = require('kleur');
-const URL = require('url').URL;
+const {URL} = require('url');
 const config = require('./config');
 
 process.on('SIGINT', () => {
@@ -23,27 +23,28 @@ process.on('SIGINT', () => {
 	process.exit();
 });
 
+
+console.log(underline(cyan('\nPa11y Webservice starting')));
+console.log(grey('mode:        %s'), process.env.NODE_ENV);
+console.log(grey('database:    %s'), hideCredentialsInConnectionString(config.database));
+console.log(grey('cron:        %s'), config.cron);
+console.log(grey('workers:     %s'), config.numWorkers);
+
 const app = require('./app');
 
-app(config, (error, initialisedApp) => {
-	// Formats the mongodb connection string for display purposes so that it
-	//  hides the username and password in order to avoid potentially
-	//  leaking database credentials in, for example, CI logs. Fixes #123.
-	const dbConnectionString = new URL(config.database);
-	dbConnectionString.username = '****';
-	dbConnectionString.password = '****';
+function hideCredentialsInConnectionString(connectionString) {
+	const url = new URL(connectionString);
+	url.username = '****';
+	url.password = '****';
+	return url.toString();
+}
 
-	console.log('');
-	console.log(underline(cyan('Pa11y Webservice started')));
-	console.log(grey('mode:     %s'), process.env.NODE_ENV);
-	console.log(grey('uri:      %s'), initialisedApp.server.info.uri);
-	console.log(grey('database: %s'), dbConnectionString);
-	console.log(grey('cron:     %s'), config.cron);
-	console.log(grey('workers:  %s'), config.numWorkers);
-
+app(config, (error, {server}) => {
 	if (error) {
-		console.error('');
-		console.error(red('Error starting Pa11y Webservice:'));
+		console.error(red('\nError starting Pa11y Webservice:'));
 		console.error(error.message);
+	} else {
+		console.log(underline(cyan('\nPa11y Webservice started')));
 	}
+	console.log(grey('service uri: %s'), server.info.uri);
 });
