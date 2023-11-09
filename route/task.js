@@ -12,8 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* eslint camelcase: 'off' */
 'use strict';
 
 const {green, grey, red} = require('kleur');
@@ -44,10 +42,8 @@ module.exports = function(app) {
 				if (!results) {
 					return reply.response().code(500);
 				}
-				task.last_result = null;
-				if (results.length) {
-					task.last_result = results[0];
-				}
+				/* eslint-disable-next-line camelcase */
+				task.last_result = results.length ? results[0] : null;
 			}
 
 			return reply.response(task).code(200);
