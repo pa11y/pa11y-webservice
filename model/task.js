@@ -138,10 +138,15 @@ module.exports = function(app, callback) {
 							return 0;
 						}
 						if (Array.isArray(task.annotations)) {
-							return model.collection.updateMany({_id: ObjectID(id)}, {$push: {annotations: annotation}});
+							return model.collection.updateMany(
+								{_id: ObjectID(id)},
+								{$push: {annotations: annotation}}
+							);
 						}
-						return model.collection.updateMany({_id: ObjectID(id)}, {$set: {annotations: [annotation]}});
-
+						return model.collection.updateMany(
+							{_id: ObjectID(id)},
+							{$set: {annotations: [annotation]}}
+						);
 					})
 					.catch(error => {
 						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
@@ -168,7 +173,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			runById: function(id) {
+			runById(id) {
 				return model.getById(id).then(async task => {
 					const pa11yOptions = {
 						standard: task.standard,
@@ -271,18 +276,13 @@ module.exports = function(app, callback) {
 
 			pa11yLog(taskId) {
 				return message => {
-					let messageString;
-
-					if (taskId) {
-						messageString = `[${taskId}]  > ${message}`;
-					} else {
-						messageString = `  > ${message}`;
-					}
+					const messageString = taskId ?
+						`[${taskId}]  > ${message}` :
+						`  > ${message}`;
 
 					console.log(grey(messageString));
 				};
 			}
-
 		};
 		callback(errors, model);
 	});
