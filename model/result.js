@@ -19,9 +19,8 @@
 
 const {ObjectID} = require('mongodb');
 
-// Result model
-module.exports = function(app, callback) {
-	app.db.collection('results', async (errors, collection) => {
+module.exports = function({db}, callback) {
+	db.collection('results', async (errors, collection) => {
 		await collection.createIndex({
 			date: 1
 		});

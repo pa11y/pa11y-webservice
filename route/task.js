@@ -18,9 +18,7 @@ const {green, grey, red} = require('kleur');
 const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
-module.exports = function(app) {
-	const {model, server} = app;
-
+module.exports = function({model, server}) {
 	server.route({
 		path: '/tasks/{taskId}',
 		method: 'GET',
