@@ -57,7 +57,6 @@ module.exports = function(app, callback) {
 				};
 			},
 
-
 			_getFiltered(opts) {
 				opts = model._defaultFilterOpts(opts);
 				const filter = {

@@ -66,12 +66,9 @@ module.exports = function(app) {
 		method: 'POST',
 
 		handler: async (request, reply) => {
-			if (request.payload.actions?.length) {
-				for (const action of request.payload.actions) {
-					if (!isValidAction(action)) {
-						return reply.response(`Invalid action: "${action}"`).code(400);
-					}
-				}
+			const invalidAction = request.payload.actions?.find(action => !isValidAction(action));
+			if (invalidAction) {
+				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
 
 			const task = await model.task.create(request.payload);

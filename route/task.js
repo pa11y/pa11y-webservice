@@ -67,13 +67,11 @@ module.exports = function(app) {
 				return reply.response('Not Found').code(404);
 			}
 
-			if (request.payload.actions?.length) {
-				for (const action of request.payload.actions) {
-					if (!isValidAction(action)) {
-						return reply.response(`Invalid action: "${action}"`).code(400);
-					}
-				}
+			const invalidAction = request.payload.actions?.find(action => !isValidAction(action));
+			if (invalidAction) {
+				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
+
 			const updateCount = await model.task.editById(task.id, request.payload);
 			if (updateCount < 1) {
 				return reply.response().code(500);
