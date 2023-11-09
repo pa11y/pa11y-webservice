@@ -14,28 +14,21 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
+const util = require('util');
 const assert = require('proclaim');
-const config = require('../../config/test.json');
 const app = require('../../app');
 
-describe('pa11y-service startup', function() {
+const config = {
+	database: process.env.DATABASE || 'mongodb://127.0.0.1/pa11y-webservice-test',
+	host: process.env.HOST || '0.0.0.0',
+	port: process.env.PORT_FOR_SPINUP_TEST || 3010
+};
 
-	it('should start the service and call the callback', done => {
-		const modifiedConfig = {
-			database: config.database,
-			host: config.host,
-			port: config.port + 10
-		};
+describe('pa11y-webservice lifecycle', function() {
+	it('should start and stop the service', async () => {
+		const service = await util.promisify(app)(config);
+		assert.isDefined(service);
 
-		app(modifiedConfig, (error, webservice) => {
-			assert.isNull(error);
-			assert.notStrictEqual(webservice, undefined);
-
-			webservice.server.stop();
-
-			done();
-		});
+		await service.server.stop();
 	});
 });
-
-
