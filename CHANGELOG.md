@@ -1,8 +1,13 @@
 # Changelog
 
-## 4.2.0 (pending)
+## 4.2.0 (2023-11-13)
 
-* Pending
+* Update to `pa11y@~6.2.3` from `~6.1.0`
+* Other dependency updates above patch level:
+  * `hapi@~20.3` from `~20.2`
+  * `cron@~2.4` from `~1.8`
+  * `joi@~17.11` from `~17.4`
+  * `mongodb@~3.7` from `~3.6`
 
 ## 4.1.0 (2022-04-25)
 
