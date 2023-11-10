@@ -15,21 +15,23 @@
 'use strict';
 
 const app = require('../../app');
-const config = require('../../config/test.json');
 const createNavigator = require('./helper/navigate');
 const loadFixtures = require('../../data/fixture/load');
 const request = require('request');
 
-const errorCodeForNoService = 2;
+const config = {
+	database: process.env.DATABASE || 'mongodb://127.0.0.1/pa11y-webservice-test',
+	host: process.env.HOST || '0.0.0.0',
+	port: Number(process.env.PORT) || 3000
+};
 
-// Run before all tests
 before(function(done) {
-	this.baseUrl = `http://localhost:${config.port}/`;
+	this.baseUrl = `http://${config.host}:${config.port}/`;
 	this.app = null;
 	this.last = {};
 	this.navigate = createNavigator(this.baseUrl, this.last);
 
-	assertTestAppIsRunning(this.baseUrl, () => {
+	assertServiceIsAvailable(this.baseUrl, () => {
 		config.dbOnly = true;
 		app(config, (error, initialisedApp) => {
 			this.app = initialisedApp;
@@ -38,17 +40,15 @@ before(function(done) {
 	});
 });
 
-// Run after each test
 afterEach(done => {
 	loadFixtures('test', config, done);
 });
 
-// Check that the test application is running, and exit if not
-function assertTestAppIsRunning(baseUrl, done) {
+function assertServiceIsAvailable(baseUrl, done) {
 	request(baseUrl, error => {
 		if (error) {
 			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test node index.js\``);
-			process.exit(errorCodeForNoService);
+			process.exit();
 		}
 		done();
 	});
