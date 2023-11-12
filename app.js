@@ -17,6 +17,7 @@
 const async = require('async');
 const Hapi = require('@hapi/hapi');
 const {MongoClient} = require('mongodb');
+const {dim} = require('kleur');
 
 function initApp(config, callback) {
 	const app = {
@@ -38,27 +39,26 @@ function initApp(config, callback) {
 		}
 	);
 
-	// Mongo documentation states that events need to be defined before
-	//  connect() so we can be sure that we're capturing all the events
 	client.on('timeout', () => {
-		console.log('MongoDB connection timeout');
+		console.log('mongodb: connection timeout');
+	});
+
+	client.on('connect', () => {
+		console.log(dim('mongodb: connected'));
 	});
 
 	client.on('close', () => {
-		console.log('MongoDB connection closed');
+		console.log(dim('mongodb: connection closed'));
 	});
 
 	client.on('reconnect', () => {
-		console.log('MongoDB connection reestablished');
+		console.log(dim('mongodb: connection reestablished'));
 	});
 
 	async.series(
 		[
 			next => {
-				console.log('Connecting to MongoDB...');
 				client.connect(error => {
-					console.log('Connected successfully to MongoDB');
-
 					app.client = client;
 					app.db = client.db();
 
