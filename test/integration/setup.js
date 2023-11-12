@@ -28,11 +28,15 @@ const config = {
 };
 
 async function assertServiceIsAvailable(baseUrl) {
-	const response = await fetch(baseUrl);
-	if (!response.ok) {
-		console.error('Service under test not found, exiting');
-		console.error('HTTP error:', response.status, response.statusText);
-		process.exit(1);
+	try {
+		const response = await fetch(baseUrl);
+		if (!response.ok) {
+			console.error('Service found but returned an error. HTTP status:', response.status);
+			throw Error();
+		}
+	} catch (error) {
+		console.error('Service under test not found or returned error.');
+		throw error;
 	}
 }
 
