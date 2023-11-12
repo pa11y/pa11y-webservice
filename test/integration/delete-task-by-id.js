@@ -38,7 +38,7 @@ describe('DELETE /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 204 status', function() {
-			assert.strictEqual(this.last.status, 204);
+			assert.strictEqual(this.response.status, 204);
 		});
 
 	});
@@ -54,7 +54,7 @@ describe('DELETE /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
@@ -70,7 +70,7 @@ describe('DELETE /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

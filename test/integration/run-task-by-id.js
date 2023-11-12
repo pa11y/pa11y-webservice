@@ -51,7 +51,7 @@ describe('POST /tasks/{taskId}}/run', function() {
 		});
 
 		it('should send a 202 status', function() {
-			assert.strictEqual(this.last.status, 202);
+			assert.strictEqual(this.response.status, 202);
 		});
 	});
 
@@ -66,7 +66,7 @@ describe('POST /tasks/{taskId}}/run', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
@@ -80,7 +80,7 @@ describe('POST /tasks/{taskId}}/run', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 	});
 });

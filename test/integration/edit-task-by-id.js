@@ -98,7 +98,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 		});
@@ -144,7 +144,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 			});
 
 			it('should send a 400 status', function() {
-				assert.strictEqual(this.last.status, 400);
+				assert.strictEqual(this.response.status, 400);
 			});
 
 		});
@@ -172,7 +172,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 			});
 
 			it('should send a 400 status', function() {
-				assert.strictEqual(this.last.status, 400);
+				assert.strictEqual(this.response.status, 400);
 			});
 
 		});
@@ -195,7 +195,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 		it('should not update the task in the database', async function() {
@@ -224,7 +224,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 		it('should not update the task in the database', async function() {
@@ -249,7 +249,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
@@ -269,7 +269,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

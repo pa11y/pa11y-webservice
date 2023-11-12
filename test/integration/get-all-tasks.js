@@ -29,11 +29,11 @@ describe('GET /tasks', function() {
 		});
 
 		it('should send a 200 status', function() {
-			assert.strictEqual(this.last.status, 200);
+			assert.strictEqual(this.response.status, 200);
 		});
 
 		it('should output a JSON representation of all tasks sorted by URL/standard', async function() {
-			const body = this.last.body;
+			const body = this.response.body;
 			const tasks = await this.app.model.task.getAll();
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
@@ -56,11 +56,11 @@ describe('GET /tasks', function() {
 		});
 
 		it('should send a 200 status', function() {
-			assert.strictEqual(this.last.status, 200);
+			assert.strictEqual(this.response.status, 200);
 		});
 
 		it('should output a JSON representation of all tasks including their last result', function(done) {
-			const body = this.last.body;
+			const body = this.response.body;
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
 

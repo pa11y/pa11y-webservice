@@ -42,14 +42,14 @@ async function assertServiceIsAvailable(baseUrl) {
 
 before(async function() {
 	this.baseUrl = `http://${config.host}:${config.port}/`;
-	this.last = {};
+	this.response = {};
 
 	await assertServiceIsAvailable(this.baseUrl);
 
 	this.app = await promisify(databaseChecker)(config);
 	await loadFixtures('test', config);
 
-	this.navigate = createNavigator(this.baseUrl, this.last);
+	this.navigate = createNavigator(this.baseUrl, this.response);
 });
 
 afterEach(async () => {

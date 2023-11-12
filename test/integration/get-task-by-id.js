@@ -29,11 +29,11 @@ describe('GET /tasks/{taskId}}', function() {
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of the requested task', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				const task = await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
@@ -56,11 +56,11 @@ describe('GET /tasks/{taskId}}', function() {
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of the requested task including the last result (with full details)', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
@@ -83,7 +83,7 @@ describe('GET /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
@@ -98,7 +98,7 @@ describe('GET /tasks/{taskId}}', function() {
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

@@ -29,7 +29,7 @@ const getJsonResponseBody = async response => {
 	}
 };
 
-module.exports = (baseUrl, store) =>
+module.exports = (baseUrl, response) =>
 	async ({endpoint, method, body, query}) => {
 		const querystring = query ? `?${new URLSearchParams(query).toString()}` : '';
 
@@ -41,8 +41,8 @@ module.exports = (baseUrl, store) =>
 			body: body && JSON.stringify(body)
 		};
 
-		const response = await fetch(url, options);
-		store.status = response.status;
-		store.responseHeaders = Object.fromEntries(response.headers.entries());
-		store.body = await getJsonResponseBody(response);
+		const fetchResponse = await fetch(url, options);
+		response.status = fetchResponse.status;
+		response.headers = Object.fromEntries(fetchResponse.headers.entries());
+		response.body = await getJsonResponseBody(fetchResponse);
 	};
