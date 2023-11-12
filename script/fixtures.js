@@ -18,10 +18,11 @@ const loadFixtures = require('../data/fixture/load');
 
 const mode = process.env.NODE_ENV || 'development';
 
-loadFixtures(mode, require(`../config/${mode}.json`), error => {
-	if (error) {
-		console.error(error.stack);
-		process.exit(1);
-	}
+(async () => {
+	await loadFixtures(
+		mode,
+		require(`../config/${mode}.json`)
+	);
+
 	console.log(`Fixtures added for environment: ${mode}`);
-});
+})();
