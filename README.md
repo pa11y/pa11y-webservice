@@ -154,6 +154,30 @@ The integration tests require the service to be running in the background, since
    npm test                   # Run both the integration tests and the unit tests mentioned above
    ```
 
+### Testing the GitHub Actions workflow `test.yml`
+
+1. Install Docker Desktop
+1. Install Nektos Act. For example, with Homebrew:
+   ```sh
+   brew install act
+   ```
+1. To check the syntax of a GitHub Actions workflow before pushing it:
+   ```sh
+   # Verify `test.yml`
+   act --dryrun push
+   ```
+   ```sh
+   # Verify `publish.yml`
+   act --dryrun release
+   ```
+
+1. To test the `push` workflow under Node.js 18 only:
+   ```sh
+   act push --matrix node-version:18
+   ```
+
+   Add `--verbose` for more information.
+
 ## Fixtures
 
 If you'd like to preview Pa11y Webservice or present it to someone else, we've provided some [sample tasks and results](data/fixture), which can be embedded by running one of the following commands:
