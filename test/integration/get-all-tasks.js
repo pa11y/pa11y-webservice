@@ -20,12 +20,12 @@ describe('GET /tasks', function() {
 
 	describe('with no query', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 200 status', function() {
@@ -44,7 +44,7 @@ describe('GET /tasks', function() {
 
 	describe('with last result query', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks',
@@ -52,7 +52,7 @@ describe('GET /tasks', function() {
 					lastres: true
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 200 status', function() {

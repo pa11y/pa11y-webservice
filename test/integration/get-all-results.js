@@ -20,12 +20,12 @@ describe('GET /tasks/results', function() {
 
 	describe('with no query', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 200 status', function() {
@@ -53,7 +53,7 @@ describe('GET /tasks/results', function() {
 	describe('with date-range query', function() {
 		let query;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -63,7 +63,7 @@ describe('GET /tasks/results', function() {
 				}
 			};
 			query = request.query;
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 200 status', function() {
@@ -87,7 +87,7 @@ describe('GET /tasks/results', function() {
 	describe('with full details query', function() {
 		let query;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -96,7 +96,7 @@ describe('GET /tasks/results', function() {
 				}
 			};
 			query = request.query;
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 200 status', function() {
@@ -123,7 +123,7 @@ describe('GET /tasks/results', function() {
 
 	describe('with invalid query', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/results',
@@ -131,7 +131,7 @@ describe('GET /tasks/results', function() {
 					foo: 'bar'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {

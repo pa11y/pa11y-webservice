@@ -24,12 +24,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 			describe('with no query', function() {
 
-				beforeEach(function(done) {
+				beforeEach(async function() {
 					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001'
 					};
-					this.navigate(request, done);
+					await this.navigate(request);
 				});
 
 				it('should send a 200 status', function() {
@@ -48,7 +48,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 			describe('with full details query', function() {
 
-				beforeEach(function(done) {
+				beforeEach(async function() {
 					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
@@ -56,7 +56,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 							full: true
 						}
 					};
-					this.navigate(request, done);
+					await this.navigate(request);
 				});
 
 				it('should send a 200 status', function() {
@@ -75,7 +75,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 			describe('with invalid query', function() {
 
-				beforeEach(function(done) {
+				beforeEach(async function() {
 					const request = {
 						method: 'GET',
 						endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000001',
@@ -83,7 +83,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 							foo: 'bar'
 						}
 					};
-					this.navigate(request, done);
+					await this.navigate(request);
 				});
 
 				it('should send a 400 status', function() {
@@ -96,12 +96,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 		describe('with valid but non-existent result ID', function() {
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/def000000000000000000000'
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 404 status', function() {
@@ -112,12 +112,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 		describe('with invalid result ID', function() {
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001/results/-def-'
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 404 status', function() {
@@ -130,12 +130,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 	describe('with valid and existing but non-matching task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000002/results/def000000000000000000001'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
@@ -146,12 +146,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000/results/def000000000000000000001'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
@@ -162,12 +162,12 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 	describe('with invalid task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-/results/def000000000000000000001'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {

@@ -20,12 +20,11 @@ describe('DELETE /tasks/{taskId}}', function() {
 
 	describe('with valid and existing task ID', function() {
 
-		beforeEach(function(done) {
-			const request = {
+		beforeEach(async function() {
+			await this.navigate({
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000001'
-			};
-			this.navigate(request, done);
+			});
 		});
 
 		it('should remove the task from the database', async function() {
@@ -46,12 +45,12 @@ describe('DELETE /tasks/{taskId}}', function() {
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000000'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
@@ -62,12 +61,12 @@ describe('DELETE /tasks/{taskId}}', function() {
 
 	describe('with invalid task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/-abc-'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {

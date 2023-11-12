@@ -32,7 +32,7 @@ describe('POST /tasks/{taskId}}/run', function() {
 	describe('with valid and existing task ID', function() {
 		let server;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			server = http.createServer(function(request, response) {
 				response.writeHead(200, {'Content-Type': 'text/html'});
 				response.end(responseBody);
@@ -43,7 +43,7 @@ describe('POST /tasks/{taskId}}/run', function() {
 				method: 'POST',
 				endpoint: 'tasks/abc000000000000000000004/run'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		afterEach(function(done) {
@@ -53,17 +53,16 @@ describe('POST /tasks/{taskId}}/run', function() {
 		it('should send a 202 status', function() {
 			assert.strictEqual(this.last.status, 202);
 		});
-
 	});
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks/abc000000000000000000000/run'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
@@ -73,19 +72,15 @@ describe('POST /tasks/{taskId}}/run', function() {
 	});
 
 	describe('with invalid task ID', function() {
-
-		beforeEach(function(done) {
-			const request = {
+		beforeEach(async function() {
+			await this.navigate({
 				method: 'POST',
 				endpoint: 'tasks/-abc-/run'
-			};
-			this.navigate(request, done);
+			});
 		});
 
 		it('should send a 404 status', function() {
 			assert.strictEqual(this.last.status, 404);
 		});
-
 	});
-
 });

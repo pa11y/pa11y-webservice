@@ -23,7 +23,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		describe('with valid JSON', function() {
 			let taskEdits;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				taskEdits = {
 					name: 'New Name',
 					timeout: '30000',
@@ -45,7 +45,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should update the task\'s name in the database', async function() {
@@ -106,7 +106,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		describe('with headers set as a string', function() {
 			let taskEdits;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				taskEdits = {
 					name: 'New Name',
 					headers: '{"foo":"bar"}'
@@ -116,7 +116,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should update the task\'s headers in the database', async function() {
@@ -131,7 +131,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		describe('with invalid name', function() {
 			let taskEdits;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				taskEdits = {
 					name: null
 				};
@@ -140,7 +140,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 400 status', function() {
@@ -152,7 +152,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 		describe('with URL', function() {
 			let taskEdits;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				taskEdits = {
 					name: 'New Name',
 					url: 'http://example.com/'
@@ -162,7 +162,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					endpoint: 'tasks/abc000000000000000000001',
 					body: taskEdits
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should not the task in the database', async function() {
@@ -182,7 +182,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 	describe('with a non-array actions', function() {
 		let taskEdits;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			taskEdits = {
 				actions: 'wat?'
 			};
@@ -191,7 +191,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 				endpoint: 'tasks/abc000000000000000000001',
 				body: taskEdits
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
@@ -208,7 +208,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 	describe('with a invalid actions', function() {
 		let taskEdits;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			taskEdits = {
 				actions: [
 					'foo',
@@ -220,7 +220,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 				endpoint: 'tasks/abc000000000000000000001',
 				body: taskEdits
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
@@ -236,7 +236,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'PATCH',
 				endpoint: 'tasks/abc000000000000000000000',
@@ -245,7 +245,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					timeout: '30000'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
@@ -256,7 +256,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 
 	describe('with invalid task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'PATCH',
 				endpoint: 'tasks/-abc-',
@@ -265,7 +265,7 @@ describe('PATCH /tasks/{taskId}}', function() {
 					timeout: '30000'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-const config = module.exports = JSON.parse(JSON.stringify(require('../.eslintrc')));
+const config = module.exports = require('../.eslintrc');
 
 // We use `this` all over the integration tests
 config.rules['no-invalid-this'] = 'off';

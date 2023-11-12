@@ -14,42 +14,40 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const app = require('../../app');
+const {promisify} = require('util');
+
+const databaseChecker = require('../../app');
 const createNavigator = require('./helper/navigate');
 const loadFixtures = require('../../data/fixture/load');
-const request = require('request');
 
 const config = {
 	database: process.env.DATABASE || 'mongodb://127.0.0.1/pa11y-webservice-test',
 	host: process.env.HOST || '0.0.0.0',
-	port: Number(process.env.PORT) || 3000
+	port: Number(process.env.PORT) || 3000,
+	dbOnly: true
 };
 
-before(function(done) {
-	this.baseUrl = `http://${config.host}:${config.port}/`;
-	this.app = null;
-	this.last = {};
-	this.navigate = createNavigator(this.baseUrl, this.last);
-
-	assertServiceIsAvailable(this.baseUrl, () => {
-		config.dbOnly = true;
-		app(config, (error, initialisedApp) => {
-			this.app = initialisedApp;
-			loadFixtures('test', config, done);
-		});
-	});
-});
-
-afterEach(done => {
-	loadFixtures('test', config, done);
-});
-
-function assertServiceIsAvailable(baseUrl, done) {
-	request(baseUrl, error => {
-		if (error) {
-			console.error(`Error: Test app not started. NODE_ENV was ${process.env.NODE_ENV}; run with \`NODE_ENV=test npm start\``);
-			process.exit();
-		}
-		done();
-	});
+async function assertServiceIsAvailable(baseUrl) {
+	const response = await fetch(baseUrl);
+	if (!response.ok) {
+		console.error('Service under test not found, exiting');
+		console.error('HTTP error:', response.status, response.statusText);
+		process.exit(1);
+	}
 }
+
+before(async function() {
+	this.baseUrl = `http://${config.host}:${config.port}/`;
+	this.last = {};
+
+	await assertServiceIsAvailable(this.baseUrl);
+
+	this.app = await promisify(databaseChecker)(config);
+	await loadFixtures('test', config);
+
+	this.navigate = createNavigator(this.baseUrl, this.last);
+});
+
+afterEach(async () => {
+	await loadFixtures('test', config);
+});
