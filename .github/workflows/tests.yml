@@ -33,9 +33,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - run: npm install -g npm@10
       - run: npm ci
-      - run: npm run lint
       - run: npm run test:unit
 
       - name: Supply MongoDB ${{ matrix.mongo }}

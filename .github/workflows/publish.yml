@@ -18,7 +18,6 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org
-      - run: npm install -g npm@10
       - run: npm ci
 
       - name: Publish package
