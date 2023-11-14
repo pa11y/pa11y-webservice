@@ -5,6 +5,16 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run lint
+
   test:
     runs-on: ubuntu-20.04
     strategy:
@@ -16,7 +26,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: make lint
       - run: make test-unit
 
       - name: Supply MongoDB 3.4
