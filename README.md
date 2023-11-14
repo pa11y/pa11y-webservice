@@ -16,7 +16,7 @@ Use this service if you'd like to coordinate your testing by interacting with a 
 
 ## Requirements
 
-- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 4 requires Node.js 12, 14 or 16.
+- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 4 requires a stable (even-numbered) version of Node.js of 12 or above.
 - [MongoDB][mongo]: The service stores test results in a MongoDB database, and expects one to be available and running.
 
 Pa11y (and therefore this service) uses Headless Chrome to perform accessibility testing. On Linux and other Unix-like systems, Pa11y's attempt to install it as a dependency sometimes fails since additional operating system packages will be required. Your distribution's documentation should describe how to install these.
