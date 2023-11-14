@@ -16,7 +16,7 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-const _ = require('underscore');
+const groupBy = require('lodash/groupby');
 const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
@@ -40,7 +40,7 @@ module.exports = function(app) {
 				if (!results) {
 					return reply.response().code(500);
 				}
-				const resultsByTask = _.groupBy(results, 'task');
+				const resultsByTask = groupBy(results, 'task');
 				tasks = tasks.map(task => {
 					if (resultsByTask[task.id] && resultsByTask[task.id].length) {
 						task.last_result = resultsByTask[task.id][0];

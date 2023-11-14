@@ -16,10 +16,14 @@ Use this service if you'd like to coordinate your testing by interacting with a 
 
 ## Requirements
 
-- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 4 requires Node.js 12, 14 or 16.
+- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 4 requires a stable (even-numbered) version of Node.js of 12 or above.
 - [MongoDB][mongo]: The service stores test results in a MongoDB database, and expects one to be available and running.
 
+### Pally Webservice 4 and Linux/Ubuntu
+
 Pa11y (and therefore this service) uses Headless Chrome to perform accessibility testing. On Linux and other Unix-like systems, Pa11y's attempt to install it as a dependency sometimes fails since additional operating system packages will be required. Your distribution's documentation should describe how to install these.
+
+In addition, to use Pa11y Webservice 4 with a version of Ubuntu above 20.04, a path to the Chrome executable must be defined in [chromeLaunchConfig](#chromelaunchconfig-config-file-only), as `chromeLaunchConfig.executablePath`. Version 5 of Pa11y Webservice, which will use Pa11y 7 along with a more recent version of Puppeteer, will resolve this issue.
 
 ## Setup
 
@@ -171,20 +175,18 @@ When we release a new major version we will continue to support the previous maj
 
 The following table lists the major versions available and, for each previous major version, its end-of-support date, and its final minor version released.
 
-| Major version | Final minor version | Node.js support  | Support end date |
-| :------------ | :-----------------  | :--------------- | :--------------- |
-| 4             |                     | 12, 14, 16       | ✅ Current major version |
-| 3             | 3.2.1               | 8, 10            | 2022-05-26       |
-| 2             | 2.3.1               | 4, 6             | 2020-01-04       |
-| 1             | 1.11                | 0.10, 0.12, 4, 6 | 2016-12-05       |
-
+| Major version | Final minor version | Node.js support          | Support end date |
+| :------------ | :-----------------  | :----------------------- | :--------------- |
+| `4`           |                     | `>= 12`                  | ✅ Current major version |
+| `3`           | `3.2.1`             | `8`, `10`                | 2022-05-26       |
+| `2`           | `2.3.1`             | `4`, `6`                 | 2020-01-04       |
+| `1`           | `1.11.1`            | `0.10`, `0.12`, `4`, `6` | 2016-12-05       |
 
 ## License
 
 Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
-Copyright &copy; 2013–2023, Team Pa11y and contributors
+Copyright &copy; 2013-2023, Team Pa11y and contributors
 
-[gpl]: http://www.gnu.org/licenses/gpl-3.0.html
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
