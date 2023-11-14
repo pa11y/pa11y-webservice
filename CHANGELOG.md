@@ -4,8 +4,9 @@
 
 * Set dependency `pa11y` to `^6.2.3` from `~6.2.3` to permit minor level upgrades to take place at installation time.
 * Indicate increased confidence in compatibility of:
-  * Node.js versions 18, 20 (added to 12, 14, 16)
-  * MongoDB versions 2-7
+  * Node.js versions `18`, `20` (added to `12`, `14`, `16`)
+  * MongoDB versions `2-7`
+* Document workaround for Ubuntu > `20.04`
 
 ## 4.2.0 (2023-11-13)
 
