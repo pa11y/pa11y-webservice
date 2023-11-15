@@ -16,7 +16,7 @@
 /* eslint camelcase: 'off' */
 'use strict';
 
-const groupBy = require('lodash/groupby');
+const groupBy = require('lodash.groupby');
 const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
