@@ -7,5 +7,6 @@
 		"args": [
 			"--no-sandbox"
 		]
-	}
+	},
+	"runners": ["axe", "htmlcs"]
 }

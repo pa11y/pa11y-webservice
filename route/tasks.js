@@ -105,6 +105,7 @@ module.exports = function(app) {
 					ignore: Joi.array(),
 					actions: Joi.array().items(Joi.string()),
 					hideElements: Joi.string().allow(''),
+					runners: Joi.array().items(Joi.string()),
 					headers: [
 						Joi.string().allow(''),
 						Joi.object().pattern(/.*/, Joi.string().allow(''))
