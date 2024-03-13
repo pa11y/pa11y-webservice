@@ -30,7 +30,7 @@
     "kleur": "~4.1.5",
     "lodash.groupby": "~4.6.0",
     "mongodb": "~3.7.3",
-    "pa11y": "pa11y/pa11y#version-7"
+    "pa11y": "^7.0.0"
   },
   "devDependencies": {
     "eslint": "^8.52.0",
