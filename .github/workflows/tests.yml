@@ -20,15 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20]
+        node: [18, 20]
         mongo: [latest]
         include:
-          - { node: 12, mongo: 6.0.11 }
-          - { node: 12, mongo: 5.0.22 }
-          - { node: 12, mongo: 4.4.25 }
-          - { node: 12, mongo: 3.6.23 }
-          - { node: 12, mongo: 2.6.12 }
-
+          - { node: 18, mongo: 6.0.11 }
+          - { node: 18, mongo: 5.0.22 }
+          - { node: 18, mongo: 4.4.25 }
+          - { node: 18, mongo: 3.6.23 }
+          - { node: 18, mongo: 2.6.12 }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
