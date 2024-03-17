@@ -5,8 +5,6 @@
 [![Build status][shield-build]][info-build]
 [![GPL-3.0 licensed][shield-license]][info-license]
 
----
-
 Pa11y Webservice is a Node.js service that can schedule accessibility testing for multiple URLs, using [Pa11y][pa11y].
 
 Use this service if you'd like to coordinate your testing by interacting with a restful API. For other scenarios, another Pa11y tool may be more appropriate:
@@ -144,11 +142,13 @@ The integration tests require the service to be running in the background, since
 
 1. Create a configuration file for the `test` mode; one can be created quickly with `cp config/test.sample.json config/test.json`
 1. Start the service in test mode with:
+
    ```sh
    NODE_ENV=test npm start &
    ```
 
    The `&` places the service into the background. An alternative approach is to run `NODE_ENV=test npm start`, suspend the process with `CTRL+z`, and finally run `bg` to place it into the background.
+
 1. ```sh
    npm run test:integration   # Run the integration tests
    npm test                   # Run both the integration tests and the unit tests mentioned above
@@ -158,20 +158,25 @@ The integration tests require the service to be running in the background, since
 
 1. Install Docker Desktop
 1. Install Nektos Act. For example, with Homebrew:
+
    ```sh
    brew install act
    ```
+
 1. To check the syntax of a GitHub Actions workflow before pushing it:
+
    ```sh
    # Verify `test.yml`
    act --dryrun push
    ```
+
    ```sh
    # Verify `publish.yml`
    act --dryrun release
    ```
 
 1. To test the `push` workflow under Node.js 18 only:
+
    ```sh
    act push --matrix node-version:18
    ```
@@ -209,7 +214,7 @@ The following table lists the major versions available and, for each previous ma
 ## License
 
 Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
-Copyright &copy; 2013-2023, Team Pa11y and contributors
+Copyright &copy; 2013-2024, Team Pa11y and contributors
 
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
