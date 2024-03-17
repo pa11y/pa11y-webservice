@@ -16,16 +16,15 @@
 
 const assert = require('proclaim');
 
-describe('DELETE /tasks/{id}', function() {
+describe('DELETE /tasks/{taskId}}', function() {
 
 	describe('with valid and existing task ID', function() {
 
-		beforeEach(function(done) {
-			const request = {
+		beforeEach(async function() {
+			await this.navigate({
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000001'
-			};
-			this.navigate(request, done);
+			});
 		});
 
 		it('should remove the task from the database', async function() {
@@ -39,39 +38,39 @@ describe('DELETE /tasks/{id}', function() {
 		});
 
 		it('should send a 204 status', function() {
-			assert.strictEqual(this.last.status, 204);
+			assert.strictEqual(this.response.status, 204);
 		});
 
 	});
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/abc000000000000000000000'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
 
 	describe('with invalid task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'DELETE',
 				endpoint: 'tasks/-abc-'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

@@ -12,18 +12,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* eslint camelcase: 'off' */
 'use strict';
 
-// Default route, to help new users know they've installed correctly.
-module.exports = function(app) {
-	const server = app.server;
-
-	// Default index page
+module.exports = function({server}) {
 	server.route({
-		method: 'GET',
 		path: '/',
+		method: 'GET',
+
 		handler: (request, reply) => {
 			return reply.response('Pa11y-webservice is running.  Documentation at https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints').code(200);
 		}

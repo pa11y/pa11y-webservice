@@ -12,31 +12,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* eslint camelcase: 'off' */
 'use strict';
 
 const {green, grey, red} = require('kleur');
 const Joi = require('joi');
 const {isValidAction} = require('pa11y');
 
-// Routes relating to individual tasks
-module.exports = function(app) {
-	const model = app.model;
-	const server = app.server;
-
-	// Get a task
+module.exports = function({model, server}) {
 	server.route({
+		path: '/tasks/{taskId}',
 		method: 'GET',
-		path: '/tasks/{id}',
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+
+		handler: async ({params, query}, reply) => {
+			const task = await model.task.getById(params.taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			if (request.query.lastres) {
+			if (query.lastres) {
 				const results = await model.result.getByTaskId(task.id, {
 					limit: 1,
 					full: true
@@ -44,10 +38,8 @@ module.exports = function(app) {
 				if (!results) {
 					return reply.response().code(500);
 				}
-				task.last_result = null;
-				if (results.length) {
-					task.last_result = results[0];
-				}
+				/* eslint-disable-next-line camelcase */
+				task.last_result = results.length ? results[0] : null;
 			}
 
 			return reply.response(task).code(200);
@@ -62,25 +54,23 @@ module.exports = function(app) {
 		}
 	});
 
-	// Edit a task
 	server.route({
+		path: '/tasks/{taskId}',
 		method: 'PATCH',
-		path: '/tasks/{id}',
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+
+		handler: async ({params, payload}, reply) => {
+			const task = await model.task.getById(params.taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			if (request.payload.actions && request.payload.actions.length) {
-				for (let action of request.payload.actions) {
-					if (!isValidAction(action)) {
-						return reply.response(`Invalid action: "${action}"`).code(400);
-					}
-				}
+			const invalidAction = payload.actions?.find(action => !isValidAction(action));
+			if (invalidAction) {
+				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
-			const updateCount = await model.task.editById(task.id, request.payload);
+
+			const updateCount = await model.task.editById(task.id, payload);
 			if (updateCount < 1) {
 				return reply.response().code(500);
 			}
@@ -109,17 +99,18 @@ module.exports = function(app) {
 		}
 	});
 
-	// Delete a task
 	server.route({
+		path: '/tasks/{taskId}',
 		method: 'DELETE',
-		path: '/tasks/{id}',
-		handler: async (request, reply) => {
-			const task = await model.task.deleteById(request.params.id);
+
+		handler: async ({params}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.deleteById(taskId);
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			const removed = await model.result.deleteByTaskId(request.params.id);
+			const removed = await model.result.deleteByTaskId(taskId);
 			if (!removed) {
 				return reply.response().code(500);
 			}
@@ -133,20 +124,20 @@ module.exports = function(app) {
 		}
 	});
 
-	// Run a task
 	server.route({
+		path: '/tasks/{taskId}/run',
 		method: 'POST',
-		path: '/tasks/{id}/run',
-		handler: async (request, reply) => {
 
-			const task = await model.task.getById(request.params.id);
+		handler: async ({params}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.getById(taskId);
 
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
 			console.log(grey('Starting NEW to run one-off task @ %s'), new Date());
-			const executed = await model.task.runById(request.params.id);
+			const executed = await model.task.runById(taskId);
 
 			if (executed) {
 				console.log(green('Finished NEW task %s'), task.id);
@@ -170,17 +161,18 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get results for a task
 	server.route({
+		path: '/tasks/{taskId}/results',
 		method: 'GET',
-		path: '/tasks/{id}/results',
-		handler: async (request, reply) => {
-			const task = await model.task.getById(request.params.id);
+
+		handler: async ({params, query}, reply) => {
+			const {taskId} = params;
+			const task = await model.task.getById(taskId);
 			if (!task) {
 				return reply.response('Not Found').code(404);
 			}
 
-			const results = await model.result.getByTaskId(request.params.id, request.query);
+			const results = await model.result.getByTaskId(taskId, query);
 			if (!results) {
 				return reply.response('No results found for task').code(500);
 			}
@@ -198,14 +190,13 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get a result for a task
 	server.route({
+		path: '/tasks/{taskId}/results/{resultId}',
 		method: 'GET',
-		path: '/tasks/{tid}/results/{rid}',
-		handler: async (request, reply) => {
-			const rid = request.params.rid;
-			const tid = request.params.tid;
-			const result = await model.result.getByIdAndTaskId(rid, tid, request.query);
+
+		handler: async ({params, query}, reply) => {
+			const {taskId, resultId} = params;
+			const result = await model.result.getByIdAndTaskId(resultId, taskId, query);
 
 			if (!result) {
 				return reply.response('Not Found').code(404);
@@ -221,5 +212,4 @@ module.exports = function(app) {
 			}
 		}
 	});
-
 };

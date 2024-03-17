@@ -16,26 +16,24 @@
 
 const assert = require('proclaim');
 
-describe('GET /tasks/{id}', function() {
+describe('GET /tasks/{taskId}}', function() {
 
 	describe('with valid and existing task ID', function() {
 
 		describe('with no query', function() {
-
-			beforeEach(function(done) {
-				const request = {
+			beforeEach(async function() {
+				await this.navigate({
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001'
-				};
-				this.navigate(request, done);
+				});
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of the requested task', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				const task = await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
@@ -46,7 +44,7 @@ describe('GET /tasks/{id}', function() {
 
 		describe('with last result query', function() {
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000001',
@@ -54,15 +52,15 @@ describe('GET /tasks/{id}', function() {
 						lastres: true
 					}
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of the requested task including the last result (with full details)', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
@@ -77,32 +75,30 @@ describe('GET /tasks/{id}', function() {
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
-			const request = {
+		beforeEach(async function() {
+			await this.navigate({
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000'
-			};
-			this.navigate(request, done);
+			});
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
 
 	describe('with invalid task ID', function() {
-
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

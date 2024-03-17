@@ -14,32 +14,35 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const request = require('request');
+const getJsonResponseBody = async response => {
+	try {
+		return await response.json();
+	} catch {
+		try {
+			const text = await response.text();
+			if (text) {
+				throw Error(`Expected nothing or JSON, found: ${text}`);
+			}
+		} catch {
+			return null;
+		}
+	}
+};
 
-module.exports = createNavigator;
+module.exports = (baseUrl, response) =>
+	async ({endpoint, method, body, query}) => {
+		const querystring = query ? `?${new URLSearchParams(query).toString()}` : '';
 
-// Create a navigate function
-function createNavigator(baseUrl, store) {
-	return function(opts, callback) {
+		const url = `${baseUrl}${endpoint}${querystring}`;
 
-		store.body = null;
-		store.request = null;
-		store.response = null;
-		store.status = null;
+		const options = {
+			method: method || 'GET',
+			headers: {'Content-Type': 'application/json'},
+			body: body && JSON.stringify(body)
+		};
 
-		request({
-			url: baseUrl + opts.endpoint,
-			method: opts.method || 'GET',
-			body: opts.body,
-			json: true,
-			qs: opts.query
-		}, function(error, response, body) {
-			store.body = body;
-			store.request = response.request;
-			store.response = response;
-			store.status = response.statusCode;
-			callback(error);
-		});
-
+		const fetchResponse = await fetch(url, options);
+		response.status = fetchResponse.status;
+		response.headers = Object.fromEntries(fetchResponse.headers.entries());
+		response.body = await getJsonResponseBody(fetchResponse);
 	};
-}

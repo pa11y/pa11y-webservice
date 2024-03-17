@@ -22,7 +22,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -31,13 +31,11 @@ describe('POST /tasks', function() {
 				ignore: ['foo', 'bar']
 			};
 
-			const request = {
+			await this.navigate({
 				method: 'POST',
 				endpoint: 'tasks',
 				body: newTask
-			};
-
-			this.navigate(request, done);
+			});
 		});
 
 		it('should add the new task to the database', async function() {
@@ -46,28 +44,30 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.ignore, newTask.ignore || []);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.ignore, newTask.ignore || []);
 		});
-
 	});
 
 	describe('with valid JSON and HTTP basic user authentication', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -83,7 +83,7 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
@@ -92,23 +92,26 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.username, newTask.username);
-			assert.strictEqual(this.last.body.password, newTask.password);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.ignore, newTask.ignore || []);
-			assert.deepEqual(this.last.body.hideElements, newTask.hideElements);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.username, newTask.username);
+			assert.strictEqual(this.response.body.password, newTask.password);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.ignore, newTask.ignore || []);
+			assert.deepEqual(this.response.body.hideElements, newTask.hideElements);
 		});
 
 	});
@@ -116,7 +119,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and no ignore rules', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -128,7 +131,7 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
@@ -137,20 +140,23 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.ignore, []);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.ignore, []);
 		});
 
 	});
@@ -158,7 +164,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and wait time', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -171,7 +177,7 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
@@ -180,21 +186,24 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.wait, newTask.wait);
-			assert.deepEqual(this.last.body.ignore, []);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.wait, newTask.wait);
+			assert.deepEqual(this.response.body.ignore, []);
 		});
 
 	});
@@ -202,7 +211,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and hideElements', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -216,7 +225,7 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
@@ -225,22 +234,25 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.wait, newTask.wait);
-			assert.deepEqual(this.last.body.hideElements, newTask.hideElements);
-			assert.deepEqual(this.last.body.ignore, []);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.wait, newTask.wait);
+			assert.deepEqual(this.response.body.hideElements, newTask.hideElements);
+			assert.deepEqual(this.response.body.ignore, []);
 		});
 
 	});
@@ -248,7 +260,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and actions', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -265,7 +277,7 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
@@ -274,22 +286,25 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.isDefined(this.last.body.id);
-			assert.strictEqual(this.last.body.name, newTask.name);
-			assert.strictEqual(this.last.body.url, newTask.url);
-			assert.strictEqual(this.last.body.standard, newTask.standard);
-			assert.deepEqual(this.last.body.wait, newTask.wait);
-			assert.deepEqual(this.last.body.actions, newTask.actions);
-			assert.deepEqual(this.last.body.ignore, []);
+			assert.isDefined(this.response.body.id);
+			assert.strictEqual(this.response.body.name, newTask.name);
+			assert.strictEqual(this.response.body.url, newTask.url);
+			assert.strictEqual(this.response.body.standard, newTask.standard);
+			assert.deepEqual(this.response.body.wait, newTask.wait);
+			assert.deepEqual(this.response.body.actions, newTask.actions);
+			assert.deepEqual(this.response.body.ignore, []);
 		});
 
 	});
@@ -297,7 +312,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and headers object', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -311,28 +326,31 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
 			const task = await this.app.model.task.collection.findOne({
-				_id: new ObjectID(this.last.response.body.id)
+				_id: new ObjectID(this.response.body.id)
 			});
 			assert.isDefined(task);
 			assert.deepEqual(task.headers, newTask.headers);
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.deepEqual(this.last.body.headers, newTask.headers);
+			assert.deepEqual(this.response.body.headers, newTask.headers);
 		});
 
 	});
@@ -340,7 +358,7 @@ describe('POST /tasks', function() {
 	describe('with valid JSON and headers string', function() {
 		let newTask;
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			newTask = {
 				name: 'NPG Home',
 				url: 'nature.com',
@@ -352,12 +370,12 @@ describe('POST /tasks', function() {
 				endpoint: 'tasks',
 				body: newTask
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should add the new task to the database', async function() {
 			const task = await this.app.model.task.collection.findOne({
-				_id: new ObjectID(this.last.response.body.id)
+				_id: new ObjectID(this.response.body.id)
 			});
 			assert.isDefined(task);
 			assert.deepEqual(task.headers, {
@@ -366,16 +384,19 @@ describe('POST /tasks', function() {
 		});
 
 		it('should send a 201 status', function() {
-			assert.strictEqual(this.last.status, 201);
+			assert.strictEqual(this.response.status, 201);
 		});
 
 		it('should send a location header pointing to the new task', function() {
-			const taskUrl = `http://${this.last.request.uri.host}/tasks/${this.last.body.id}`;
-			assert.strictEqual(this.last.response.headers.location, taskUrl);
+			const taskPath = `/tasks/${this.response.body.id}`;
+			assert.match(
+				this.response.headers?.location,
+				new RegExp(`${taskPath}$`)
+			);
 		});
 
 		it('should output a JSON representation of the new task', function() {
-			assert.deepEqual(this.last.body.headers, {
+			assert.deepEqual(this.response.body.headers, {
 				foo: 'bar'
 			});
 		});
@@ -384,7 +405,7 @@ describe('POST /tasks', function() {
 
 	describe('with invalid name', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -394,18 +415,18 @@ describe('POST /tasks', function() {
 					standard: 'WCAG2AA'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 	});
 
 	describe('with invalid URL', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -414,18 +435,18 @@ describe('POST /tasks', function() {
 					standard: 'WCAG2AA'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 	});
 
 	describe('with invalid standard', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -434,18 +455,18 @@ describe('POST /tasks', function() {
 					standard: 'foo'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 	});
 
 	describe('with a non-array actions', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -456,18 +477,18 @@ describe('POST /tasks', function() {
 					actions: 'wat?'
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 	});
 
 	describe('with invalid actions', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'POST',
 				endpoint: 'tasks',
@@ -481,11 +502,11 @@ describe('POST /tasks', function() {
 					]
 				}
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 400 status', function() {
-			assert.strictEqual(this.last.status, 400);
+			assert.strictEqual(this.response.status, 400);
 		});
 
 	});

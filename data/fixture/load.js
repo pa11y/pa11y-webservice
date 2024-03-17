@@ -14,36 +14,29 @@
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
+const {promisify} = require('util');
 const application = require('../../app');
 
-module.exports = loadFixtures;
+async function loadFixtures(mode, config) {
+	mode = (mode || 'development');
 
-function loadFixtures(env, config, done) {
-	env = (env || 'development');
 	const fixtures = {
-		results: require(`./${env}/results.js`),
-		tasks: require(`./${env}/tasks.js`)
+		results: require(`./${mode}/results.js`),
+		tasks: require(`./${mode}/tasks.js`)
 	};
 
 	config.dbOnly = true;
 
-	application(config, async (error, app) => {
-		if (error) {
-			return done(error);
-		}
-		try {
-			// Clear existing content
-			await app.model.result.collection.deleteMany();
-			await app.model.task.collection.deleteMany();
+	const app = await promisify(application)(config);
 
-			// Insert new content
-			await Promise.all(fixtures.tasks.map(task => app.model.task.create(task)));
-			await Promise.all(fixtures.results.map(result => app.model.result.create(result)));
-			await app.client.close();
-			done();
-			// eslint-disable-next-line no-shadow,no-catch-shadow
-		} catch (error) {
-			done(error);
-		}
-	});
+	// Clear existing content
+	await app.model.result.collection.deleteMany();
+	await app.model.task.collection.deleteMany();
+
+	// Insert new content
+	await Promise.all(fixtures.tasks.map(task => app.model.task.create(task)));
+	await Promise.all(fixtures.results.map(result => app.model.result.create(result)));
+	await app.client.close();
 }
+
+module.exports = loadFixtures;

@@ -13,8 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 
-/* eslint id-length: 'off' */
-/* eslint no-catch-shadow: 'off' */
 /* eslint no-underscore-dangle: 'off' */
 /* eslint new-cap: 'off' */
 'use strict';
@@ -23,9 +21,8 @@ const {grey} = require('kleur');
 const {ObjectID} = require('mongodb');
 const pa11y = require('pa11y');
 
-// Task model
 module.exports = function(app, callback) {
-	app.db.collection('tasks', async function(errors, collection) {
+	app.db.collection('tasks', async (errors, collection) => {
 		await collection.createIndex({
 			name: 1,
 			url: 1,
@@ -33,10 +30,9 @@ module.exports = function(app, callback) {
 		});
 		const model = {
 
-			collection: collection,
+			collection,
 
-			// Create a task
-			create: function(newTask) {
+			create(newTask) {
 				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
 
 				return model.collection.insertOne(newTask)
@@ -49,8 +45,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get all tasks
-			getAll: () => {
+			getAll() {
 				return collection
 					.find()
 					.sort({
@@ -68,8 +63,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Get a task by ID
-			getById: function(id) {
+			getById(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
@@ -88,8 +82,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Edit a task by ID
-			editById: function(id, edits) {
+			editById(id, edits) {
 				const idString = id;
 				try {
 					id = new ObjectID(id);
@@ -138,18 +131,22 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Add an annotation to a task
-			addAnnotationById: function(id, annotation) {
+			addAnnotationById(id, annotation) {
 				return model.getById(id)
 					.then(task => {
 						if (!task) {
 							return 0;
 						}
 						if (Array.isArray(task.annotations)) {
-							return model.collection.updateMany({_id: ObjectID(id)}, {$push: {annotations: annotation}});
+							return model.collection.updateMany(
+								{_id: ObjectID(id)},
+								{$push: {annotations: annotation}}
+							);
 						}
-						return model.collection.updateMany({_id: ObjectID(id)}, {$set: {annotations: [annotation]}});
-
+						return model.collection.updateMany(
+							{_id: ObjectID(id)},
+							{$set: {annotations: [annotation]}}
+						);
 					})
 					.catch(error => {
 						console.error(`model:task:addAnnotationById failed, with id: ${id}`);
@@ -158,8 +155,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Delete a task by ID
-			deleteById: function(id) {
+			deleteById(id) {
 				try {
 					id = new ObjectID(id);
 				} catch (error) {
@@ -177,8 +173,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Run a task by ID
-			runById: function(id) {
+			runById(id) {
 				return model.getById(id).then(async task => {
 					const pa11yOptions = {
 						standard: task.standard,
@@ -225,8 +220,7 @@ module.exports = function(app, callback) {
 					});
 			},
 
-			// Prepare a task for output
-			prepareForOutput: function(task) {
+			prepareForOutput(task) {
 				if (!task) {
 					return null;
 				}
@@ -267,7 +261,7 @@ module.exports = function(app, callback) {
 				return output;
 			},
 
-			sanitizeHeaderInput: function(headers) {
+			sanitizeHeaderInput(headers) {
 				if (typeof headers === 'string') {
 					try {
 						return JSON.parse(headers);
@@ -280,20 +274,15 @@ module.exports = function(app, callback) {
 				return headers;
 			},
 
-			pa11yLog: function(taskId) {
+			pa11yLog(taskId) {
 				return message => {
-					let messageString;
-
-					if (taskId) {
-						messageString = `[${taskId}]  > ${message}`;
-					} else {
-						messageString = `  > ${message}`;
-					}
+					const messageString = taskId ?
+						`[${taskId}]  > ${message}` :
+						`  > ${message}`;
 
 					console.log(grey(messageString));
 				};
 			}
-
 		};
 		callback(errors, model);
 	});

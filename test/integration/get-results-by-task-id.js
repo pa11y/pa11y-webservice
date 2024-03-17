@@ -16,26 +16,26 @@
 
 const assert = require('proclaim');
 
-describe('GET /tasks/{id}/results', function() {
+describe('GET /tasks/{taskId}}/results', function() {
 
 	describe('with valid and existing task ID', function() {
 
 		describe('with no query', function() {
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000002/results'
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of all expected results sorted by date', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', {});
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
@@ -51,7 +51,7 @@ describe('GET /tasks/{id}/results', function() {
 		describe('with date-range query', function() {
 			let query;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000002/results',
@@ -61,15 +61,15 @@ describe('GET /tasks/{id}/results', function() {
 					}
 				};
 				query = request.query;
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of all expected results sorted by date', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', query);
 				assert.isArray(body);
 				assert.strictEqual(body.length, 1);
@@ -83,7 +83,7 @@ describe('GET /tasks/{id}/results', function() {
 		describe('with full details query', function() {
 			let query;
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000002/results',
@@ -92,15 +92,15 @@ describe('GET /tasks/{id}/results', function() {
 					}
 				};
 				query = request.query;
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 200 status', function() {
-				assert.strictEqual(this.last.status, 200);
+				assert.strictEqual(this.response.status, 200);
 			});
 
 			it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
-				const body = this.last.body;
+				const body = this.response.body;
 				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', query);
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
@@ -115,7 +115,7 @@ describe('GET /tasks/{id}/results', function() {
 
 		describe('with invalid query', function() {
 
-			beforeEach(function(done) {
+			beforeEach(async function() {
 				const request = {
 					method: 'GET',
 					endpoint: 'tasks/abc000000000000000000002/results',
@@ -123,11 +123,11 @@ describe('GET /tasks/{id}/results', function() {
 						foo: 'bar'
 					}
 				};
-				this.navigate(request, done);
+				await this.navigate(request);
 			});
 
 			it('should send a 400 status', function() {
-				assert.strictEqual(this.last.status, 400);
+				assert.strictEqual(this.response.status, 400);
 			});
 
 		});
@@ -136,32 +136,32 @@ describe('GET /tasks/{id}/results', function() {
 
 	describe('with valid but non-existent task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/abc000000000000000000000/results'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});
 
 	describe('with invalid task ID', function() {
 
-		beforeEach(function(done) {
+		beforeEach(async function() {
 			const request = {
 				method: 'GET',
 				endpoint: 'tasks/-abc-/results'
 			};
-			this.navigate(request, done);
+			await this.navigate(request);
 		});
 
 		it('should send a 404 status', function() {
-			assert.strictEqual(this.last.status, 404);
+			assert.strictEqual(this.response.status, 404);
 		});
 
 	});

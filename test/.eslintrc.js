@@ -1,10 +1,10 @@
 'use strict';
 
-// Clone the main config
-const config = module.exports = JSON.parse(JSON.stringify(require('../.eslintrc')));
+const config = module.exports = require('../.eslintrc');
 
 // We use `this` all over the integration tests
 config.rules['no-invalid-this'] = 'off';
+config.rules['prefer-arrow-callback'] = 'off';
 
 // Disable max line length/statements
 config.rules['max-len'] = 'off';

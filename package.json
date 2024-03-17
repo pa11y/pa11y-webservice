@@ -2,7 +2,7 @@
   "name": "pa11y-webservice",
   "version": "4.3.1",
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "description": "Pa11y Webservice provides scheduled accessibility reports for multiple URLs",
   "keywords": [
@@ -23,27 +23,29 @@
   "bugs": "https://github.com/pa11y/pa11y-webservice/issues",
   "license": "GPL-3.0",
   "dependencies": {
-    "@hapi/hapi": "~20.3.0",
+    "@hapi/hapi": "~21.3.2",
     "async": "~3.2.4",
     "cron": "~2.4.4",
     "joi": "~17.11.0",
     "kleur": "~4.1.5",
     "lodash.groupby": "~4.6.0",
     "mongodb": "~3.7.3",
-    "pa11y": "^6.2.3"
+    "pa11y": "^7.0.0"
   },
   "devDependencies": {
     "eslint": "^8.52.0",
     "mocha": "^10.1.0",
     "pa11y-lint-config": "^3.0.0",
-    "proclaim": "^3.6.0",
-    "request": "^2.88.2"
+    "proclaim": "^3.6.0"
   },
   "main": "./app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "make test",
-    "lint": "make lint"
+    "lint": "eslint .",
+    "load-fixtures": "node script/fixtures.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "mocha test/unit --exit --recursive",
+    "test:integration": "mocha test/integration --exit --timeout 20000 --slow 4000"
   },
   "files": [
     "*.js",
