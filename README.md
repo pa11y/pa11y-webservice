@@ -154,7 +154,7 @@ The integration tests require the service to be running in the background, since
    npm test                   # Run both the integration tests and the unit tests mentioned above
    ```
 
-### Testing the GitHub Actions workflow `test.yml`
+### Locally testing the GitHub Actions workflow `test.yml`
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 1. Install [Nektos Act](https://nektosact.com/). You can install it directly, or with a software package manager. For example, with Homebrew:
