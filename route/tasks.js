@@ -12,41 +12,39 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
-
-/* eslint camelcase: 'off' */
 'use strict';
 
-const groupBy = require('lodash.groupby');
 const Joi = require('joi');
+const groupBy = require('lodash.groupby');
 const {isValidAction} = require('pa11y');
 
-// Routes relating to all tasks
 module.exports = function(app) {
-	const model = app.model;
-	const server = app.server;
+	const {model, server} = app;
 
 	// Get all tasks
 	server.route({
-		method: 'GET',
 		path: '/tasks',
-		handler: async (request, reply) => {
+		method: 'GET',
+
+		handler: async ({query}, reply) => {
 			let tasks = await model.task.getAll();
 
 			if (!tasks) {
 				return reply.response().code(500);
 			}
-			if (request.query.lastres) {
+			if (query.lastres) {
 				const results = await model.result.getAll({});
 				if (!results) {
 					return reply.response().code(500);
 				}
 				const resultsByTask = groupBy(results, 'task');
 				tasks = tasks.map(task => {
-					if (resultsByTask[task.id] && resultsByTask[task.id].length) {
-						task.last_result = resultsByTask[task.id][0];
-					} else {
-						task.last_result = null;
-					}
+					/* eslint-disable-next-line camelcase */
+					task.last_result =
+						resultsByTask[task.id]?.length ?
+							resultsByTask[task.id][0] :
+							null;
+
 					return task;
 				});
 			}
@@ -63,27 +61,24 @@ module.exports = function(app) {
 		}
 	});
 
-	// Create a task
 	server.route({
-		method: 'POST',
 		path: '/tasks',
-		handler: async (request, reply) => {
-			if (request.payload.actions && request.payload.actions.length) {
-				for (let action of request.payload.actions) {
-					if (!isValidAction(action)) {
-						return reply.response(`Invalid action: "${action}"`).code(400);
-					}
-				}
+		method: 'POST',
+
+		handler: async ({payload, info}, reply) => {
+			const invalidAction = payload.actions?.find(action => !isValidAction(action));
+			if (invalidAction) {
+				return reply.response(`Invalid action: "${invalidAction}"`).code(400);
 			}
 
-			const task = await model.task.create(request.payload);
+			const task = await model.task.create(payload);
 
 			if (!task) {
 				return reply.response().code(500);
 			}
 
 			return reply.response(task)
-				.header('Location', `http://${request.info.host}/tasks/${task.id}`)
+				.header('Location', `http://${info.host}/tasks/${task.id}`)
 				.code(201);
 		},
 		options: {
@@ -114,12 +109,12 @@ module.exports = function(app) {
 		}
 	});
 
-	// Get results for all tasks
 	server.route({
-		method: 'GET',
 		path: '/tasks/results',
-		handler: async (request, reply) => {
-			const results = await model.result.getAll(request.query);
+		method: 'GET',
+
+		handler: async ({query}, reply) => {
+			const results = await model.result.getAll(query);
 			return reply.response(results).code(200);
 		},
 		options: {

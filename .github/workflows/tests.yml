@@ -9,33 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12
+          node-version: 18
       - run: npm ci
       - run: npm run lint
 
   test:
     name: test (node ${{ matrix.node }}, mongodb ${{ matrix.mongo }})
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12, 14, 16, 18, 20]
+        node: [18, 20]
         mongo: [latest]
         include:
-          - { node: 12, mongo: 6.0.11 }
-          - { node: 12, mongo: 5.0.22 }
-          - { node: 12, mongo: 4.4.25 }
-          - { node: 12, mongo: 3.6.23 }
-          - { node: 12, mongo: 2.6.12 }
-
+          - { node: 18, mongo: 6.0.11 }
+          - { node: 18, mongo: 5.0.22 }
+          - { node: 18, mongo: 4.4.25 }
+          - { node: 18, mongo: 3.6.23 }
+          - { node: 18, mongo: 2.6.12 }
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
-      - run: make test-unit
+      - run: npm run test:unit
 
       - name: Supply MongoDB ${{ matrix.mongo }}
         uses: supercharge/mongodb-github-action@1.5.0
@@ -47,4 +46,4 @@ jobs:
         run: NODE_ENV=test node index.js &
       - run: sleep 10s
 
-      - run: make test-integration
+      - run: npm run test:integration

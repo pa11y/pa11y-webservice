@@ -17,12 +17,9 @@
 const async = require('async');
 const Hapi = require('@hapi/hapi');
 const {MongoClient} = require('mongodb');
+const {dim} = require('kleur');
 
-module.exports = initApp;
-
-// Initialise the application
 function initApp(config, callback) {
-
 	const app = {
 		server: new Hapi.Server({
 			host: config.host,
@@ -31,82 +28,81 @@ function initApp(config, callback) {
 		db: null,
 		client: null,
 		model: {},
-		config: config
+		config
 	};
 
-	const url = config.database;
-	const client = new MongoClient(url, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
+	const client = new MongoClient(
+		config.database,
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		}
+	);
+
+	client.on('timeout', () => {
+		console.log('mongodb: connection timeout');
 	});
 
-	// Mongo documentation states that events need to be defined before
-	//  connect() so we can be sure that we're capturing all the events
-	client.on('timeout', () => {
-		console.log('Mongo connection timeout');
+	client.on('connect', () => {
+		console.log(dim('mongodb: connected'));
 	});
 
 	client.on('close', () => {
-		console.log('Mongo connection closed');
+		console.log(dim('mongodb: connection closed'));
 	});
 
 	client.on('reconnect', () => {
-		console.log('Mongo connection reestablished');
+		console.log(dim('mongodb: connection reestablished'));
 	});
 
-	async.series([
-		next => {
-			/* eslint camelcase: 'off' */
+	async.series(
+		[
+			next => {
+				client.connect(error => {
+					app.client = client;
+					app.db = client.db();
 
-			client.connect(error => {
-				console.log('Connected successfully to server');
-				const db = client.db();
-				app.client = client;
-				app.db = db;
+					next(error);
+				});
+			},
+			next => {
+				require('./model/result')(app, (error, model) => {
+					app.model.result = model;
+					next(error);
+				});
+			},
+			next => {
+				require('./model/task')(app, (error, model) => {
+					app.model.task = model;
+					next(error);
+				});
+			},
+			next => {
+				if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
+					require('./task/pa11y')(config, app);
+				}
+				next();
+			},
+			next => {
+				if (config.dbOnly) {
+					return next();
+				}
 
-				next(error);
-			});
-		},
+				require('./route/index')(app);
+				require('./route/tasks')(app);
+				require('./route/task')(app);
 
-		next => {
-			require('./model/result')(app, (error, model) => {
-				app.model.result = model;
-				next(error);
-			});
-		},
+				app.server.start()
+					.then(
+						() => next(),
+						error => next(error)
+					);
 
-		next => {
-			require('./model/task')(app, (error, model) => {
-				app.model.task = model;
-				next(error);
-			});
-		},
-
-		next => {
-			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
-				require('./task/pa11y')(config, app);
+				console.log(`Server running at: ${app.server.info.uri}`);
 			}
-			next();
-		},
-
-		next => {
-			if (config.dbOnly) {
-				return next();
-			}
-
-			require('./route/index')(app);
-			require('./route/tasks')(app);
-			require('./route/task')(app);
-
-			app.server.start()
-				.then(
-					() => next(),
-					error => next(error)
-				);
-
-			console.log(`Server running at: ${app.server.info.uri}`);
-		}
-
-	], error => callback(error, app));
-
+		],
+		error => callback(error, app)
+	);
 }
+
+module.exports = initApp;

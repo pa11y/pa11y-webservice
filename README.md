@@ -5,8 +5,6 @@
 [![Build status][shield-build]][info-build]
 [![GPL-3.0 licensed][shield-license]][info-license]
 
----
-
 Pa11y Webservice is a Node.js service that can schedule accessibility testing for multiple URLs, using [Pa11y][pa11y].
 
 Use this service if you'd like to coordinate your testing by interacting with a restful API. For other scenarios, another Pa11y tool may be more appropriate:
@@ -136,34 +134,65 @@ There are many ways to contribute to Pa11y Webservice, we cover these in the [co
 If you're ready to contribute some code, follow the [setup guide](#setup). The project can be linted and unit tested immediately:
 
 ```sh
-make lint           # Lint the code
-make test-unit      # Run the unit tests
+npm run lint           # Lint the code
+npm run test:unit      # Run the unit tests
 ```
 
 The integration tests require the service to be running in the background, since they'll be checking its behaviour.
 
 1. Create a configuration file for the `test` mode; one can be created quickly with `cp config/test.sample.json config/test.json`
 1. Start the service in test mode with:
+
    ```sh
    NODE_ENV=test npm start &
    ```
 
    The `&` places the service into the background. An alternative approach is to run `NODE_ENV=test npm start`, suspend the process with `CTRL+z`, and finally run `bg` to place it into the background.
+
 1. ```sh
-   make test-integration    # Run the integration tests
-   make test                # Run both the integration tests and the unit tests mentioned above
+   npm run test:integration   # Run the integration tests
+   npm test                   # Run both the integration tests and the unit tests mentioned above
    ```
+
+### Locally testing the GitHub Actions workflow `test.yml`
+
+1. Install [Docker Desktop] and [Nektos Act]. You can install these directly, or with a software package manager. For example, with Homebrew:
+
+   ```sh
+   brew install --cask docker
+   brew install act
+   ```
+
+1. To check the syntax of a GitHub Actions workflow before pushing it:
+
+   ```sh
+   # Verify `test.yml`
+   act --dryrun push
+   ```
+
+   ```sh
+   # Verify `publish.yml`
+   act --dryrun release
+   ```
+
+1. To test the `push` workflow under Node.js 18 only:
+
+   ```sh
+   act push --matrix node-version:18
+   ```
+
+   Add `--verbose` for more information.
 
 ## Fixtures
 
 If you'd like to preview Pa11y Webservice or present it to someone else, we've provided some [sample tasks and results](data/fixture), which can be embedded by running one of the following commands:
 
 ```sh
-NODE_ENV=development make fixtures
+NODE_ENV=development npm run load-fixtures
 ```
 
 ```sh
-NODE_ENV=test make fixtures
+NODE_ENV=test npm run load-fixtures
 ```
 
 ## Support and migration
@@ -185,11 +214,14 @@ The following table lists the major versions available and, for each previous ma
 ## License
 
 Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
-Copyright &copy; 2013-2023, Team Pa11y and contributors
+Copyright &copy; 2013-2024, Team Pa11y and contributors
 
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
+[Docker Desktop]: https://www.docker.com/products/docker-desktop/
+[Nektos Act]: https://nektosact.com/
+
 [pa11y]: https://github.com/pa11y/pa11y
 [pa11y-ci]: https://github.com/pa11y/pa11y-ci
 [pa11y-dashboard]: https://github.com/pa11y/pa11y-dashboard
