@@ -156,7 +156,7 @@ The integration tests require the service to be running in the background, since
 
 ### Testing the GitHub Actions workflow `test.yml`
 
-1. Install Docker Desktop
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 1. Install Nektos Act. For example, with Homebrew:
 
    ```sh
