@@ -156,10 +156,10 @@ The integration tests require the service to be running in the background, since
 
 ### Locally testing the GitHub Actions workflow `test.yml`
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-1. Install [Nektos Act](https://nektosact.com/). You can install it directly, or with a software package manager. For example, with Homebrew:
+1. Install [Docker Desktop] and [Nektos Act]. You can install these directly, or with a software package manager. For example, with Homebrew:
 
    ```sh
+   brew install --cask docker
    brew install act
    ```
 
@@ -219,6 +219,9 @@ Copyright &copy; 2013-2024, Team Pa11y and contributors
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
 [node]: http://nodejs.org/
+[Docker Desktop]: https://www.docker.com/products/docker-desktop/
+[Nektos Act]: https://nektosact.com/
+
 [pa11y]: https://github.com/pa11y/pa11y
 [pa11y-ci]: https://github.com/pa11y/pa11y-ci
 [pa11y-dashboard]: https://github.com/pa11y/pa11y-dashboard
