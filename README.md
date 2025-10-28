@@ -14,7 +14,7 @@ Use this service if you'd like to coordinate your testing by interacting with a 
 
 ## Requirements
 
-- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 5 requires Node.js `18` or `20`.
+- [Node.js][node]: Each major version of Pa11y Webservice is designed to support a set of stable/LTS versions of Node.js. Pa11y Webservice 5 requires Node.js `20`, `22`, or `24`.
 - [MongoDB][mongo]: The service stores test results in a MongoDB database and expects one to be available and running.
 
 ### Pally Webservice 5 and Linux/Ubuntu
@@ -204,7 +204,7 @@ The following table lists the major versions available and, for each previous ma
 
 | Major version | Final minor version | Node.js support              | [pa11y] version  | Support end date |
 | :------------ | :-----------------  | :--------------------------- | :--------------- | :--------------- |
-| `5`           |                     | `18`, `20`                   | `^8`             | ✅ Current major version |
+| `5`           |                     | `20`, `22`, `24`             | `^9`             | ✅ Current major version |
 | `4`           | `4.3`               | `12`, `14`, `16`, `18`, `20` | `^6`             | October 2024     |
 | `3`           | `3.2`               | `8`, `10`                    | `^6`             | May 2022         |
 | `2`           | `2.3`               | `4`, `6`                     | `^4`             | January 2020     |
