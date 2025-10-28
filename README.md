@@ -213,7 +213,7 @@ The following table lists the major versions available and, for each previous ma
 ## License
 
 Pa11y Webservice is licensed under the [GNU General Public License 3.0][info-license].  
-Copyright &copy; 2013-2024, Team Pa11y and contributors
+Copyright &copy; 2013-2025, Team Pa11y and contributors
 
 [mongo]: http://www.mongodb.org/
 [mongo-connection-string]: http://docs.mongodb.org/manual/reference/connection-string/
