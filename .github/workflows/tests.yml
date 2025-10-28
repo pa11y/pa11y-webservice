@@ -33,6 +33,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Disable AppArmor User Namespace Restrictions, required to open
+          Chrome on Ubuntu 23.10+ without --no-sandbox). See
+          https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md.
+        run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
+
       - run: npm ci
       - run: npm run test:unit
 
