@@ -23,6 +23,7 @@ jobs:
         node: [20, 22, 24]
         mongo: [latest]
         include:
+          - { node: 20, mongo: 7.0.25 }
           - { node: 20, mongo: 6.0.11 }
           - { node: 20, mongo: 5.0.22 }
           - { node: 20, mongo: 4.4.25 }
