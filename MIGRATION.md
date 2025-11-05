@@ -16,7 +16,7 @@ Pa11y Webservice's API changes between major versions. This is a guide to help y
 
 ## Migrating from 4.0 to 5.0
 
-Pa11y Webservice 5 requires Node.js version `18` or `20`.
+Pa11y Webservice 5 requires Node.js version `20`, `22`, or `24`.
 
 ## Migrating from 3.0 to 4.0
 

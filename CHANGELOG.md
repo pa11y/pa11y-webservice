@@ -2,9 +2,9 @@
 
 ## 5.0.0
 
-* **Major** Require Node.js `18` or `20`
-* **Major** Upgrade to `pa11y@^8` from `^6`
-  * Includes an upgrade to Puppeteer `^22` from `9`.
+* **Major** Require Node.js `20`, `22`, or `24`
+* **Major** Upgrade to `pa11y@^9` from `^6`
+  * Includes an upgrade to Puppeteer `^24` from `9`.
   * Fixes compatibility with Ubuntu versions 20.04 and above. The [workaround](MIGRATION.md#migrating-from-30-to-40) documented for `pa11y-webservice@4` is no longer required.
 * **Major** Upgrade to `hapi@21` from `20`
 * Upgrade to `minimatch@3.1` from `3.0`
