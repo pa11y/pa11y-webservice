@@ -23,8 +23,8 @@
   "bugs": "https://github.com/pa11y/pa11y-webservice/issues",
   "license": "GPL-3.0",
   "dependencies": {
-    "@hapi/hapi": "~21.3.2",
-    "async": "~3.2.4",
+    "@hapi/hapi": "~21.4.3",
+    "async": "~3.2.6",
     "cron": "~2.4.4",
     "joi": "~17.11.0",
     "kleur": "~4.1.5",
@@ -33,8 +33,8 @@
     "pa11y": "^9.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "mocha": "^10.1.0",
+    "eslint": "^8.57.1",
+    "mocha": "^11.7.5",
     "pa11y-lint-config": "^3.0.0",
     "proclaim": "^3.6.0"
   },
