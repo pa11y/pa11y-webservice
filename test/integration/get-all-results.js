@@ -62,7 +62,7 @@ describe('GET /tasks/results', function() {
 					to: '2013-01-07'
 				}
 			};
-			query = request.query;
+			({query} = request);
 			await this.navigate(request);
 		});
 
@@ -95,7 +95,7 @@ describe('GET /tasks/results', function() {
 					full: true
 				}
 			};
-			query = request.query;
+			({query} = request);
 			await this.navigate(request);
 		});
 
