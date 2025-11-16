@@ -33,9 +33,9 @@
     "pa11y": "^9.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.1",
+    "eslint-config-pa11y": "^4.0.0",
     "mocha": "^11.7.5",
-    "pa11y-lint-config": "^3.0.0",
     "proclaim": "^3.6.0"
   },
   "main": "./app.js",
