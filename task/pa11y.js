@@ -23,7 +23,8 @@ exports.runPa11yOnTasks = runPa11yOnTasks;
 
 function initTask(config, app) {
 	if (!config.cron) {
-		config.cron = '0 30 0 * * *'; // 00:30 daily
+		// 00:30 daily
+		config.cron = '0 30 0 * * *';
 	}
 	const job = new CronJob(config.cron, taskRunner.bind(null, app));
 	job.start();
