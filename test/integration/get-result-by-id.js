@@ -37,7 +37,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 				});
 
 				it('should output a JSON representation of the requested result', async function() {
-					const body = this.response.body;
+					const {body} = this.response;
 					const result = await this.app.model.result.getById('def000000000000000000001', false);
 					assert.isObject(body);
 					assert.strictEqual(body.id, 'def000000000000000000001');
@@ -64,7 +64,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 				});
 
 				it('should output a JSON representation of the requested result with full details', async function() {
-					const body = this.response.body;
+					const {body} = this.response;
 					const result = await this.app.model.result.getById('def000000000000000000001', true);
 					assert.isObject(body);
 					assert.strictEqual(body.id, 'def000000000000000000001');

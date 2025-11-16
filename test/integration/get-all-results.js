@@ -33,7 +33,7 @@ describe('GET /tasks/results', function() {
 		});
 
 		it('should output a JSON representation of all results (in the last 30 days) sorted by date', async function() {
-			const body = this.response.body;
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll({});
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
@@ -71,7 +71,7 @@ describe('GET /tasks/results', function() {
 		});
 
 		it('should output a JSON representation of all expected results sorted by date', async function() {
-			const body = this.response.body;
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll(query);
 			assert.isArray(body);
 			assert.strictEqual(body.length, 2);
@@ -104,7 +104,7 @@ describe('GET /tasks/results', function() {
 		});
 
 		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
-			const body = this.response.body;
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll(query);
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
