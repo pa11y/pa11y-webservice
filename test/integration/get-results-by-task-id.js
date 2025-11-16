@@ -36,7 +36,8 @@ describe('GET /tasks/{taskId}}/results', function() {
 
 			it('should output a JSON representation of all expected results sorted by date', async function() {
 				const {body} = this.response;
-				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', {});
+				const taskId = 'abc000000000000000000002';
+				const results = await this.app.model.result.getByTaskId(taskId, {});
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
 				assert.strictEqual(body[0].id, 'def000000000000000000002');
@@ -60,7 +61,7 @@ describe('GET /tasks/{taskId}}/results', function() {
 						to: '2013-01-07'
 					}
 				};
-				query = request.query;
+				({query} = request);
 				await this.navigate(request);
 			});
 
@@ -70,7 +71,8 @@ describe('GET /tasks/{taskId}}/results', function() {
 
 			it('should output a JSON representation of all expected results sorted by date', async function() {
 				const {body} = this.response;
-				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', query);
+				const taskId = 'abc000000000000000000002';
+				const results = await this.app.model.result.getByTaskId(taskId, query);
 				assert.isArray(body);
 				assert.strictEqual(body.length, 1);
 				assert.strictEqual(body[0].id, 'def000000000000000000006');
@@ -91,7 +93,7 @@ describe('GET /tasks/{taskId}}/results', function() {
 						full: true
 					}
 				};
-				query = request.query;
+				({query} = request);
 				await this.navigate(request);
 			});
 
@@ -101,7 +103,8 @@ describe('GET /tasks/{taskId}}/results', function() {
 
 			it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
 				const {body} = this.response;
-				const results = await this.app.model.result.getByTaskId('abc000000000000000000002', query);
+				const taskId = 'abc000000000000000000002';
+				const results = await this.app.model.result.getByTaskId(taskId, query);
 				assert.isArray(body);
 				assert.strictEqual(body.length, 2);
 				assert.strictEqual(body[0].id, 'def000000000000000000002');

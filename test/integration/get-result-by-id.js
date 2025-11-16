@@ -38,7 +38,8 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 				it('should output a JSON representation of the requested result', async function() {
 					const {body} = this.response;
-					const result = await this.app.model.result.getById('def000000000000000000001', false);
+					const resultId = 'def000000000000000000001';
+					const result = await this.app.model.result.getById(resultId, false);
 					assert.isObject(body);
 					assert.strictEqual(body.id, 'def000000000000000000001');
 					assert.deepEqual(body, result);
@@ -65,9 +66,10 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 
 				it('should output a JSON representation of the requested result with full details', async function() {
 					const {body} = this.response;
-					const result = await this.app.model.result.getById('def000000000000000000001', true);
+					const resultId = 'def000000000000000000001';
+					const result = await this.app.model.result.getById(resultId, true);
 					assert.isObject(body);
-					assert.strictEqual(body.id, 'def000000000000000000001');
+					assert.strictEqual(body.id, resultId);
 					assert.deepEqual(body, result);
 				});
 
