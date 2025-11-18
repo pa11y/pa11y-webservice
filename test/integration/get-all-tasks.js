@@ -32,8 +32,8 @@ describe('GET /tasks', function() {
 			assert.strictEqual(this.response.status, 200);
 		});
 
-		it('should output a JSON representation of all tasks sorted by URL/standard', async function() {
-			const body = this.response.body;
+		it('should output url-/standard-sorted JSON representation of all tasks', async function() {
+			const {body} = this.response;
 			const tasks = await this.app.model.task.getAll();
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
@@ -59,8 +59,8 @@ describe('GET /tasks', function() {
 			assert.strictEqual(this.response.status, 200);
 		});
 
-		it('should output a JSON representation of all tasks including their last result', function(done) {
-			const body = this.response.body;
+		it('should output JSON of all tasks including their last result', function(done) {
+			const {body} = this.response;
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
 

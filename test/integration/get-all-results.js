@@ -32,8 +32,8 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.response.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) sorted by date', async function() {
-			const body = this.response.body;
+		it('should output date-sorted JSON of results <= 30d old', async function() {
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll({});
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);
@@ -62,7 +62,7 @@ describe('GET /tasks/results', function() {
 					to: '2013-01-07'
 				}
 			};
-			query = request.query;
+			({query} = request);
 			await this.navigate(request);
 		});
 
@@ -70,8 +70,8 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.response.status, 200);
 		});
 
-		it('should output a JSON representation of all expected results sorted by date', async function() {
-			const body = this.response.body;
+		it('should output date-sorted JSON of results', async function() {
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll(query);
 			assert.isArray(body);
 			assert.strictEqual(body.length, 2);
@@ -95,7 +95,7 @@ describe('GET /tasks/results', function() {
 					full: true
 				}
 			};
-			query = request.query;
+			({query} = request);
 			await this.navigate(request);
 		});
 
@@ -103,8 +103,8 @@ describe('GET /tasks/results', function() {
 			assert.strictEqual(this.response.status, 200);
 		});
 
-		it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
-			const body = this.response.body;
+		it('should output date-sorted JSON of detailed results <= 30d old', async function() {
+			const {body} = this.response;
 			const results = await this.app.model.result.getAll(query);
 			assert.isArray(body);
 			assert.strictEqual(body.length, 4);

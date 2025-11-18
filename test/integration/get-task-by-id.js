@@ -33,7 +33,7 @@ describe('GET /tasks/{taskId}}', function() {
 			});
 
 			it('should output a JSON representation of the requested task', async function() {
-				const body = this.response.body;
+				const {body} = this.response;
 				const task = await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
@@ -59,8 +59,8 @@ describe('GET /tasks/{taskId}}', function() {
 				assert.strictEqual(this.response.status, 200);
 			});
 
-			it('should output a JSON representation of the requested task including the last result (with full details)', async function() {
-				const body = this.response.body;
+			it('should output JSON of task including detailed last result', async function() {
+				const {body} = this.response;
 				await this.app.model.task.getById('abc000000000000000000001');
 				assert.isObject(body);
 				assert.strictEqual(body.id, 'abc000000000000000000001');
