@@ -64,7 +64,7 @@ describe('GET /tasks/{taskId}/results/{resultId}', function() {
 					assert.strictEqual(this.response.status, 200);
 				});
 
-				it('should output a JSON representation of the requested result with full details', async function() {
+				it('should output JSON of requested result with full details', async function() {
 					const {body} = this.response;
 					const resultId = 'def000000000000000000001';
 					const result = await this.app.model.result.getById(resultId, true);

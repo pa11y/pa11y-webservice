@@ -34,7 +34,7 @@ describe('GET /tasks/{taskId}}/results', function() {
 				assert.strictEqual(this.response.status, 200);
 			});
 
-			it('should output a JSON representation of all expected results sorted by date', async function() {
+			it('should output date-sorted JSON of expected results', async function() {
 				const {body} = this.response;
 				const taskId = 'abc000000000000000000002';
 				const results = await this.app.model.result.getByTaskId(taskId, {});
@@ -69,7 +69,7 @@ describe('GET /tasks/{taskId}}/results', function() {
 				assert.strictEqual(this.response.status, 200);
 			});
 
-			it('should output a JSON representation of all expected results sorted by date', async function() {
+			it('should output date-sorted JSON of expected results', async function() {
 				const {body} = this.response;
 				const taskId = 'abc000000000000000000002';
 				const results = await this.app.model.result.getByTaskId(taskId, query);
@@ -101,7 +101,7 @@ describe('GET /tasks/{taskId}}/results', function() {
 				assert.strictEqual(this.response.status, 200);
 			});
 
-			it('should output a JSON representation of all results (in the last 30 days) with full details sorted by date', async function() {
+			it('should output date-sorted JSON of detailed results <= 30d old', async function() {
 				const {body} = this.response;
 				const taskId = 'abc000000000000000000002';
 				const results = await this.app.model.result.getByTaskId(taskId, query);
