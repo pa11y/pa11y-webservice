@@ -1,6 +1,13 @@
 # Changelog
 
-## 5.0.0
+## 5.0.1 (2026-03-03)
+
+* Use `eslint-config-pa11y` for linting by @danyalaytekin in https://github.com/pa11y/pa11y-webservice/pull/168
+* Forcefully bump deps for 5.0.1 by @josebolos in https://github.com/pa11y/pa11y-webservice/pull/173
+
+**Full Changelog**: https://github.com/pa11y/pa11y-webservice/compare/5.0.0...5.0.1
+
+## 5.0.0 (2025-11-06)
 
 * **Major** Require Node.js `20`, `22`, or `24`
 * **Major** Upgrade to `pa11y@^9` from `^6`
